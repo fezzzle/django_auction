@@ -64,6 +64,7 @@ def create(request):
     else:
         return render(request, "auction/create.html")
 
+
 def auctions(request):
     auctions_list = Auction.objects.all().order_by('-date_added')
     # logger.info(f"AUCTIONS LIST: {auctions_list}")
