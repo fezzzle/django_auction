@@ -52,6 +52,9 @@ class Auction(models.Model):
             return time_remaining
         else:
             return 0
+    @property
+    def expire(self):
+        return self.date_added + timedelta(minutes=self.total_auction_duration)
 
     def __str__(self):
         return self.title
