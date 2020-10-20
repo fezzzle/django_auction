@@ -4,6 +4,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 def register(request):
+    if request.user.is_authenticated:
+        return redirect('auction:index')
     if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
