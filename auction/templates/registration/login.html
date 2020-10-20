@@ -1,10 +1,14 @@
 {% extends "auction/base.html" %}
 
 {% block content %} 
+{% if user.is_anonymous %}
     <h2>Log In</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Log In</button>
     </form>
+{% else %}
+    <a href="{% url 'auction:index'%}"><p>Go back to index</p></a>
+{% endif %}
 {% endblock content %}

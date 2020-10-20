@@ -4,6 +4,7 @@
     <ul>
     {% if my_auctions %}
         {% for auction in my_auctions %}
+        <a href="{% url 'auction:detail' auction.id %}">
             <li>{{ auction.title }}</li>
             <li>{{ auction.description }}</li>
             <!-- <li>{{ auction.is_active }}</li> -->
@@ -16,6 +17,7 @@
                 <li>Auction has ended!</li>
                 <br>
             {% endif %}
+        </a>
         {% endfor %}
     {% else %}
         <h1>You dont have any auctions!</h1>
