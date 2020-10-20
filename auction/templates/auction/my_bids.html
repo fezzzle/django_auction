@@ -8,7 +8,7 @@
             <li>Auction: {{ bid.auction }}</li>
             <li>Amount bid: {{ bid.amount }}</li>
             {% if bid.auction.is_active %}
-                <li>{% widthratio auction.seconds_remaining 60 1 %} minutes left</li>
+                <li>{% widthratio bid.auction.seconds_remaining 60 1 %} minutes left</li>
                 <!-- <li>Is active: {{ bid.auction.seconds_remaining|floatformat:"0" }}</li> -->
             {% else %}
                 <p>Auction has ended!</p>
