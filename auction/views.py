@@ -1,4 +1,5 @@
 import json
+from time import time
 
 from django.shortcuts import render
 from .models import Auction, Bid
@@ -26,13 +27,14 @@ def detail(request, auction_id):
     # time_remaining = auction.id
     bid = Bid.objects.filter(auction=auction)
     auction.resolve()
-    json_ctx = json.dumps({"time_remaining": auction.seconds_remaining})
+    json_ctx = json.dumps({"auction_end_stamp": round(auction.expire.timestamp())})
+    logger.info(json_ctx)
     if bid:
         bid = bid.first().amount
     if request.user == auction.author or not request.user.is_authenticated:
         own_auction = True
         return render(request, "auction/detail.html", {"auction": auction, "own_auction": own_auction, "bid": bid, "json_ctx": json_ctx})
-    return render(request, "auction/detail.html", {"auction": auction, 'bid': bid})
+    return render(request, "auction/detail.html", {"auction": auction, 'bid': bid, "json_ctx": json_ctx})
 
 
 @login_required
