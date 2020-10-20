@@ -90,6 +90,12 @@ def my_auctions(request):
     return render(request, "auction/my_auctions.html", {'my_auctions': my_auctions})
 
 @login_required
+def my_bids(request):
+    my_bids = Bid.objects.all().filter(bidder_id=request.user.id).order_by('-time_added')
+    logger.info(f"MY BIDS ARE: {my_bids}")
+    return render(request, "auction/my_bids.html", {'my_bids': my_bids})
+
+@login_required
 def bid(request, auction_id):
     auction = get_object_or_404(Auction, pk=auction_id)
     auction.resolve()
