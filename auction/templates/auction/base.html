@@ -5,8 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Hello Bulma!</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <style>
+      .navbar {
+      top: 0;
+	  position:fixed;
+	  width: 80%;
+	  margin-left: 10%;
+	  margin-right: 10%;
+	  z-index: 1;
+	  border: 1px solid black;
+      }
+
+      .link {
+      margin: auto;
+      }
+
+      .link a {
+        padding-right: 20px;
+      }
+
+      .container {
+      top: 70px;
+      margin-left:10%;
+	  margin-right:10%;
+      }
+    </style>
   </head>
   <body>
-  {% block content %}{% endblock content %}
+  <header class="navbar">
+    <div class="link">
+      <a href="#">index</a>
+      <a href="#">auctions</a>
+      <a href="#">create</a>
+      <a href="#">detail</a>
+      <a href="#">my auctions</a>
+      <a href="#">login</a>
+    </div>
+  </header>
+  <div class="container">
+  {% block content %}
+  {% endblock content %}
+  </div>
   </body>
 </html>
