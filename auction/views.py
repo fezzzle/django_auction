@@ -18,14 +18,14 @@ def index(request):
     current_user = request.user
     return render(request, 'auction/index.html', {'auctions': auctions, 'user': current_user})
 
-@login_required
+# @login_required
 def detail(request, auction_id):
     auction = get_object_or_404(Auction, pk=auction_id)
     bid = Bid.objects.filter(auction=auction)
     auction.resolve()
     if bid:
         bid = bid.first().amount
-    if request.user == auction.author:
+    if request.user == auction.author or not request.user.is_authenticated:
         own_auction = True
         return render(request, "auction/detail.html", {"auction": auction, "own_auction": own_auction, 'bid': bid})
     return render(request, "auction/detail.html", {"auction": auction, 'bid': bid})
@@ -63,7 +63,7 @@ def create(request):
 
     else:
         return render(request, "auction/create.html")
-@login_required
+
 def auctions(request):
     auctions_list = Auction.objects.all().order_by('-date_added')
     # logger.info(f"AUCTIONS LIST: {auctions_list}")
