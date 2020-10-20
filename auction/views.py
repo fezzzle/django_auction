@@ -7,6 +7,7 @@ from django.utils import timezone
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
 
 from django.contrib.auth.decorators import login_required
 
@@ -133,14 +134,18 @@ def bid(request, auction_id):
     else:
         bid.save()
         return HttpResponseRedirect(reverse('auction:auctions', args=()))
-        
+
     # return render(request, "auction/index.html")
     # return HttpResponseRedirect(reverse('auction:index'))
 
 def searchbar(request):
     search = request.GET.get('search')
     if search:
-        auction_list = Auction.objects.all().filter(title=search)
+        auction_list = Auction.objects.all().filter(
+            # title=search
+            Q(title__startswith=search) |
+            Q(title__contains=search)
+        )
         return render(request, 'auction/search_result.html', {'auction_list':auction_list})
     else:
         return render(request, 'auction/search_result.html')
