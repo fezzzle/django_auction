@@ -85,7 +85,7 @@ def delete_auctions(request):
 
 @login_required
 def my_auctions(request):
-    my_auctions = Auction.objects.filter(author=request.user)
+    my_auctions = Auction.objects.filter(author=request.user).order_by("-date_added")
     for a in my_auctions:
         a.resolve()
     return render(request, "auction/my_auctions.html", {'my_auctions': my_auctions})
