@@ -1,0 +1,9 @@
+{% extends "auction/base.html" %}
+    
+{% block content %}
+    {% if user.is_superuser %}
+        <h1>All auctions deleted</h1>
+    {% else %}
+        <h1>You need to be a superuser to delete auctions!</h1>
+    {% endif %}
+{% endblock content%}

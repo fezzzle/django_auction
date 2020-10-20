@@ -1,0 +1,28 @@
+{% extends "auction/base.html" %}
+    
+{% block content %}
+    {% if not own_auction %}
+        {% if auction.is_active %}
+        <p>AUCTION IS ACTIVE: {{ auction.user }}</p>
+            <form action="{% url 'auction:bid' auction.id %}" method="POST">
+                {% csrf_token %}
+                {% if error_message %}<p>{{ error_message }}</p>{% endif %}
+                <input type="number" name="amount" id="bid_amount" required>
+                <input type="submit" name="submit_bid">
+            </form>
+        {% endif %}
+    {% endif %}
+    <p>Title: {{ auction.title }}</p>
+    <p>Author: {{ auction.author }}</p>
+    {% if bid %}
+        <p>Highest bid: {{ bid }}</p>
+    {% endif %}
+
+    <p>Description: {{ auction.description }}</p>
+    <p>Starting form: {{ auction.min_value }}</p>
+    <p>Auction ends in: {{ auction.seconds_remaining }}</p>
+    {% if auction.final_value %}
+        <p>Winning value: {{ auction.final_value }}</p>
+        <p>Auction winner: {{ auction.winner }}</p>
+    {% endif %}
+{% endblock content%}

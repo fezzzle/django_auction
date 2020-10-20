@@ -1,0 +1,21 @@
+{% extends "auction/base.html" %}
+{% block content %}
+    {% if auctions_list %}
+        <ul>
+        {% for auction in auctions_list %}
+            <a href="{% url 'auction:detail' auction.id %}">
+                <li>auction.id {{auction.id}}</li>
+                <li>auction.author {{auction.author}}</li>
+                <li>auction.title {{auction.title}}</li>
+                <li>auction.description {{auction.description}}</li>
+                <li>auction.min_value {{auction.min_value}}</li>
+                <li>auction.total_auction_duration {{auction.total_auction_duration}}</li>
+                <li>auction.seconds_remaining {{auction.seconds_remaining}}</li>
+            </a>
+        <br>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <h1>There are no auctions available</h1>
+    {% endif %}
+{% endblock content %}

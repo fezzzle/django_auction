@@ -1,0 +1,24 @@
+{% extends "auction/base.html" %}
+    
+{% block content %}
+    <ul>
+    {% if my_auctions %}
+        {% for auction in my_auctions %}
+            <li>{{ auction.title }}</li>
+            <li>{{ auction.description }}</li>
+            <!-- <li>{{ auction.is_active }}</li> -->
+            {% if auction.is_active %}
+                <li>Total duration: {{ auction.total_auction_duration }}</li>
+                <br>
+            {% else %}
+                <li>Final value: {{ auction.final_value }}</li>
+                <li>Winner: {{ auction.winner }}</li>
+                <li>Auction has ended!</li>
+                <br>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <h1>You dont have any auctions!</h1>
+    {% endif%}
+    </ul>
+{% endblock content%}

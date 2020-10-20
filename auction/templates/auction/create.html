@@ -1,0 +1,32 @@
+{% extends "auction/base.html" %}
+
+{% block content %}
+<h1>Create an auction</h1>
+    <!-- <form action="{% url 'auction:create' %}" method="POST"> -->
+    <form action="{% url 'auction:create' %}" method="post" enctype="multipart/form-data">
+        {% if error_message %}<p class="error"><strong>{{ error_message }}</strong></p>{% endif %}
+        {% csrf_token %}
+        <label for="title">Title</label>
+        <br>
+        <input type="text" name="title">
+        <br>
+        <br>
+        <label for="description">Descripton of the auction</label>
+        <br>
+        <input type="text" name="description">
+        <br>
+        <br>
+        <label for="duration">Total auction duration</label>
+        <br>
+        <input type="number" name="duration" id="" max="10">
+        <br>
+        <br>
+        <label for="min_value">Starting value of the bidding</label>
+        <br>
+        <input type="number" name="min_value" id="">
+        <br>
+        <br>
+        <input type="submit" class="submit_button" name="submit_button" value="Create">
+        <!-- <input type="submit" name="submit_button" id="submit_button" value="Submit a new"> -->
+    </form>
+{% endblock content %}
