@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render
 from .models import Auction, Bid
 from datetime import datetime, timezone
@@ -18,16 +20,17 @@ def index(request):
     current_user = request.user
     return render(request, 'auction/index.html', {'auctions': auctions, 'user': current_user})
 
-# @login_required
 def detail(request, auction_id):
     auction = get_object_or_404(Auction, pk=auction_id)
+    # time_remaining = auction.id
     bid = Bid.objects.filter(auction=auction)
     auction.resolve()
+    json_ctx = json.dumps({"time_remaining": auction.seconds_remaining})
     if bid:
         bid = bid.first().amount
     if request.user == auction.author or not request.user.is_authenticated:
         own_auction = True
-        return render(request, "auction/detail.html", {"auction": auction, "own_auction": own_auction, 'bid': bid})
+        return render(request, "auction/detail.html", {"auction": auction, "own_auction": own_auction, "bid": bid, "json_ctx": json_ctx})
     return render(request, "auction/detail.html", {"auction": auction, 'bid': bid})
 
 
@@ -135,4 +138,3 @@ def bid(request, auction_id):
 
     # return render(request, "auction/index.html")
     # return HttpResponseRedirect(reverse('auction:index'))
-
