@@ -46,8 +46,9 @@
       {% endif %}
     </div>
     <div class="searchbar">
-      <form>
-        <input type="text" placeholder="Searchbar">
+      <form action="" method="GET" >
+        <input type="text" placeholder="Searchbar" name="search" value="{{ request.GET.search }}">
+        <button type="submit">Search</button>
       </form>
     </div>
   </header>

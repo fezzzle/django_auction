@@ -130,3 +130,8 @@ def bid(request, auction_id):
     # return render(request, "auction/index.html")
     # return HttpResponseRedirect(reverse('auction:index'))
 
+def searchbar(request):
+    search = request.GET.get('search')
+    if search:
+        auction_s = Auction.objects.all().filter(title=search)
+        return render(request, 'auction/searchbar.html', {'auction_s': auction_s})
