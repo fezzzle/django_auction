@@ -134,10 +134,7 @@ def bid(request, auction_id):
         bid.save()
         return HttpResponseRedirect(reverse('auction:auctions', args=()))
         
-
-
     # return render(request, "auction/index.html")
-<<<<<<< HEAD
     # return HttpResponseRedirect(reverse('auction:index'))
 
 def searchbar(request):
@@ -147,6 +144,4 @@ def searchbar(request):
         return render(request, 'auction/search_result.html', {'auction_list':auction_list})
     else:
         return render(request, 'auction/search_result.html')
-=======
-    # return HttpResponseRedirect(reverse('auction:index'))
->>>>>>> c916c93598f4fae61b0f8fa6c6cb6b9b4b726cb7
+
