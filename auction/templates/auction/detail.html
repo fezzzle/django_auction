@@ -9,6 +9,8 @@
                 {% if error_message %}<p>{{ error_message }}</p>{% endif %}
                 {% if bid %}
                     <input type="number" name="amount" id="bid_amount" value="{{ bid|add:'1' }}" required>
+                {% else %}
+                    <input type="number" name="amount" id="bid_amount" value="2" required>
                 {% endif %}
                 <input type="submit" name="submit_bid">
             </form>
@@ -22,7 +24,6 @@
 
     <p>Description: {{ auction.description }}</p>
     <p>Starting from: {{ auction.min_value }}</p>
-    <p>Auction ends in: {{ auction.seconds_remaining }}</p>
     <p>Expires at: {{ auction.expire }}</p>
 
     {{ json_ctx|json_script:"json_ctx" }}
