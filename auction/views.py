@@ -1,3 +1,6 @@
+import json
+from time import time
+
 from django.shortcuts import render
 from .models import Auction, Bid
 from datetime import datetime, timezone
@@ -5,6 +8,7 @@ from django.utils import timezone
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
 
 from django.contrib.auth.decorators import login_required
 
@@ -18,17 +22,19 @@ def index(request):
     current_user = request.user
     return render(request, 'auction/index.html', {'auctions': auctions, 'user': current_user})
 
-# @login_required
 def detail(request, auction_id):
     auction = get_object_or_404(Auction, pk=auction_id)
+    # time_remaining = auction.id
     bid = Bid.objects.filter(auction=auction)
     auction.resolve()
+    json_ctx = json.dumps({"auction_end_stamp": int(auction.expire.timestamp() * 1000)})
+    logger.info(json_ctx)
     if bid:
         bid = bid.first().amount
     if request.user == auction.author or not request.user.is_authenticated:
         own_auction = True
-        return render(request, "auction/detail.html", {"auction": auction, "own_auction": own_auction, 'bid': bid})
-    return render(request, "auction/detail.html", {"auction": auction, 'bid': bid})
+        return render(request, "auction/detail.html", {"auction": auction, "own_auction": own_auction, "bid": bid, "json_ctx": json_ctx})
+    return render(request, "auction/detail.html", {"auction": auction, 'bid': bid, "json_ctx": json_ctx})
 
 
 @login_required
@@ -85,10 +91,16 @@ def delete_auctions(request):
 
 @login_required
 def my_auctions(request):
-    my_auctions = Auction.objects.filter(author=request.user)
+    my_auctions = Auction.objects.filter(author=request.user).order_by("-date_added")
     for a in my_auctions:
         a.resolve()
     return render(request, "auction/my_auctions.html", {'my_auctions': my_auctions})
+
+@login_required
+def my_bids(request):
+    my_bids = Bid.objects.all().filter(bidder_id=request.user.id).order_by('-time_added')
+    logger.info(f"MY BIDS ARE: {my_bids}")
+    return render(request, "auction/my_bids.html", {'my_bids': my_bids})
 
 @login_required
 def bid(request, auction_id):
@@ -124,9 +136,19 @@ def bid(request, auction_id):
     else:
         bid.save()
         return HttpResponseRedirect(reverse('auction:auctions', args=()))
-        
-
 
     # return render(request, "auction/index.html")
     # return HttpResponseRedirect(reverse('auction:index'))
+
+def searchbar(request):
+    search = request.GET.get('search')
+    if search:
+        auction_list = Auction.objects.all().filter(
+            # title=search
+            Q(title__startswith=search) |
+            Q(title__contains=search)
+        )
+        return render(request, 'auction/search_result.html', {'auction_list':auction_list})
+    else:
+        return render(request, 'auction/search_result.html')
 

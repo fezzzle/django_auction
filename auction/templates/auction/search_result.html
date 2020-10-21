@@ -1,0 +1,15 @@
+{% extends "auction/base.html" %}
+{% block content %}
+    <h1>Search result:</h1>
+    {% if auction_list %}
+        {% for i in auction_list %}
+            <a href="{% url 'auction:detail' i.id %}">{{ i.title }}
+            </a>
+            | {{ i.description }}
+            | {{ i.author }}
+            <br>
+        {% endfor %}
+    {% else %}
+        <h1>Viga</h1>
+    {% endif %}
+{% endblock content %}

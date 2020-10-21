@@ -4,11 +4,13 @@
     <ul>
     {% if my_auctions %}
         {% for auction in my_auctions %}
+        <a href="{% url 'auction:detail' auction.id %}">
             <li>{{ auction.title }}</li>
             <li>{{ auction.description }}</li>
             <!-- <li>{{ auction.is_active }}</li> -->
             {% if auction.is_active %}
-                <li>Total duration: {{ auction.total_auction_duration }}</li>
+                <li>{% widthratio auction.seconds_remaining 60 1 %} minutes left</li>
+                <!-- <li>Total duration: {{ auction.total_auction_duration|floatformat:"0" }}</li> -->
                 <br>
             {% else %}
                 <li>Final value: {{ auction.final_value }}</li>
@@ -16,6 +18,7 @@
                 <li>Auction has ended!</li>
                 <br>
             {% endif %}
+        </a>
         {% endfor %}
     {% else %}
         <h1>You dont have any auctions!</h1>

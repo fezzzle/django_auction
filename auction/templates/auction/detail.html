@@ -19,8 +19,45 @@
     {% endif %}
 
     <p>Description: {{ auction.description }}</p>
-    <p>Starting form: {{ auction.min_value }}</p>
+    <p>Starting from: {{ auction.min_value }}</p>
     <p>Auction ends in: {{ auction.seconds_remaining }}</p>
+    <p>Expires at: {{ auction.expire }}</p>
+    {{ json_ctx|json_script:"json_ctx" }}
+    <p id="clock"></p>
+    <script>
+        // HAHA JS
+        let jsonCtx = JSON.parse(JSON.parse(document.getElementById('json_ctx').textContent));
+
+        (function countdownTimeStart(){
+
+        var auctionEndStamp = jsonCtx['auction_end_stamp'];
+
+        // Update the count down every 1 second
+        var x = setInterval(function() {
+
+            // Get todays date and time, convert to string, get only 10 digits
+            var now = new Date().getTime();
+            
+            // Find the distance between now an the count down date
+            var distance = auctionEndStamp - now;
+            
+            // Time calculations for days, hours, minutes and seconds
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            // Output the result in an element with id="demo"
+            document.getElementById("clock").innerHTML = hours + "h "
+            + minutes + "m " + seconds + "s ";
+            
+            // If the count down is over, write some text 
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("clock").innerHTML = "EXPIRED";
+            }
+        }, 1000);
+        })();
+    </script>
     {% if auction.final_value %}
         <p>Winning value: {{ auction.final_value }}</p>
         <p>Auction winner: {{ auction.winner }}</p>
