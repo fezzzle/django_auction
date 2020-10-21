@@ -1,5 +1,5 @@
 # Auction app
-Martin [github](https://github.com/fezzzle) and Rauno [github](https://github.com/Krauno) final project for SDAcademy's Python course.
+[Martin](https://github.com/fezzzle) and [Rauno](https://github.com/Krauno) final project for SDAcademy's Python course.
 
 ## Table of contents
 * [General info](#general-info)
