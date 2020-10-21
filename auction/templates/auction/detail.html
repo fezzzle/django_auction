@@ -25,51 +25,38 @@
     {{ json_ctx|json_script:"json_ctx" }}
     <p id="clock"></p>
     <script>
-        // const json_ctx = JSON.parse(document.getElementById('json_ctx').textContent)
-        // const json_ctx = document.getElementById('json_ctx').textContent;
-        const json_ctx = JSON.parse(document.getElementById('json_ctx').textContent);
-        console.log(json_ctx.auction_end_stamp)
-        // console.log(json_ctx[Object.keys(json_ctx)[0]])
-        // console.log(typeof(json_ctx))
-        // console.log(json_ctx)
-        // Set the date we're counting down to
+        // HAHA JS
+        let jsonCtx = JSON.parse(JSON.parse(document.getElementById('json_ctx').textContent));
 
-        // (function countdownTimeStart(){
+        (function countdownTimeStart(){
 
-        // var countDownDate1 = new Date("Sep 25, 2025 15:00:00").getTime();
-        // var countDownDate = json_ctx.auction_end_stamp;
-        // console.log(typeof(countDownDate))
-        // console.log(countDownDate)
-        // console.log(typeof(countDownDate1))
-        // console.log(countDownDate1)
-        // // console.log(countDownDate)
+        var auctionEndStamp = jsonCtx['auction_end_stamp'];
 
-        // // Update the count down every 1 second
-        // var x = setInterval(function() {
+        // Update the count down every 1 second
+        var x = setInterval(function() {
 
-        //     // Get todays date and time
-        //     var now = new Date().getTime();
+            // Get todays date and time, convert to string, get only 10 digits
+            var now = new Date().getTime();
             
-        //     // Find the distance between now an the count down date
-        //     var distance = countDownDate - now;
-        //     console.log(distance)
+            // Find the distance between now an the count down date
+            var distance = auctionEndStamp - now;
             
-        //     // Time calculations for days, hours, minutes and seconds
-        //     var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        //     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        //     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            // Time calculations for days, hours, minutes and seconds
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
             
-        //     // Output the result in an element with id="demo"
-        //     document.getElementById("clock").innerHTML = hours + "h "
-        //     + minutes + "m " + seconds + "s ";
+            // Output the result in an element with id="demo"
+            document.getElementById("clock").innerHTML = hours + "h "
+            + minutes + "m " + seconds + "s ";
             
-        //     // If the count down is over, write some text 
-        //     if (distance < 0) {
-        //         clearInterval(x);
-        //         document.getElementById("clock").innerHTML = "EXPIRED";
-        //     }
-        // }, 1000);
-        // })();
+            // If the count down is over, write some text 
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("clock").innerHTML = "EXPIRED";
+            }
+        }, 1000);
+        })();
     </script>
     {% if auction.final_value %}
         <p>Winning value: {{ auction.final_value }}</p>
