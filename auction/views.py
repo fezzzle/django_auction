@@ -27,7 +27,7 @@ def detail(request, auction_id):
     # time_remaining = auction.id
     bid = Bid.objects.filter(auction=auction)
     auction.resolve()
-    json_ctx = json.dumps({"auction_end_stamp": round(auction.expire.timestamp())})
+    json_ctx = json.dumps({"auction_end_stamp": int(auction.expire.timestamp() * 1000)})
     logger.info(json_ctx)
     if bid:
         bid = bid.first().amount
