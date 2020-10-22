@@ -1,0 +1,71 @@
+
+.warning {
+    border-style: dotted;
+    color: red;
+}
+
+.success {
+    border-style: solid;
+    color: green;
+}
+
+.navbar {
+border: 1px solid black;
+}
+
+.link {
+}
+
+.link a {
+}
+
+.container {
+border: 1px red solid;
+}
+
+.category {
+border: 1px solid black;
+}
+
+.content {
+border: 1px blue solid;
+}
+
+.category-text {
+}
+
+.category-text h2 {
+}
+
+footer{
+padding:50px;
+}
+
+.new {
+border:1px solid black;
+}
+
+.old {
+border:1px solid black;
+}
+
+.debug {
+opacity:0.3;
+}
+
+/* index.html */
+.news-container {
+display:grid;
+grid-template-columns: 1fr 1fr;
+}
+
+/* auction.html */
+
+.auction-details {
+display:grid;
+grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.auction-detail {
+border: 1px solid black;
+}

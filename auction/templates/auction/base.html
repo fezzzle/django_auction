@@ -4,37 +4,25 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Hello Bulma!</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" />
-    <style>
-      .navbar {
-      top: 0;
-	  position:fixed;
-	  width: 80%;
-	  margin-left: 10%;
-	  margin-right: 10%;
-	  z-index: 1;
-	  border: 1px solid black;
-      }
-
-      .link {
-      margin: auto;
-      }
-
-      .link a {
-        padding-right: 20px;
-      }
-
-      .container {
-      top: 70px;
-      margin-left:10%;
-	  margin-right:10%;
-      }
-    </style>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'auction/normalize.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'auction/main.css' %}">
+<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" />-->
   </head>
   <body>
-  <header class="navbar">
+  <div class="navbar">
+    <div class="navbar-drop">MENU DROP</div>
+
+    <div class="site-name"><a href="{% url 'auction:index' %}">YOLOPENO</a></div>
+
+    <div class="searchbar">
+      <form action="{% url 'auction:searchbar' %}" method="GET" >
+        <input type="text" placeholder="Searchbar" name="search" >
+        <button type="submit">Search</button>
+      </form>
+    </div>
+
     <div class="link">
-      <a href="{% url 'auction:index' %}">index</a>
       <a href="{% url 'auction:auctions' %}">auctions</a>
       {% if user.is_authenticated %}
         <a href="{% url 'auction:create' %}">create</a>
@@ -46,16 +34,19 @@
         <a href="{% url 'login' %}">Login</a>
       {% endif %}
     </div>
-    <div class="searchbar">
-      <form action="{% url 'auction:searchbar' %}" method="GET" >
-        <input type="text" placeholder="Searchbar" name="search" >
-        <button type="submit">Search</button>
-      </form>
-    </div>
-  </header>
-  <div class="container">
-  {% block content %}
-  {% endblock content %}
   </div>
+
+  <div class="container">
+
+    <div class="content">
+      {% block content %}
+      {% endblock content %}
+    </div>
+  </div>
+
   </body>
+  <footer>
+    <p>Created by:</p>
+    <p>Martin P. & Rauno K.</p>
+  </footer>
 </html>

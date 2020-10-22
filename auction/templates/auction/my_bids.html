@@ -11,7 +11,11 @@
                 <li>{% widthratio bid.auction.seconds_remaining 60 1 %} minutes left</li>
                 <!-- <li>Is active: {{ bid.auction.seconds_remaining|floatformat:"0" }}</li> -->
             {% else %}
-                <p>Auction has ended!</p>
+                {% if bid.auction.winner == request.user %}
+                    <li>You have won the auction!</li>
+                {% else %}
+                    <li>Sorry, you did not win the auction!</li>
+                {%  endif %}
             {% endif %}
             <br>
         </a>

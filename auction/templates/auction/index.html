@@ -1,19 +1,63 @@
 {% extends "auction/base.html" %}
-
 {% block content%}
-    <h1>USER LOGGED IN: {{ user }}</h1>
-    <h2>USER IS SUPERUSER: {{ user.is_superuser }}</h2>
-    <a href="{% url 'auction:create' %}">
-        <input type="button" name="create" id="" value="Create an auction">
-    </a>
-    <a href="{% url 'auction:auctions' %}">
-        <input type="button" name="auctions" id="" value="All auctions">
-    </a>
-    <a href="{% url 'auction:delete_auctions' %}">
-        <input type="button" name="delete_auctions" id="" value="Delete All auctions">
-    </a>
-    <a href="{% url 'auction:my_auctions' %}">
-        <input type="button" name="my_auctions" id="" value="See your auctions">
-    </a>
-    
+    <!-- <style>
+        .debug {
+        border:1px solid black;
+        }
+
+        .container {
+        display:flex;
+        flex-direction: row;
+        }
+
+        .container > div {
+        padding:20px;
+        margin-bottom:50px;
+        }
+    </style> -->
+    <div class="container">
+        <div class="category">
+            <div class="category-text">
+            <h2>Category pildiga</h2>
+            <a href="#">category a</a>
+            <a href="#">category b</a>
+            <a href="#">category c</a>
+            <a href="#">category d</a>
+            </div>
+        </div>
+        <div class="news-container">
+            <div class="new">
+                <h1>Last added</h1>
+                {% for i in auctions_list %}
+                    {{ i.title }} | Category <br>
+                {% endfor %}
+            </div>
+
+            <div class="old">
+                <h1>Ending auctions</h1>
+                {% for j in auctions_list %}
+                    {{ j.title }} | Category | Expire time<br>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="debug">
+        <p>Debug section</p>
+        <h1>USER LOGGED IN: {{ user }}</h1>
+        <h2>USER IS SUPERUSER: {{ user.is_superuser }}</h2>
+        <a href="{% url 'auction:create' %}">
+            <input type="button" name="create" id="" value="Create an auction">
+        </a>
+        <a href="{% url 'auction:auctions' %}">
+            <input type="button" name="auctions" id="" value="All auctions">
+        </a>
+        <a href="{% url 'auction:delete_auctions' %}">
+            <input type="button" name="delete_auctions" id="" value="Delete All auctions">
+        </a>
+        <a href="{% url 'auction:my_auctions' %}">
+            <input type="button" name="my_auctions" id="" value="See your auctions">
+        </a>
+    </div>
+
 {% endblock content %}
