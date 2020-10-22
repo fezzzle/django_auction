@@ -37,18 +37,20 @@
         {% endif %}
     {% endif %}
     <p>Expires at: {{ auction.expire }}</p>
-    <p>Page visits: {{ auction.visits }}</p>
+    <p>Page visits {{ auction.visits }}</p>
     <p id="clock"></p>
     <script>
         // HAHA JS
         let jsonCtx = JSON.parse(JSON.parse(document.getElementById('json_ctx').textContent));
 
+//         (function foo() {
+//     ...
+//          setTimeout(foo, delay);
+//      })();
+
         (function countdownTimeStart(){
-
-        var auctionEndStamp = jsonCtx['auction_end_stamp'];
-
-        // Update the count down every 1 second
-        var x = setInterval(function() {
+            
+             var auctionEndStamp = jsonCtx['auction_end_stamp'];
 
             // Get todays date and time, convert to string, get only 10 digits
             var now = new Date().getTime();
@@ -67,10 +69,9 @@
             
             // If the count down is over, write some text 
             if (distance < 0) {
-                clearInterval(x);
                 document.getElementById("clock").innerHTML = "EXPIRED";
             }
-        }, 1000);
+            setTimeout(countdownTimeStart, 1000);
         })();
     </script>
     {% if auction.final_value %}
