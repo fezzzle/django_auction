@@ -1,19 +1,56 @@
 {% extends "auction/base.html" %}
 
 {% block content%}
-    <h1>USER LOGGED IN: {{ user }}</h1>
-    <h2>USER IS SUPERUSER: {{ user.is_superuser }}</h2>
-    <a href="{% url 'auction:create' %}">
-        <input type="button" name="create" id="" value="Create an auction">
-    </a>
-    <a href="{% url 'auction:auctions' %}">
-        <input type="button" name="auctions" id="" value="All auctions">
-    </a>
-    <a href="{% url 'auction:delete_auctions' %}">
-        <input type="button" name="delete_auctions" id="" value="Delete All auctions">
-    </a>
-    <a href="{% url 'auction:my_auctions' %}">
-        <input type="button" name="my_auctions" id="" value="See your auctions">
-    </a>
-    
+    <style>
+        .debug {
+        border:1px solid black;
+        }
+
+        .container {
+        display:flex;
+        flex-direction: row;
+        }
+
+        .container > div {
+        padding:20px;
+        margin-bottom:50px;
+        }
+
+        .new {
+        border:1px solid black;
+        }
+
+        .old {
+        border:1px solid black;
+        margin-left:50px;
+        }
+    </style>
+
+    <div class="container">
+        <div class="new">
+            <h1>Last added</h>
+        </div>
+        <div class="old">
+            <h1>Ending</h1>
+        </div>
+    </div>
+
+    <div class="debug">
+        <p>Debug section</p>
+        <h1>USER LOGGED IN: {{ user }}</h1>
+        <h2>USER IS SUPERUSER: {{ user.is_superuser }}</h2>
+        <a href="{% url 'auction:create' %}">
+            <input type="button" name="create" id="" value="Create an auction">
+        </a>
+        <a href="{% url 'auction:auctions' %}">
+            <input type="button" name="auctions" id="" value="All auctions">
+        </a>
+        <a href="{% url 'auction:delete_auctions' %}">
+            <input type="button" name="delete_auctions" id="" value="Delete All auctions">
+        </a>
+        <a href="{% url 'auction:my_auctions' %}">
+            <input type="button" name="my_auctions" id="" value="See your auctions">
+        </a>
+    </div>
+
 {% endblock content %}
