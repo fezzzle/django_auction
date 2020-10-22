@@ -23,7 +23,8 @@ def index(request):
     for a in auctions_list:
         a.resolve()
     current_user = request.user
-    return render(request, 'auction/index.html', {'auctions_list': auctions_list, 'user': current_user})
+    pic_url = "https://picsum.photos/200"
+    return render(request, 'auction/index.html', {'auctions_list': auctions_list, 'user': current_user, 'pic': pic})
 
 def detail(request, auction_id):
     auction = get_object_or_404(Auction, pk=auction_id)
