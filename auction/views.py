@@ -24,7 +24,7 @@ def index(request):
         a.resolve()
     current_user = request.user
     pic_url = "https://picsum.photos/200"
-    return render(request, 'auction/index.html', {'auctions_list': auctions_list, 'user': current_user, 'pic': pic})
+    return render(request, 'auction/index.html', {'auctions_list': auctions_list, 'user': current_user, 'pic': pic_url})
 
 def detail(request, auction_id):
     auction = get_object_or_404(Auction, pk=auction_id)
@@ -75,9 +75,10 @@ def create(request):
 
 def auctions(request):
     auction_list = Auction.objects.all().order_by('-date_added')
+    pic_url = "https://picsum.photos/200"
     for a in auction_list:
         a.resolve()
-    return render(request, "auction/auctions.html", {"auction_list": auction_list})
+    return render(request, "auction/auctions.html", {"auction_list": auction_list, "pic": pic_url})
 
 @login_required
 def delete_auctions(request):
