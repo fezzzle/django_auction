@@ -74,10 +74,10 @@ def create(request):
 
 
 def auctions(request):
-    auctions_list = Auction.objects.all().order_by('-date_added')
-    for a in auctions_list:
+    auction_list = Auction.objects.all().order_by('-date_added')
+    for a in auction_list:
         a.resolve()
-    return render(request, "auction/auctions.html", {"auctions_list": auctions_list})
+    return render(request, "auction/auctions.html", {"auction_list": auction_list})
 
 @login_required
 def delete_auctions(request):
@@ -100,7 +100,6 @@ def my_auctions(request):
 @login_required
 def my_bids(request):
     my_bids = Bid.objects.all().filter(bidder_id=request.user.id).order_by('-time_added')
-    logger.info(f"MY BIDS ARE: {my_bids}")
     return render(request, "auction/my_bids.html", {'my_bids': my_bids})
 
 @login_required
@@ -143,13 +142,14 @@ def bid(request, auction_id):
 
 def searchbar(request):
     search = request.GET.get('search')
+    auction_list = Auction.objects.all()
     if search:
-        auction_list = Auction.objects.all().filter(
-            # title=search
+        auction_list = auction_list.filter(
             Q(title__startswith=search) |
             Q(title__contains=search)
         )
-        return render(request, 'auction/search_result.html', {'auction_list':auction_list})
+        return render(request, 'auction/search_result.html', {'auction_list': auction_list})
     else:
-        return render(request, 'auction/search_result.html')
+        return render(request, 'auction/auctions.html', {'auction_list': auction_list})
+
 
