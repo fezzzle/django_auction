@@ -63,7 +63,7 @@ class Auction(models.Model):
 
 class Bid(models.Model):
     auction = models.ForeignKey(Auction, on_delete=models.CASCADE)
-    bidder = models.ForeignKey(User, on_delete=models.CASCADE)
+    bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bidder")
     time_added = models.DateTimeField()
     amount = models.IntegerField(default=1)
 
