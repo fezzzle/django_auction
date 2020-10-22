@@ -151,5 +151,6 @@ def searchbar(request):
         )
         return render(request, 'auction/search_result.html', {'auction_list':auction_list})
     else:
-        return render(request, 'auction/search_result.html')
+        auction_list = Auction.objects.all()
+        return render(request, 'auction/search_result.html', {'auction_list':auction_list} )
 
