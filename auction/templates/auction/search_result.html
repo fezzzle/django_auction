@@ -10,5 +10,7 @@
             | Author: {{ i.author }}
             <br>
         {% endfor %}
+    {% else %}
+        <h1>No Results</h1>
     {% endif %}
 {% endblock content %}

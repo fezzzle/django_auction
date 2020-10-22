@@ -150,6 +150,5 @@ def searchbar(request):
         )
         return render(request, 'auction/search_result.html', {'auction_list': auction_list})
     else:
-        return render(request, 'auction/auctions.html', {'auction_list': auction_list})
-
+        return render(request, 'auction/search_result.html', {'auction_list':auction_list} )
 
