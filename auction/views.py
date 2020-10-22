@@ -9,6 +9,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
+from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
 
@@ -26,11 +27,9 @@ def index(request):
 
 def detail(request, auction_id):
     auction = get_object_or_404(Auction, pk=auction_id)
-    # time_remaining = auction.id
     bid = Bid.objects.filter(auction=auction)
     auction.resolve()
     json_ctx = json.dumps({"auction_end_stamp": int(auction.expire.timestamp() * 1000)})
-    logger.info(json_ctx)
     if bid:
         bid = bid.first().amount
     if request.user == auction.author or not request.user.is_authenticated:
@@ -56,7 +55,8 @@ def create(request):
             if not title or not description or not min_value:
                 raise KeyError
         except KeyError:
-            return render(request, "auction/create.html", {"error_message": "Please fill all the fields!"})
+            messages.warning(request, 'Please fill all the fields!')
+            return render(request, "auction/create.html")
         else:
             auction = Auction()
             auction.author = request.user
@@ -66,9 +66,8 @@ def create(request):
             auction.date_added = timezone.now()
             auction.total_auction_duration = duration
             auction.save()
-
+            messages.success(request, 'Your listing has been created!')
             return HttpResponseRedirect(reverse('auction:detail', args=(auction.id,)))
-
     else:
         return render(request, "auction/create.html")
 
@@ -110,7 +109,8 @@ def bid(request, auction_id):
     bid = Bid.objects.filter(bidder=request.user).filter(auction=auction).first()
 
     if not auction.is_active:
-        return render(request, "auction/detail.html", {'auction': auction, 'error_message': 'Auction has been expired'})
+        messages.warning(request, 'Auction is not active!')
+        return render(request, "auction/detail.html", {'auction': auction})
     
     try:
         bid_amount = int(request.POST['amount'])
@@ -125,20 +125,20 @@ def bid(request, auction_id):
 
         if bid:
             if bid_amount <= bid.amount:
-                return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_bid, 'error_message': 'You need to enter a bigger bid than the previous amount!'})
+                messages.warning(request, 'You need to enter a bigger bid than the previous amount!')        
+                return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_bid})
 
         bid.amount = int(bid_amount)
         bid.time_added = datetime.now(timezone.utc)
     except ValueError:
-        logger.info(f"VALUE ERROR AT ROW 123: {ValueError}")
-        return render(request, "auction/detail.html", {'auction': auction, 'error_message': 'You have entered invalid input or less than min value'})
+        messages.warning(request, 'You have entered invalid input or less than min value')
+        return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_bid})
 
     else:
         bid.save()
-        return HttpResponseRedirect(reverse('auction:auctions', args=()))
-
-    # return render(request, "auction/index.html")
-    # return HttpResponseRedirect(reverse('auction:index'))
+        messages.success(request, f"You successfully bidded {bid.amount} eur!")
+        return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_bid})
+        # return HttpResponseRedirect(reverse('auction:auctions', args=()))
 
 def searchbar(request):
     search = request.GET.get('search')
