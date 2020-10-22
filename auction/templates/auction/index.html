@@ -28,7 +28,10 @@
 
     <div class="container">
         <div class="new">
-            <h1>Last added</h>
+            <h1>Last added</h1>
+                {% for i in auctions_list %}
+                    {{ i.title }}<br>
+                {% endfor %}
         </div>
         <div class="old">
             <h1>Ending</h1>

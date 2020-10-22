@@ -143,14 +143,14 @@ def bid(request, auction_id):
 
 def searchbar(request):
     search = request.GET.get('search')
+    auction_list = Auction.objects.all()
     if search:
-        auction_list = Auction.objects.all().filter(
+        auction_list = auction_list.filter(
             # title=search
             Q(title__startswith=search) |
             Q(title__contains=search)
         )
         return render(request, 'auction/search_result.html', {'auction_list':auction_list})
     else:
-        auction_list = Auction.objects.all()
         return render(request, 'auction/search_result.html', {'auction_list':auction_list} )
 
