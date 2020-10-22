@@ -1,38 +1,18 @@
+
+
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Hello Bulma!</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'auction/main.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" />
-    <style>
-      .navbar {
-      top: 0;
-	  position:fixed;
-	  width: 80%;
-	  margin-left: 10%;
-	  margin-right: 10%;
-	  z-index: 1;
-	  border: 1px solid black;
-      }
-
-      .link {
-      margin: auto;
-      }
-
-      .link a {
-        padding-right: 20px;
-      }
-
-      .container {
-      top: 70px;
-      margin-left:10%;
-	  margin-right:10%;
-      }
-    </style>
   </head>
   <body>
   <header class="navbar">
+
     <div class="link">
       <a href="{% url 'auction:index' %}">index</a>
       <a href="{% url 'auction:auctions' %}">auctions</a>
@@ -46,6 +26,7 @@
         <a href="{% url 'login' %}">Login</a>
       {% endif %}
     </div>
+
     <div class="searchbar">
       <form action="{% url 'auction:searchbar' %}" method="GET" >
         <input type="text" placeholder="Searchbar" name="search" >
@@ -53,9 +34,27 @@
       </form>
     </div>
   </header>
-  <div class="container">
-  {% block content %}
-  {% endblock content %}
+
+  <div class="containerr">
+
+    <div class="category">
+      <div class="category-text">
+        <h2>Category</h2>
+        <a href="#">category a</a><br>
+        <a href="#">category b</a><br>
+        <a href="#">category c</a><br>
+        <a href="#">category d</a><br>
+      </div>
+    </div>
+
+    <div class="content">
+      {% block content %}
+      {% endblock content %}
+    </div>
   </div>
   </body>
+  <footer>
+    <p>Created by:</p>
+    <p>Martin P. & Rauno K.</p>
+  </footer>
 </html>
