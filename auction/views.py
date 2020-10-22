@@ -24,12 +24,14 @@ def index(request):
         a.resolve()
     current_user = request.user
     pic_url = "https://picsum.photos/200"
-    return render(request, 'auction/index.html', {'auctions_list': auctions_list, 'user': current_user, 'pic': pic})
+    return render(request, 'auction/index.html', {'auctions_list': auctions_list, 'user': current_user, 'pic': pic_url})
 
 def detail(request, auction_id):
     auction = get_object_or_404(Auction, pk=auction_id)
     bid = Bid.objects.filter(auction=auction)
     auction.resolve()
+    auction.visits += 1
+    auction.save()
     json_ctx = json.dumps({"auction_end_stamp": int(auction.expire.timestamp() * 1000)})
     if bid:
         bid = bid.first().amount
