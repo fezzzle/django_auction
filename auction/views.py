@@ -18,9 +18,11 @@ import logging
 logger = logging.getLogger("mylogger")
 
 def index(request):
-    auctions = Auction.objects.all()
+    auctions_list = Auction.objects.all()
+    for a in auctions_list:
+        a.resolve()
     current_user = request.user
-    return render(request, 'auction/index.html', {'auctions': auctions, 'user': current_user})
+    return render(request, 'auction/index.html', {'auctions_list': auctions_list, 'user': current_user})
 
 def detail(request, auction_id):
     auction = get_object_or_404(Auction, pk=auction_id)
@@ -73,7 +75,6 @@ def create(request):
 
 def auctions(request):
     auctions_list = Auction.objects.all().order_by('-date_added')
-    # logger.info(f"AUCTIONS LIST: {auctions_list}")
     for a in auctions_list:
         a.resolve()
     return render(request, "auction/auctions.html", {"auctions_list": auctions_list})
