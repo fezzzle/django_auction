@@ -13,10 +13,14 @@
 border: 1px solid black;
 }
 
-.link {
+.link a:link, a:visited {
+text-decoration: none;
+color:black;
 }
 
-.link a {
+.link a:hover {
+text-decoration: none;
+color:black;
 }
 
 .container {
@@ -67,5 +71,21 @@ grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 
 .auction-detail {
+position:relative;
 border: 1px solid black;
+}
+
+.pilt {
+height: 100%;
+width: auto;
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+}
+
+.pilt-info {
+position:absolute;
+top:0px;
+text-align:center;
+font-color:white;
 }

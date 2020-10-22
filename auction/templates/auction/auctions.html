@@ -4,7 +4,12 @@
         <div class="auction-details">
         {% for auction in auction_list %}
             <div class="auction-detail">
-            <a href="{% url 'auction:detail' auction.id %}">
+
+                <a href="{% url 'auction:detail' auction.id %}">
+                <div class="pilt">
+                <img src="{{ pic }}">
+                </div>
+                <div class="pilt-info">
                 <li>Author: {{auction.author}}</li>
                 <li>Title: {{auction.title}}</li>
                 <li>Description: {{auction.description}}</li>
@@ -16,6 +21,7 @@
                 {% else %}
                     <p>Auction has ended!</p>
                 {% endif %}
+                </div>
             </a>
             </div>
 <!--        <br>-->

@@ -77,9 +77,10 @@ def create(request):
 
 def auctions(request):
     auction_list = Auction.objects.all().order_by('-date_added')
+    pic_url = "https://picsum.photos/200"
     for a in auction_list:
         a.resolve()
-    return render(request, "auction/auctions.html", {"auction_list": auction_list})
+    return render(request, "auction/auctions.html", {"auction_list": auction_list, "pic": pic_url})
 
 @login_required
 def delete_auctions(request):
