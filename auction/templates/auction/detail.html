@@ -1,6 +1,15 @@
 {% extends "auction/base.html" %}
     
 {% block content %}
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
     <p>Title: {{ auction.title }}</p>
     <p>Author: {{ auction.author }}</p>
     {% if bid %}
@@ -21,7 +30,7 @@
                 {% if bid %}
                     <input type="number" name="amount" id="bid_amount" value="{{ bid|add:'1' }}" required>
                 {% else %}
-                    <input type="number" name="amount" id="bid_amount" value="2" required>
+                    <input type="number" name="amount" id="bid_amount" value="{{ auction.min_value|add:1 }}" required>
                 {% endif %}
                 <input type="submit" name="submit_bid">
             </form>

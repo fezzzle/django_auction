@@ -1,3 +1,14 @@
+
+.warning {
+    border-style: dotted;
+    color: red;
+}
+
+.success {
+    border-style: solid;
+    color: green;
+}
+
 .navbar {
 border: 1px solid black;
 }
