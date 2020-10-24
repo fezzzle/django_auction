@@ -1,0 +1,17 @@
+{% extends "auction/base.html" %}
+{% block content %} 
+
+<p>Username: {{ user.username }}</p>
+<form action="">
+    {% csrf_token %}
+    <p>email: {{ user.email }}</p>
+    <p>Change email <input type="text"><input type="submit" value="Chage email"></p>
+</form>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <p>Change password <input type="password"><input type="submit" value="Chage password"></p> 
+</form>
+
+<p>Location: {{ user.location }}</p>
+{% endblock %}

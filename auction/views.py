@@ -156,3 +156,10 @@ def searchbar(request):
     else:
         return render(request, 'auction/search_result.html', {'auction_list':auction_list})
 
+@login_required
+def profile(request):
+    user = request.user
+    logger.info(f"USER ON PROFILE: {user}")
+    logger.info(f"USER ATTRIBUTES ON PROFILE: {dir(user)}")
+    return render(request, "auction/profile.html", {"user": user})
+
