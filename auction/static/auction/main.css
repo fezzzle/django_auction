@@ -11,6 +11,12 @@
 
 /* base.html */
 
+.logout {
+border:3px solid black;
+border-radius:10px;
+padding:10px;
+}
+
 .logout-drop ul {
 position:absolute;
 height: 0px;
