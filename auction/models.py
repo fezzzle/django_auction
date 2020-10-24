@@ -20,6 +20,7 @@ class Auction(models.Model):
                               related_name="auction_winner",
                               related_query_name="auction_winner")
     final_value = models.IntegerField(blank=True, null=True)
+    visits = models.IntegerField(default=0)
 
     def resolve(self):
         if self.is_active:

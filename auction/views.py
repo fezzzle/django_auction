@@ -30,6 +30,8 @@ def detail(request, auction_id):
     auction = get_object_or_404(Auction, pk=auction_id)
     bid = Bid.objects.filter(auction=auction)
     auction.resolve()
+    auction.visits += 1
+    auction.save()
     json_ctx = json.dumps({"auction_end_stamp": int(auction.expire.timestamp() * 1000)})
     if bid:
         bid = bid.first().amount
@@ -153,4 +155,11 @@ def searchbar(request):
         return render(request, 'auction/search_result.html', {'auction_list': auction_list})
     else:
         return render(request, 'auction/search_result.html', {'auction_list':auction_list})
+
+@login_required
+def profile(request):
+    user = request.user
+    logger.info(f"USER ON PROFILE: {user}")
+    logger.info(f"USER ATTRIBUTES ON PROFILE: {dir(user)}")
+    return render(request, "auction/profile.html", {"user": user})
 
