@@ -11,13 +11,17 @@
   </head>
   <body>
   <div class="navbar">
-    <div class="navbar-drop">MENU DROP</div>
+    <div class="navbar-drop">
+      <div class="link-wrapper">menu drop</div>
+      <div class="link-wrapper"><a href="{% url 'auction:index' %}">index</a></div>
+    </div>
 
-    <div class="site-name"><a href="{% url 'auction:index' %}">YOLOPENO</a></div>
+<!--    <div class="site-name"><a href="{% url 'auction:index' %}">YOLOPENO</a></div>-->
 
     <div class="searchbar">
       <form action="{% url 'auction:searchbar' %}" method="GET" >
-        <input type="text" placeholder="Searchbar" name="search" >
+        <!-- ajutiselt hardcoded "size" -->
+        <input type="text" placeholder="Searchbar" size="100px" name="search" >
         <button type="submit">Search</button>
       </form>
     </div>
