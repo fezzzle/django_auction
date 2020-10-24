@@ -1,15 +1,25 @@
 {% extends "auction/base.html" %}
 {% block content %} 
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
 
 <p>Username: {{ user.username }}</p>
 <p>User.id: {{ user.id }}</p>
+<p>User email: {{ user.email }}</p>
 {% if user.is_authenticated %}
-    <form action="{% url 'auction:user_change_email' user.id %}" method="POST">
+    <form action="{% url 'auction:profile' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <p>email: {{ user.email }}</p>
-        <p>Change email <input type="text" name="email"><input type="submit" name="change_email" value="Chage email"></p>
+        <label for="email">Change email</label>
+        <br>
+        <input type="text" name="email">
+        <input type="submit" class="submit_button" name="submit_button" value="Change email">
     </form>
 {% endif %}
 
 <p>Location: {{ user.location }}</p>
-{% endblock %}
+{% endblock content %}
