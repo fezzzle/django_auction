@@ -11,9 +11,10 @@
 <!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" />-->
   </head>
   <body>
-    <div class="navbar">
+  <div class="navbar">
     <div class="navbar-drop">
-      <div class="link-wrapper"><img src="https://www.pikpng.com/pngl/m/65-654126_banana-nanica-png-clipart-picture-of-banana-transparent.png" height="100" width="100">logo</div>
+      <div class="link-wrapper"><img src="https://www.pikpng.com/pngl/m/65-654126_banana-nanica-png-clipart-picture-of-banana-transparent.png" height="115" width="115"></div>
+      <div class="link-wrapper">logo</div>
       <div class="link-wrapper"><a href="{% url 'auction:index' %}">index</a></div>
     </div>
 
@@ -22,10 +23,11 @@
     <div class="searchbar">
       <form action="{% url 'auction:searchbar' %}" method="GET" >
         <!-- ajutiselt hardcoded "size" -->
-        <input type="text" placeholder="Searchbar" size="20px" name="search" >
-        <button type="submit">Search</button>
+        <input type="text" placeholder="Searchbar" size="80px" name="search" >
+        <button type="submit" class="search-btn">Search</button>
       </form>
     </div>
+
     <div class="link">
 <!--      Auctions link kolis index lehele -->
 <!--      <a href="{% url 'auction:auctions' %}">auctions</a>-->
