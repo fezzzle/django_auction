@@ -21,6 +21,7 @@ padding:10px;
 }
 
 .logout-drop ul {
+list-style-type:none;
 position:absolute;
 height: 0px;
 overflow: hidden;
