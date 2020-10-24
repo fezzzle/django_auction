@@ -11,6 +11,21 @@
 
 /* base.html */
 
+.logout-drop ul {
+position:absolute;
+height: 0px;
+overflow: hidden;
+-webkit-transition: all 0.5s ease-in-out;
+-moz-transition: all 0.5s ease-in-out;
+-o-transition: all 0.5s ease-in-out;
+transition: all 0.5s ease-in-out;
+}
+
+.logout-drop:hover ul {
+height: 100px;
+background-color:white;
+}
+
 .navbar {
 width:80%;
 margin:auto;
