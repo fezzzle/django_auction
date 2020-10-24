@@ -3,13 +3,16 @@ from time import time
 
 from django.shortcuts import render
 from .models import Auction, Bid
+from django.contrib.auth.models import User
 from datetime import datetime, timezone
 from django.utils import timezone
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, Http404
 from django.db.models import Q
 from django.contrib import messages
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 
 from django.contrib.auth.decorators import login_required
 
@@ -43,9 +46,9 @@ def detail(request, auction_id):
 
 @login_required
 def create(request):
-    # submit_button = request.POST.get('submit_button')
     submit_button = request.POST.get('submit_button')
-    # logger.info(f"Submit buttons type: {type(submit_button)}")
+    logger.info(f"Submit button value: {submit_button}")
+    logger.info(f"Submit button's type: {type(submit_button)}")
     # logger.info(f"User sending the request: {request.user}")
     if submit_button:
         try:
@@ -158,8 +161,32 @@ def searchbar(request):
 
 @login_required
 def profile(request):
-    user = request.user
-    logger.info(f"USER ON PROFILE: {user}")
-    logger.info(f"USER ATTRIBUTES ON PROFILE: {dir(user)}")
+    submit_button = request.POST.get('submit_button')
+    # if request.user.username != user.username:
+    #     # raise Http404
+    #     return render(request, 'auction/index.html')
+    user = get_object_or_404(User, pk=request.user.id)
+    logger.info(f"USER TYPE IS {type(user)}")
+    logger.info(f"USER IS {user}")
+
+    if submit_button:
+        try:
+            email = request.POST['email']
+            validate_email(email)
+        except ValidationError as e:
+            messages.warning(request, e)
+        else:
+            messages.success(request, "Email successfully changed!")
+            user.email = email
+            user.save()
     return render(request, "auction/profile.html", {"user": user})
+
+@login_required
+def user_change_email(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    return HttpResponseRedirect(reverse('auction:profile'))
+
+# @login_required
+# def change_password(request):
+#     pass    
 
