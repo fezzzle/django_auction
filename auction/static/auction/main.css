@@ -39,7 +39,7 @@ background-color:white;
 .navbar {
 width:80%;
 margin:auto;
-border: 1px solid black;
+/*border: 1px solid black;*/
 text-transform: uppercase;
 display:flex;
 justify-content: space-between;
@@ -54,12 +54,13 @@ display:flex;
 }
 
 .searchbar {
-border: 1px solid red;
+/*border: 1px solid red;*/
 }
 
 .link-wrapper {
 margin-right: 20px;
 }
+
 
 a:link, a:visited {
 text-decoration: none;
@@ -69,21 +70,21 @@ color:black;
 a:hover {
 text-decoration: none;
 color:black;
-border-bottom: 1px solid black;
+/*border-bottom: 1px solid black;*/
 }
 
 .container {
 width:80%;
 margin: auto;
-border: 1px red solid;
+/*border: 1px red solid;*/
 }
 
 .category {
-border: 1px solid black;
+/*border: 1px solid black;*/
 }
 
 .content {
-border: 1px blue solid;
+/*border: 1px blue solid;*/
 }
 
 .category-text {
@@ -99,11 +100,11 @@ margin:auto;
 }
 
 .new {
-border:1px solid black;
+/*border:1px solid black;*/
 }
 
 .old {
-border:1px solid black;
+/*border:1px solid black;*/
 }
 
 .debug {
@@ -125,7 +126,7 @@ grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
 
 .auction-detail {
 position:relative;
-border: 1px solid black;
+/*border: 1px solid black;*/
 }
 
 .pilt > img {

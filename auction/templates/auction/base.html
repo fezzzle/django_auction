@@ -13,7 +13,7 @@
   <body>
   <div class="navbar">
     <div class="navbar-drop">
-      <div class="link-wrapper">logo</div>
+      <div class="link-wrapper"><img src="https://www.pikpng.com/pngl/m/65-654126_banana-nanica-png-clipart-picture-of-banana-transparent.png" height="100" width="100">logo</div>
       <div class="link-wrapper"><a href="{% url 'auction:index' %}">index</a></div>
     </div>
 
@@ -41,7 +41,7 @@
           </ul>
         </div>
       {% else %}
-        <a class="logout" href="{% url 'register' %}">Register |</a>
+        <a class="logout" href="{% url 'register' %}">Register</a>
         <a class="logout" href="{% url 'login' %}">Login</a>
       {% endif %}
     </div>
