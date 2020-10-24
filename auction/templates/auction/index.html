@@ -4,10 +4,10 @@
         <div class="category">
             <div class="category-text">
             <h2>*Insert fäänsi bänner*</h2>
-            <a href="#">category a</a>
-            <a href="#">category b</a>
-            <a href="#">category c</a>
-            <a href="#">category d</a>
+            <a href="#">category a|</a>
+            <a href="#">category b|</a>
+            <a href="#">category c|</a>
+            <a href="#">category d|</a>
             </div>
         </div>
         <div class="news-container">
@@ -28,12 +28,11 @@
     </div>
 
 <!-- TEST AUCTIONS! -->
-    <div class="">
-        {% if auctions_list %}
+    <div class="auction-wrapper">
         <div class="auction-details">
+        {% if auctions_list %}
         {% for auction in auctions_list %}
             <div class="auction-detail">
-
                 <a href="{% url 'auction:detail' auction.id %}">
                 <div class="pilt">
                 <img src="{{ pic }}">
@@ -42,16 +41,16 @@
                 <li>Author: {{auction.author}}</li>
                 <li>Title: {{auction.title}}</li>
                 <li>Description: {{auction.description}}</li>
-                <li>Auction starting value: {{auction.min_value}}</li>
+                <li>Auction starting value: {{auction.min_value}}€</li>
                 <li>Auction duration {{auction.total_auction_duration}}</li>
                 {% if auction.is_active %}
-                    <li>{% widthratio auction.seconds_remaining 60 1 %} minutes left</li>
+                    <p>{% widthratio auction.seconds_remaining 60 1 %} minutes left</p>
                     <!-- <li>Time remaining {{auction.seconds_remaining|floatformat:"0"}}</li> -->
                 {% else %}
                     <p>Auction has ended!</p>
                 {% endif %}
                 </div>
-            </a>
+                </a>
             </div>
 <!--        <br>-->
         {% endfor %}
