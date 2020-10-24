@@ -14,35 +14,56 @@ font-family: 'Montserrat', sans-serif;
 
 /* base.html */
 
+.banner > h2 {
+position:absolute;
+top:40%;
+margin:auto;
+text-align:center;
+}
+
+.banner > img {
+width:100%;
+height:400px;
+object-fit: cover;
+object-position: 50% 25%;
+}
+
 .logout {
 border:3px solid black;
-border-radius:10px;
+border-radius:20px;
 padding:10px;
 }
 
 .logout-drop ul {
 list-style-type:none;
-position:absolute;
 height: 0px;
+position:absolute;
 overflow: hidden;
 -webkit-transition: all 0.5s ease-in-out;
 -moz-transition: all 0.5s ease-in-out;
 -o-transition: all 0.5s ease-in-out;
 transition: all 0.5s ease-in-out;
+z-index:1;
 }
 
 .logout-drop:hover ul {
-height: 100px;
+height: 150px;
 background-color:white;
+z-index:1;
 }
 
 .navbar {
-width:80%;
-margin:auto;
-/*border: 1px solid black;*/
-text-transform: uppercase;
+position:fixed;
 display:flex;
+width:80%;
+top:0px;
+margin-left:10%;
+margin-right:10%;
+border: 1px solid black;
+text-transform: uppercase;
 justify-content: space-between;
+z-index:1;
+background-color:white;
 }
 
 .navbar > div {
@@ -54,7 +75,7 @@ display:flex;
 }
 
 .searchbar {
-/*border: 1px solid red;*/
+border: 1px solid red;
 }
 
 .link-wrapper {
@@ -70,21 +91,23 @@ color:black;
 a:hover {
 text-decoration: none;
 color:black;
-/*border-bottom: 1px solid black;*/
+border-bottom: 1px solid black;
 }
 
 .container {
+margin-top:180px;
 width:80%;
-margin: auto;
-/*border: 1px red solid;*/
+margin-left:10%;
+margin-right:10%;
+border: 1px red solid;
 }
 
 .category {
-/*border: 1px solid black;*/
+border: 1px solid black;
 }
 
 .content {
-/*border: 1px blue solid;*/
+border: 1px blue solid;
 }
 
 .category-text {
@@ -93,18 +116,18 @@ margin: auto;
 .category-text h2 {
 }
 
-footer{
+footer {
 padding:50px;
 width:80%;
 margin:auto;
 }
 
 .new {
-/*border:1px solid black;*/
+border:1px solid black;
 }
 
 .old {
-/*border:1px solid black;*/
+border:1px solid black;
 }
 
 .debug {
@@ -112,12 +135,17 @@ opacity:0.3;
 }
 
 /* index.html */
+
 .news-container {
 display:grid;
 grid-template-columns: 1fr 1fr;
 }
 
 /* auction.html */
+
+.auction-wrapper {
+
+}
 
 .auction-details {
 display:grid;
@@ -126,7 +154,7 @@ grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
 
 .auction-detail {
 position:relative;
-/*border: 1px solid black;*/
+border: 1px solid black;
 }
 
 .pilt > img {
@@ -144,7 +172,7 @@ display:block;
 margin-left: auto;
 margin-right: auto;
 top:10px;
-/* text-align:center; */
+text-align:center;
 }
 
 img {
