@@ -2,16 +2,14 @@
 {% block content %} 
 
 <p>Username: {{ user.username }}</p>
-<form action="">
-    {% csrf_token %}
-    <p>email: {{ user.email }}</p>
-    <p>Change email <input type="text"><input type="submit" value="Chage email"></p>
-</form>
-
-<form action="" method="POST">
-    {% csrf_token %}
-    <p>Change password <input type="password"><input type="submit" value="Chage password"></p> 
-</form>
+<p>User.id: {{ user.id }}</p>
+{% if user.is_authenticated %}
+    <form action="{% url 'auction:user_change_email' user.id %}" method="POST">
+        {% csrf_token %}
+        <p>email: {{ user.email }}</p>
+        <p>Change email <input type="text" name="email"><input type="submit" name="change_email" value="Chage email"></p>
+    </form>
+{% endif %}
 
 <p>Location: {{ user.location }}</p>
 {% endblock %}

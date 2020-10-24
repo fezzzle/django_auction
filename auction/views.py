@@ -3,11 +3,12 @@ from time import time
 
 from django.shortcuts import render
 from .models import Auction, Bid
+from django.contrib.auth.models import User
 from datetime import datetime, timezone
 from django.utils import timezone
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, Http404
 from django.db.models import Q
 from django.contrib import messages
 
@@ -157,9 +158,36 @@ def searchbar(request):
         return render(request, 'auction/search_result.html', {'auction_list':auction_list})
 
 @login_required
-def profile(request):
-    user = request.user
-    logger.info(f"USER ON PROFILE: {user}")
-    logger.info(f"USER ATTRIBUTES ON PROFILE: {dir(user)}")
+def profile(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    # logger.info(f"USER ON PROFILE: {user}")
+    # logger.info(f"USER ATTRIBUTES ON PROFILE: {dir(user)}")
+    change_email = request.POST.get('change_email')
+    # change_password = request.POST.get('change_password')
+    if request.user.username != user.username:
+        # raise Http404
+        return render(request, 'auction/index.html')
+    logger.info(f"166: {user.id}")
+    logger.info(f"166: {user.username}")
+    if change_email:
+        try:
+            email = request.POST['email']
+            # return render(request, "auction/profile.html", {"user": user})
+        except Exception as e:
+            logger.info(f"EXCEPTION IN CHANGE_EMAIL: {e}")
+    # if change_password:
+    #     return HttpResponseRedirect(reverse('auction:change_email', args=(user.id,)))
     return render(request, "auction/profile.html", {"user": user})
+
+@login_required
+def user_change_email(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    logger.info(f"USER INSIDE CHANGE_EMAIL: {user}")
+    logger.info(f"USER_ID INSIDE CHANGE_EMAIL: {user_id}")
+    return render(request, "auction/profile.html", {'user': user})
+    # return HttpResponseRedirect(reverse('auction:profile'))
+
+# @login_required
+# def change_password(request):
+#     pass    
 
