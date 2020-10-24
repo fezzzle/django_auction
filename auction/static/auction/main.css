@@ -63,11 +63,11 @@ width:80%;
 top:0px;
 margin-left:10%;
 margin-right:10%;
-border: 1px solid black;
 text-transform: uppercase;
 justify-content: space-between;
 z-index:1;
 background-color:white;
+/*border: 1px solid black;*/
 }
 
 .navbar > div {
@@ -120,23 +120,23 @@ color:black;
 a:hover {
 text-decoration: none;
 color:black;
-border-bottom: 1px solid black;
+/*border-bottom: 1px solid black;*/
 }
 
 .container {
-margin-top:180px;
+margin-top:115px;
 width:80%;
 margin-left:10%;
 margin-right:10%;
-border: 1px red solid;
+/*border: 1px red solid;*/
 }
 
 .category {
-border: 1px solid black;
+/*border: 1px solid black;*/
 }
 
 .content {
-border: 1px blue solid;
+/*border: 1px blue solid;*/
 }
 
 .category-text {
@@ -153,10 +153,21 @@ margin:auto;
 
 .new {
 border:1px solid black;
+margin-right:10px;
+margin-top:20px;
+margin-bottom:20px;
+padding:20px;
+border-radius:25px;
+text-align:center;
 }
-
 .old {
 border:1px solid black;
+margin-left:10px;
+margin-top:20px;
+margin-bottom:20px;
+padding:20px;
+border-radius:25px;
+text-align:center;
 }
 
 .debug {
@@ -183,7 +194,7 @@ grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
 
 .auction-detail {
 position:relative;
-border: 1px solid black;
+/*border: 1px solid black;*/
 }
 
 .pilt > img {
