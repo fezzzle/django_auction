@@ -16,8 +16,17 @@
         {% csrf_token %}
         <label for="email">Change email</label>
         <br>
-        <input type="text" name="email">
-        <input type="submit" class="submit_button" name="submit_button" value="Change email">
+        <input type="email" name="email" placeholder="hello@hello.com">
+        <br>
+        <input type="submit" name="email_change" value="Change email">
+        <br>
+        <label for="user_password">Password change</label>
+        <br>
+        <br>
+        <input type="password" name="user_password1" placeholder="Password">
+        <input type="password" name="user_password2" placeholder="Confirm password">
+        <br>
+        <input type="submit" name="password_change" value="Update password">
     </form>
 {% endif %}
 
