@@ -1,3 +1,6 @@
+body {
+font-family: 'Montserrat', sans-serif;
+}
 
 .warning {
     border-style: dotted;
@@ -11,10 +14,32 @@
 
 /* base.html */
 
+.logout {
+border:3px solid black;
+border-radius:10px;
+padding:10px;
+}
+
+.logout-drop ul {
+list-style-type:none;
+position:absolute;
+height: 0px;
+overflow: hidden;
+-webkit-transition: all 0.5s ease-in-out;
+-moz-transition: all 0.5s ease-in-out;
+-o-transition: all 0.5s ease-in-out;
+transition: all 0.5s ease-in-out;
+}
+
+.logout-drop:hover ul {
+height: 100px;
+background-color:white;
+}
+
 .navbar {
 width:80%;
 margin:auto;
-border: 1px solid black;
+/*border: 1px solid black;*/
 text-transform: uppercase;
 display:flex;
 justify-content: space-between;
@@ -29,11 +54,13 @@ display:flex;
 }
 
 .searchbar {
+/*border: 1px solid red;*/
 }
 
 .link-wrapper {
 margin-right: 20px;
 }
+
 
 a:link, a:visited {
 text-decoration: none;
@@ -43,20 +70,21 @@ color:black;
 a:hover {
 text-decoration: none;
 color:black;
+/*border-bottom: 1px solid black;*/
 }
 
 .container {
 width:80%;
 margin: auto;
-border: 1px red solid;
+/*border: 1px red solid;*/
 }
 
 .category {
-border: 1px solid black;
+/*border: 1px solid black;*/
 }
 
 .content {
-border: 1px blue solid;
+/*border: 1px blue solid;*/
 }
 
 .category-text {
@@ -72,11 +100,11 @@ margin:auto;
 }
 
 .new {
-border:1px solid black;
+/*border:1px solid black;*/
 }
 
 .old {
-border:1px solid black;
+/*border:1px solid black;*/
 }
 
 .debug {
@@ -98,23 +126,25 @@ grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
 
 .auction-detail {
 position:relative;
-border: 1px solid black;
+/*border: 1px solid black;*/
 }
 
-.pilt {
+.pilt > img {
+height: 100%;
+width: 100%;
 
-height: 200px;
-width: auto;
-background-size: cover;
+/* background-size: cover;
 background-position: center;
-background-repeat: no-repeat;
+background-repeat: no-repeat; */
 }
 
 .pilt-info {
 position:absolute;
+display:block;
+margin-left: auto;
+margin-right: auto;
 top:10px;
 /* text-align:center; */
-font-color:white;
 }
 
 img {
