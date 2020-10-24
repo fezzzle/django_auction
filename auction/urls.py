@@ -15,5 +15,5 @@ urlpatterns = [
     path('searchbar/', views.searchbar, name='searchbar'),
     path('auctions/my_bids', views.my_bids, name='my_bids'),
     path('profile/', views.profile, name='profile'),
-    path('user_change_email/<int:user_id>/', views.user_change_email, name='user_change_email'),
+    # path('user_change_email/<int:user_id>/', views.user_change_email, name='user_change_email'),
     ]

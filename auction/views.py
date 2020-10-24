@@ -145,7 +145,6 @@ def bid(request, auction_id):
         bid.save()
         messages.success(request, f"You successfully bidded {bid.amount} eur!")
         return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_bid})
-        # return HttpResponseRedirect(reverse('auction:auctions', args=()))
 
 def searchbar(request):
     search = request.GET.get('search')
@@ -161,32 +160,38 @@ def searchbar(request):
 
 @login_required
 def profile(request):
-    submit_button = request.POST.get('submit_button')
-    # if request.user.username != user.username:
-    #     # raise Http404
-    #     return render(request, 'auction/index.html')
+    email_change = request.POST.get('email_change')
+    password_change = request.POST.get('password_change')
     user = get_object_or_404(User, pk=request.user.id)
     logger.info(f"USER TYPE IS {type(user)}")
     logger.info(f"USER IS {user}")
 
-    if submit_button:
+    if email_change:
         try:
             email = request.POST['email']
             validate_email(email)
         except ValidationError as e:
-            messages.warning(request, e)
+            messages.warning(request, 'Please enter a valid email!')
         else:
             messages.success(request, "Email successfully changed!")
             user.email = email
             user.save()
+
+    if password_change:
+        try:
+            password1 = request.POST['user_password1']
+            password2 = request.POST['user_password2']
+            if password1 != password2:
+                raise ValidationError('Password did not match')
+        except ValidationError as e:
+            messages.warning(request, "Your passwords did not match. Try again!")
+        else:
+            user = User.objects.get(pk=request.user.id)
+            if user.check_password(password1):
+                messages.warning(request, 'You already have used this password')
+                return render(request, "auction/profile.html", {"user": user})
+            user.set_password(password1)
+            user.save()
+            messages.success(request, "Successfully changed password!")
+
     return render(request, "auction/profile.html", {"user": user})
-
-@login_required
-def user_change_email(request, user_id):
-    user = get_object_or_404(User, pk=user_id)
-    return HttpResponseRedirect(reverse('auction:profile'))
-
-# @login_required
-# def change_password(request):
-#     pass    
-
