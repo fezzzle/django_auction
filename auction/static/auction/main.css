@@ -29,6 +29,7 @@ display:flex;
 }
 
 .searchbar {
+border: 1px solid red;
 }
 
 .link-wrapper {

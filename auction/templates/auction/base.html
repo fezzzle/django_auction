@@ -21,20 +21,21 @@
     <div class="searchbar">
       <form action="{% url 'auction:searchbar' %}" method="GET" >
         <!-- ajutiselt hardcoded "size" -->
-        <input type="text" placeholder="Searchbar" size="100px" name="search" >
+        <input type="text" placeholder="Searchbar" size="80px" name="search" >
         <button type="submit">Search</button>
       </form>
     </div>
 
     <div class="link">
-      <a href="{% url 'auction:auctions' %}">auctions</a>
+<!--      Auctions link kolis index lehele -->
+<!--      <a href="{% url 'auction:auctions' %}">auctions</a>-->
       {% if user.is_authenticated %}
-        <a href="{% url 'auction:create' %}">create</a>
-        <a href="{% url 'auction:my_auctions' %}">my auctions</a>
-        <a href="{% url 'auction:my_bids' %}">my bids</a>
+        <a href="{% url 'auction:create' %}">create |</a>
+        <a href="{% url 'auction:my_auctions' %}">my auctions |</a>
+        <a href="{% url 'auction:my_bids' %}">my bids |</a>
         <a href="{% url 'logout' %}">Logout</a>
       {% else %}
-        <a href="{% url 'register' %}">Register</a>
+        <a href="{% url 'register' %}">Register |</a>
         <a href="{% url 'login' %}">Login</a>
       {% endif %}
     </div>
