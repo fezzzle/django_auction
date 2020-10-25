@@ -11,55 +11,49 @@
 <!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" />-->
   </head>
   <body>
-  <div class="navbar">
-    <div class="navbar-drop">
-      <div class="link-wrapper"><img src="https://www.pikpng.com/pngl/m/65-654126_banana-nanica-png-clipart-picture-of-banana-transparent.png" height="115" width="115"></div>
-      <div class="link-wrapper">logo</div>
-      <div class="link-wrapper"><a href="{% url 'auction:index' %}">index</a></div>
-    </div>
-
-<!--    <div class="site-name"><a href="{% url 'auction:index' %}">YOLOPENO</a></div>-->
-
-    <div class="searchbar">
-      <form action="{% url 'auction:searchbar' %}" method="GET" >
-        <!-- ajutiselt hardcoded "size" -->
-        <input type="text" placeholder="Searchbar" size="80px" name="search" >
-        <button type="submit" class="search-btn">Search</button>
-      </form>
-    </div>
-
-    <div class="link">
-<!--      Auctions link kolis index lehele -->
-<!--      <a href="{% url 'auction:auctions' %}">auctions</a>-->
-      {% if user.is_authenticated %}
-
-        <div class="logout-drop">
-          <a class="logout">MENU</a>
-          <ul>
-            <li><a href="{% url 'auction:create' %}">create |</a></li>
-            <li><a href="{% url 'auction:my_auctions' %}">my auctions |</a></li>
-            <li><a href="{% url 'auction:my_bids' %}">my bids |</a></li>
-            <li><a href="{% url 'auction:profile' %}">my profile |</a></li>
-            <li><a  href="{% url 'logout' %}">Logout |</a></li>
-          </ul>
-        </div>
-
-      {% else %}
-        <a class="logout" href="{% url 'register' %}">Register</a>
-        <a class="logout" href="{% url 'login' %}">Login</a>
-      {% endif %}
-    </div>
-  </div>
-
   <div class="container">
+
+    <div class="navbar">
+      <div class="index-drop">
+  <!--      <div class="link-wrapper"><img src="https://www.pikpng.com/pngl/m/65-654126_banana-nanica-png-clipart-picture-of-banana-transparent.png" height="115" width="115"></div>-->
+        <div class="link-wrapper"><a href="{% url 'auction:index' %}">index</a></div>
+      </div>
+
+      <div class="searchbar">
+        <form action="{% url 'auction:searchbar' %}" method="GET" >
+          <!-- ajutiselt hardcoded "size" -->
+          <input type="text" placeholder="Searchbar" size="80px" name="search" >
+          <button type="submit" class="search-btn">Search</button>
+        </form>
+      </div>
+
+      <div class="link">
+        {% if user.is_authenticated %}
+          <div class="logout-drop">
+            <a class="logout">MENU</a>
+            <ul>
+              <li><a href="{% url 'auction:create' %}">create |</a></li>
+              <li><a href="{% url 'auction:my_auctions' %}">my auctions |</a></li>
+              <li><a href="{% url 'auction:my_bids' %}">my bids |</a></li>
+              <li><a href="{% url 'auction:profile' %}">my profile |</a></li>
+              <li><a  href="{% url 'logout' %}">Logout |</a></li>
+            </ul>
+          </div>
+        {% else %}
+          <a class="logout" href="{% url 'register' %}">Register</a>
+          <a class="logout" href="{% url 'login' %}">Login</a>
+        {% endif %}
+      </div>
+    </div>
 
     <div class="content">
       {% block content %}
       {% endblock content %}
     </div>
-  </div>
 
+  </div>
   </body>
+
   <footer>
     <p>Project by:</p>
     <p>Martin P. & Rauno K.</p>

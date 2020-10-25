@@ -29,10 +29,19 @@ object-fit: cover;
 object-position: 50% 25%;
 }
 
+.link {
+padding:15px;
+}
+
 .logout {
-border:3px solid black;
-border-radius:20px;
-padding:10px;
+background-image: linear-gradient(to bottom right, #AF4D98, #9DF7E5);
+padding: 15px 25px;
+border-radius: 25px;
+}
+
+.index-drop {
+display:flex;
+/*padding:15px;*/
 }
 
 .logout-drop ul {
@@ -62,30 +71,29 @@ position:fixed;
 display:flex;
 width:80%;
 top:0px;
-margin-left:10%;
-margin-right:10%;
-text-transform: uppercase;
+/*margin-left:10%;
+margin-right:10%;*/
 justify-content: space-between;
 z-index:1;
-background-color:white;
-/*border: 1px solid black;*/
+background-color: white;
+text-transform: uppercase;
+overflow: visible;
+border: 1px solid black;
 }
 
 .navbar > div {
-margin:30px;
-}
-
-.navbar-drop {
-display:flex;
+margin:15px;
+/*border: 1px solid red;*/
 }
 
 .searchbar {
-display:block;
+/*display:block;/*
 /*border: 1px solid red;*/
 }
 
 .search-btn {
-background-color: #EE6F55;
+/*background-color: #EE6F55;*/
+background-image: linear-gradient(to bottom right, #AF4D98, #9DF7E5);
 color: white;
 padding: 15px 25px;
 border: none;
@@ -104,7 +112,9 @@ outline:none;
 }
 
 .link-wrapper {
-margin-right: 20px;
+background-image: linear-gradient(to bottom right, #AF4D98, #9DF7E5);
+padding: 15px 25px;
+border-radius: 25px;
 }
 
 .link-wrapper > img {
@@ -112,7 +122,7 @@ position:absolute;
 top:0px;
 left:0px;
 }
-
+/*
 a:link, a:visited {
 text-decoration: none;
 color:black;
@@ -121,8 +131,9 @@ color:black;
 a:hover {
 text-decoration: none;
 color:black;
-/*border-bottom: 1px solid black;*/
+border-bottom: 1px solid black;
 }
+*/
 
 .container {
 margin-top:115px;
@@ -196,14 +207,13 @@ border: 1px solid black;
 .auction-details {
 display:grid;
 grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-border: 1px solid red;
+/*border: 1px solid red;*/
 }
 
 .auction-detail {
 position:relative;
-border: 1px solid black;
 margin:20px;
-
+border: 1px solid black;
 }
 
 .pilt > img {
@@ -236,8 +246,8 @@ margin-right: auto;
 */
 /* input CSS */
 
-.navbar input[type=text] {
-margin: 2px 0 5px 0;
+
+.searchbar input[type=text] {
 padding: 15px;
 display: inline-block;
 border: none;
@@ -245,7 +255,7 @@ background-color: lightgrey;
 border-radius: 25px;
 }
 
-.navbar input[type=text]:focus {
+.searchbar input[type=text]:focus {
 background-color: lightgrey;
 outline: none;
 transition: 0.3s;
