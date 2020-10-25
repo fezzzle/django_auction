@@ -2,8 +2,9 @@ body {
 font-family: 'Montserrat', sans-serif;
 }
 
+/* views rida 146 */
 .warning {
-    border-style: dotted;
+    border-style: solid;
     color: red;
 }
 
@@ -149,6 +150,7 @@ footer {
 padding:50px;
 width:80%;
 margin:auto;
+text-align:center;
 }
 
 .new {
@@ -183,27 +185,38 @@ grid-template-columns: 1fr 1fr;
 
 /* auction.html */
 
-.auction-wrapper {
-
+/*
+.auction-grid {
+display:grid;
+grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+border: 1px solid black;
 }
+*/
 
 .auction-details {
 display:grid;
 grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+border: 1px solid red;
 }
 
 .auction-detail {
 position:relative;
-/*border: 1px solid black;*/
+border: 1px solid black;
+margin:20px;
+
 }
 
 .pilt > img {
+height: 90%;
+width: 90%;
+border-radius:25px;
+}
+
+.pilt > img:hover {
 height: 100%;
 width: 100%;
-
-/* background-size: cover;
-background-position: center;
-background-repeat: no-repeat; */
+border-radius:25px;
+transition:0.3s;
 }
 
 .pilt-info {
@@ -214,13 +227,13 @@ margin-right: auto;
 top:10px;
 text-align:center;
 }
-
+/*
 img {
 display: block;
 margin-left: auto;
 margin-right: auto;
 }
-
+*/
 /* input CSS */
 
 .navbar input[type=text] {
