@@ -45,7 +45,6 @@ display:flex;
 }
 
 .logout-drop ul {
-margin:11px;
 list-style-type:none;
 height: 0px;
 position:absolute;
