@@ -28,7 +28,7 @@ height:400px;
 object-fit: cover;
 object-position: 50% 25%;
 }
-
+/*
 .link {
 padding:15px;
 }
@@ -38,14 +38,23 @@ background-image: linear-gradient(to bottom right, #AF4D98, #9DF7E5);
 padding: 15px 25px;
 border-radius: 25px;
 }
-
+*/
 .index-drop {
 display:flex;
-/*padding:15px;*/
+}
+
+.index-drop a, a:hover, a:visited {
+    color:black;
+    text-decoration: none;
+}
+
+.logo-text {
+font-size: 25px;
+padding: 12px;
 }
 
 .logout-drop ul {
-list-style-type:none;
+list-style:none;
 height: 0px;
 position:absolute;
 overflow: hidden;
@@ -61,8 +70,9 @@ height: auto;
 background-color:white;
 z-index:1;
 border: 1px solid black;
-padding:10px;
+padding:0px;
 width:125px;
+margin:0;
 }
 
 .navbar {
@@ -75,7 +85,7 @@ margin-right:10%;*/
 justify-content: space-between;
 z-index:1;
 background-color: white;
-text-transform: uppercase;
+/*text-transform: uppercase;*/
 overflow: visible;
 /*border: 1px solid black;*/
 }

@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'auction/normalize.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'auction/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'auction/burger.css' %}">
 <!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" />-->
   </head>
   <body>
@@ -16,7 +17,10 @@
     <div class="navbar">
       <div class="index-drop">
   <!--      <div class="link-wrapper"><img src="https://www.pikpng.com/pngl/m/65-654126_banana-nanica-png-clipart-picture-of-banana-transparent.png" height="115" width="115"></div>-->
-        <div class="link-wrapper"><a href="{% url 'auction:index' %}">index</a></div>
+        <div class="">
+          <a href="{% url 'auction:index' %}"><div class="logo"></div></a>
+        </div>
+        <a href="{% url 'auction:index' %}"><div class="logo-text">AuctionHAUSS</div></a>
       </div>
 
       <div class="searchbar">
@@ -30,7 +34,11 @@
       <div class="link">
         {% if user.is_authenticated %}
           <div class="logout-drop">
-            <a class="logout">MENU</a>
+            <div class="burger logout">
+              <div class="bar1"></div>
+              <div class="bar2"></div>
+              <div class="bar3"></div>
+            </div>
             <ul>
               <p><a href="{% url 'auction:create' %}">create |</a></p>
               <p><a href="{% url 'auction:my_auctions' %}">my auctions |</a></p>
