@@ -32,7 +32,7 @@
     </div>
 
 <!-- TEST AUCTIONS! -->
-    <div class="auction-wrapper">
+    <div class="auction-grid">
         <div class="auction-details">
         {% if auctions_list %}
         {% for auction in auctions_list %}
@@ -40,19 +40,20 @@
                 <a href="{% url 'auction:detail' auction.id %}">
                 <div class="pilt">
                 <img src="{{ pic }}">
-                </div>
+
                 <div class="pilt-info">
-                <li>Author: {{auction.author}}</li>
-                <li>Title: {{auction.title}}</li>
-                <li>Description: {{auction.description}}</li>
-                <li>Auction starting value: {{auction.min_value}}€</li>
-                <li>Auction duration {{auction.total_auction_duration}}</li>
-                {% if auction.is_active %}
-                    <p>{% widthratio auction.seconds_remaining 60 1 %} minutes left</p>
-                    <!-- <li>Time remaining {{auction.seconds_remaining|floatformat:"0"}}</li> -->
-                {% else %}
-                    <p>Auction has ended!</p>
-                {% endif %}
+                    <li>Author: {{auction.author}}</li>
+                    <li>Title: {{auction.title}}</li>
+                    <li>Description: {{auction.description}}</li>
+                    <li>Auction starting value: {{auction.min_value}}€</li>
+                    <li>Auction duration {{auction.total_auction_duration}}</li>
+                    {% if auction.is_active %}
+                        <p>{% widthratio auction.seconds_remaining 60 1 %} minutes left</p>
+                        <!-- <li>Time remaining {{auction.seconds_remaining|floatformat:"0"}}</li> -->
+                    {% else %}
+                        <p>Auction has ended!</p>
+                    {% endif %}
+                </div>
                 </div>
                 </a>
             </div>
