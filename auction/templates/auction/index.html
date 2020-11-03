@@ -33,36 +33,29 @@
 
 <!-- TEST AUCTIONS! -->
     <div class="auction-grid">
-        <div class="auction-details">
-        {% if auctions_list %}
         {% for auction in auctions_list %}
-            <div class="auction-detail">
+            <div class="img-container">
                 <a href="{% url 'auction:detail' auction.id %}">
-                <div class="pilt">
-                <img src="{{ pic }}">
-
-                <div class="pilt-info">
-                    <li>Author: {{auction.author}}</li>
-                    <li>Title: {{auction.title}}</li>
-                    <li>Description: {{auction.description}}</li>
-                    <li>Auction starting value: {{auction.min_value}}€</li>
-                    <li>Auction duration {{auction.total_auction_duration}}</li>
-                    {% if auction.is_active %}
-                        <p>{% widthratio auction.seconds_remaining 60 1 %} minutes left</p>
-                        <!-- <li>Time remaining {{auction.seconds_remaining|floatformat:"0"}}</li> -->
-                    {% else %}
-                        <p>Auction has ended!</p>
-                    {% endif %}
-                </div>
-                </div>
+                <img src="{{ pic }}" alt="noku">
+                    <div class="img-overlay">
+                        <div class="img-text">
+                            <p>Title: {{auction.title}}</p>
+                            <p>ID: {{auction.id}}</p>
+                            <p>price: {{auction.min_value}}€</p>
+                            <p{% if auction.is_active %}
+                            <p>{% widthratio auction.seconds_remaining 60 1 %} minutes left</p>
+                                <!--Time remaining {{auction.seconds_remaining|floatformat:"0"}}-->
+                            {% else %}
+                                <p>Auction has ended!</p>
+                            {% endif %}
+                            </p>
+                            <p>autor: {{auction.author}}</p>
+                            <p></p>
+                        </div>
+                    </div>
                 </a>
             </div>
-<!--        <br>-->
         {% endfor %}
-        </div>
-    {% else %}
-        <h1>There are no auctions available</h1>
-    {% endif %}
     </div>
 
     <!-- DEBUG ZONE -->
