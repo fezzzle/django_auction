@@ -1,6 +1,13 @@
 {% extends "auction/base.html" %}
 
 {% block content %} 
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
 {% if user.is_anonymous %}
     <h2>Log In</h2>
     <form method="post">

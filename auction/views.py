@@ -13,13 +13,35 @@ from django.db.models import Q
 from django.contrib import messages
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
-
 from django.contrib.auth.decorators import login_required
+
+
+from django.contrib.auth import views as auth_views
+from django.views import generic
+from django.urls import reverse_lazy
+
+from .forms import LoginForm, RegisterForm
+
+
+class LogoutView(auth_views.LogoutView):
+    template_name: "registration/logout.html"
+
+
+class LoginView(auth_views.LoginView):
+    form_class = LoginForm
+    template_name = 'registration/login.html'
+
+
+class RegisterView(generic.CreateView):
+    form_class = RegisterForm
+    template_name = 'registration/register.html'
+    success_url = reverse_lazy('login')
 
 
 import logging
 
 logger = logging.getLogger("mylogger")
+
 
 def index(request):
     auctions_list = Auction.objects.all()

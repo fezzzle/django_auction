@@ -140,6 +140,7 @@ cython_debug/
 .vscode/
 .DS_Store
 auction/migrations/
+auction/migrations/*
 db.sqlite3
 .idea
 .idea/
