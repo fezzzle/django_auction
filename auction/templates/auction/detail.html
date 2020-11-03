@@ -15,12 +15,13 @@
     {% if bid %}
         <p>Highest bid: {{ bid }}</p>
     {% endif %}
-
     <p>Description: {{ auction.description }}</p>
     <p>Starting from: {{ auction.min_value }}</p>
+    {% if auction.is_active %}
     <p>Expires at: {{ auction.expire }}</p>
-    <p>Page visits {{ auction.visits }}</p>
     <p id="clock"></p>
+    {% endif %}
+    <p>Page visits {{ auction.visits }}</p>
     
 
     {{ json_ctx|json_script:"json_ctx" }}
@@ -37,9 +38,21 @@
                 {% endif %}
                 <input type="submit" name="submit_bid">
             </form>
+        {% else %}
+            <h1>AUCTION IS NOT ACTIVE</h1>
         {% endif %}
     {% else %}
-        <input type="submit" name="cancel_auction" value="Cancel">
+        {% if not bid %}
+            {% if auction.is_active %}
+                <form action="{% url 'auction:detail' auction.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" name="cancel_auction" value="Cancel">
+                </form>
+                <h1>AUCTION IS ACTIVE</h1>
+            {% else %}
+                <h1>AUCTION IS NOT ACTIVE</h1>
+            {% endif %}
+        {% endif %}
     {% endif %}
 
     <script>

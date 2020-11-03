@@ -35,10 +35,20 @@ def detail(request, auction_id):
     auction.visits += 1
     auction.save()
     json_ctx = json.dumps({"auction_end_stamp": int(auction.expire.timestamp() * 1000)})
+    cancel_auction = request.POST.get('cancel_auction')
+    logger.info(f"Submit button value: {cancel_auction}")
+    logger.info(f"Submit button's type: {type(cancel_auction)}")
     if bid:
         bid = bid.first().amount
     if request.user == auction.author or not request.user.is_authenticated:
         own_auction = True
+        if cancel_auction:
+            try:
+                auction.is_active = False
+                auction.save()
+                return render(request, "auction/detail.html", {"auction": auction, "own_auction": own_auction})
+            except Exception as e:
+                logger.info(e)
         return render(request, "auction/detail.html", {"auction": auction, "own_auction": own_auction, "bid": bid, "json_ctx": json_ctx})
     return render(request, "auction/detail.html", {"auction": auction, 'bid': bid, "json_ctx": json_ctx})
 
