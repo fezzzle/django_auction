@@ -111,35 +111,27 @@ def my_bids(request):
 def bid(request, auction_id):
     auction = get_object_or_404(Auction, pk=auction_id)
     auction.resolve()
-
     bid = Bid.objects.filter(bidder=request.user).filter(auction=auction).first()
-
     if not auction.is_active:
         messages.warning(request, 'Auction is not active!')
         return render(request, "auction/detail.html", {'auction': auction})
-    
     try:
         bid_amount = int(request.POST['amount'])
-
         if not bid_amount or int(bid_amount) < auction.min_value:
             raise ValueError
-
         if not bid:
             bid = Bid()
             bid.auction = auction
             bid.bidder = request.user
-
         if bid:
             if bid_amount <= bid.amount:
                 messages.warning(request, 'You need to enter a bigger bid than the previous amount!')        
                 return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_bid})
-
         bid.amount = int(bid_amount)
         bid.time_added = datetime.now(timezone.utc)
     except ValueError:
         messages.warning(request, 'You have entered invalid input or less than min value')
         return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_bid})
-
     else:
         bid.save()
         messages.success(request, f"You successfully bidded {bid.amount} eur!")
@@ -161,6 +153,7 @@ def searchbar(request):
 def profile(request):
     email_change = request.POST.get('email_change')
     password_change = request.POST.get('password_change')
+    location_change = request.POST.get('location_change')
     user = get_object_or_404(CustomUser, pk=request.user.id)
     logger.info(f"USER TYPE IS {type(user)}")
     logger.info(f"USER IS {user}")
@@ -192,5 +185,15 @@ def profile(request):
             user.set_password(password1)
             user.save()
             messages.success(request, "Successfully changed password!")
+
+    if location_change:
+        try:
+            location = request.POST['location']
+        except Exception as e:
+            messages.warning(request, 'Something went wrong when changing location')
+        else:
+            messages.success(request, "Location successfully changed!")
+            user.location = location
+            user.save()
 
     return render(request, "auction/profile.html", {"user": user})
