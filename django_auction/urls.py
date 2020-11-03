@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from auction.views import LoginView, RegisterView, LogoutView
+from .views import LoginView, RegisterView, LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
