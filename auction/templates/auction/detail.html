@@ -18,6 +18,9 @@
 
     <p>Description: {{ auction.description }}</p>
     <p>Starting from: {{ auction.min_value }}</p>
+    <p>Expires at: {{ auction.expire }}</p>
+    <p>Page visits {{ auction.visits }}</p>
+    <p id="clock"></p>
     
 
     {{ json_ctx|json_script:"json_ctx" }}
@@ -35,10 +38,10 @@
                 <input type="submit" name="submit_bid">
             </form>
         {% endif %}
+    {% else %}
+        <input type="submit" name="cancel_auction" value="Cancel">
     {% endif %}
-    <p>Expires at: {{ auction.expire }}</p>
-    <p>Page visits {{ auction.visits }}</p>
-    <p id="clock"></p>
+
     <script>
         // HAHA JS
         let jsonCtx = JSON.parse(JSON.parse(document.getElementById('json_ctx').textContent));
@@ -50,7 +53,7 @@
 
         (function countdownTimeStart(){
             
-             var auctionEndStamp = jsonCtx['auction_end_stamp'];
+            var auctionEndStamp = jsonCtx['auction_end_stamp'];
 
             // Get todays date and time, convert to string, get only 10 digits
             var now = new Date().getTime();
