@@ -2,8 +2,7 @@ import json
 from time import time
 
 from django.shortcuts import render
-from .models import Auction, Bid
-from django.contrib.auth.models import User
+from .models import Auction, Bid, CustomUser
 from datetime import datetime, timezone
 from django.utils import timezone
 from django.http import HttpResponseRedirect
@@ -13,13 +12,13 @@ from django.db.models import Q
 from django.contrib import messages
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
-
 from django.contrib.auth.decorators import login_required
 
 
 import logging
 
 logger = logging.getLogger("mylogger")
+
 
 def index(request):
     auctions_list = Auction.objects.all()
@@ -162,7 +161,7 @@ def searchbar(request):
 def profile(request):
     email_change = request.POST.get('email_change')
     password_change = request.POST.get('password_change')
-    user = get_object_or_404(User, pk=request.user.id)
+    user = get_object_or_404(CustomUser, pk=request.user.id)
     logger.info(f"USER TYPE IS {type(user)}")
     logger.info(f"USER IS {user}")
 
@@ -186,7 +185,7 @@ def profile(request):
         except ValidationError as e:
             messages.warning(request, "Your passwords did not match. Try again!")
         else:
-            user = User.objects.get(pk=request.user.id)
+            user = CustomUser.objects.get(pk=request.user.id)
             if user.check_password(password1):
                 messages.warning(request, 'You already have used this password')
                 return render(request, "auction/profile.html", {"user": user})

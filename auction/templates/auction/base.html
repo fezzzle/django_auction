@@ -26,7 +26,7 @@
       <div class="searchbar">
         <form action="{% url 'auction:searchbar' %}" method="GET" >
           <!-- ajutiselt hardcoded "size" -->
-          <input type="text" placeholder="Searchbar" size="80px" name="search" >
+          <input type="text" placeholder="Searchbar" name="search" >
           <button type="submit" class="search-btn">Search</button>
         </form>
       </div>
@@ -44,7 +44,8 @@
               <p><a href="{% url 'auction:my_auctions' %}">my auctions |</a></p>
               <p><a href="{% url 'auction:my_bids' %}">my bids |</a></p>
               <p><a href="{% url 'auction:profile' %}">my profile |</a></p>
-              <p><a  href="{% url 'logout' %}">Logout |</a></p>
+              <p><a href="{% url 'logout' %}">Logout |</a></p>
+              
             </ul>
           </div>
         {% else %}

@@ -1,22 +1,28 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.utils import timezone
 from datetime import datetime, timedelta
+
+from django.contrib.auth.models import AbstractUser
+from django.utils.translation import gettext_lazy as _
 
 import logging
 
 logger = logging.getLogger("mylogger")
 
 
+class CustomUser(AbstractUser):
+    email = models.EmailField(_('email address'), unique=True)
+
+
 class Auction(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=100)
     min_value = models.IntegerField()
     date_added = models.DateTimeField(datetime.now, blank=True)
     is_active = models.BooleanField(default=True)
     total_auction_duration = models.IntegerField()
-    winner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, 
+    winner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True, 
                               related_name="auction_winner",
                               related_query_name="auction_winner")
     final_value = models.IntegerField(blank=True, null=True)
@@ -64,7 +70,7 @@ class Auction(models.Model):
 
 class Bid(models.Model):
     auction = models.ForeignKey(Auction, on_delete=models.CASCADE)
-    bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bidder")
+    bidder = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="bidder")
     time_added = models.DateTimeField()
     amount = models.IntegerField(default=1)
 
