@@ -20,6 +20,7 @@ class Auction(models.Model):
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=100)
     min_value = models.IntegerField()
+    buy_now = models.IntegerField(blank=True, null=True)
     date_added = models.DateTimeField(datetime.now, blank=True)
     is_active = models.BooleanField(default=True)
     total_auction_duration = models.IntegerField()
@@ -79,4 +80,7 @@ class Bid(models.Model):
     def highest_bid(self):
         if self.amount:
             return self.amount
+
+    def __str__(self):
+        return self.amount, self.bidder, self.auction
 

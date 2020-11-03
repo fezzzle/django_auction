@@ -21,6 +21,9 @@
     <p>Expires at: {{ auction.expire }}</p>
     <p id="clock"></p>
     {% endif %}
+    {% if auction.buy_now %}
+        <p>Buy now: {{ auction.buy_now }}</p>
+    {% endif %}
     <p>Page visits {{ auction.visits }}</p>
     
 
@@ -36,7 +39,12 @@
                 {% else %}
                     <input type="number" name="amount" id="bid_amount" value="{{ auction.min_value|add:1 }}" required>
                 {% endif %}
-                <input type="submit" name="submit_bid">
+                {% if auction.buy_now %}
+                    <input type="submit" name="submit_bid" value="Submit Bid">
+                    <input type="submit" name="buy_now" value="Buy now!">
+                {% else %}
+                    <input type="submit" name="submit_bid">
+                {% endif %}
             </form>
         {% else %}
             <h1>AUCTION IS NOT ACTIVE</h1>

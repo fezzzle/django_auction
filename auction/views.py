@@ -35,14 +35,18 @@ def detail(request, auction_id):
     auction.visits += 1
     auction.save()
     json_ctx = json.dumps({"auction_end_stamp": int(auction.expire.timestamp() * 1000)})
-    cancel_auction = request.POST.get('cancel_auction')
-    logger.info(f"Submit button value: {cancel_auction}")
-    logger.info(f"Submit button's type: {type(cancel_auction)}")
+    cancel_auction_button = request.POST.get('cancel_auction')
+    # buy_now_button = request.POST.get('buy_now')
     if bid:
         bid = bid.first().amount
+        # logger.info(f"Submit button value: {cancel_auction_button}")
+        # logger.info(f"Submit button's type: {type(cancel_auction_button)}")
+        # logger.info(f"buy_now_button value: {buy_now_button}")
+        # logger.info(f"buy_now_button's type: {type(buy_now_button)}")
+
     if request.user == auction.author or not request.user.is_authenticated:
         own_auction = True
-        if cancel_auction:
+        if cancel_auction_button:
             try:
                 auction.is_active = False
                 auction.save()
@@ -65,9 +69,11 @@ def create(request):
             description = request.POST['description']
             min_value = request.POST['min_value']
             duration = request.POST['duration']
-            logger.info(f"values: {title, description, min_value}")
-            
+            buy_now = request.POST['buy_now']
+            logger.info(f"values: {title, description, min_value, buy_now}")
             if not title or not description or not min_value:
+                raise KeyError
+            elif min_value > buy_now:
                 raise KeyError
         except KeyError:
             messages.warning(request, 'Please fill all the fields!')
@@ -80,6 +86,7 @@ def create(request):
             auction.min_value = min_value
             auction.date_added = timezone.now()
             auction.total_auction_duration = duration
+            auction.buy_now = buy_now
             auction.save()
             messages.success(request, 'Your listing has been created!')
             return HttpResponseRedirect(reverse('auction:detail', args=(auction.id,)))
