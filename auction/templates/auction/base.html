@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AuctionHAUSS</title>
     {% load static %}
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'auction/normalize.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'auction/main.css' %}">
@@ -24,8 +25,9 @@
       </div>
 
       <div class="searchbar">
-        <form action="{% url 'auction:searchbar' %}" method="GET" >
+        <form action="{% url 'auction:searchbar' %}" method="GET" class="formaalsuskuubis">
           <!-- ajutiselt hardcoded "size" -->
+          <i class="fas fa-search"></i>
           <input type="text" placeholder="Searchbar" name="search" >
           <button type="submit" class="search-btn">Search</button>
         </form>
