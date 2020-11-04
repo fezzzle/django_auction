@@ -12,9 +12,10 @@
 
     <p>Title: {{ auction.title }}</p>
     <p>Author: {{ auction.author }}</p>
-    
+
     {% if bid %}
-        <p>Highest bid: {{ bid }}</p>
+        <p>Your bid bid: {{ bid }}</p>
+        <p>Highest total bid: {{ auction.active_bid_value}}</p>
     {% endif %}
 
     <p>Description: {{ auction.description }}</p>
@@ -43,8 +44,8 @@
             <form action="{% url 'auction:bid' auction.id %}" method="POST">
                 {% csrf_token %}
                 {% if error_message %}<p>{{ error_message }}</p>{% endif %}
-                {% if bid %}
-                    <input type="number" name="amount" id="bid_amount" value="{{ bid|add:'1' }}" required>
+                {% if user_bid %}
+                    <input type="number" name="amount" id="bid_amount" value="{{ auction.active_bid_value|add:'1' }}" required>
                 {% else %}
                     <input type="number" name="amount" id="bid_amount" value="{{ auction.min_value|add:1 }}" required>
                 {% endif %}
