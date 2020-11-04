@@ -9,15 +9,67 @@
                     -->
                     <h2>WE NEED YOUR GOLD!</h2>
                 </div>
+                <div class="category-container">
+                    <div class="boxx">
+                        <a href="#">Kitchen</a>
+                    </div>
+                    <div class="boxx">
+                        <a href="#">Cars</a>
+                    </div>
+                    <div class="boxx">
+                        <a href="#">Electronics</a>
+                    </div>
+                    <div class="boxx">
+                        <a href="#">Wamen</a>
+                    </div>
+                    <div class="boxx">
+                        <a href="#">Men</a>
+                    </div>
+                    <div class="boxx">
+                        <a href="#">Kids</a>
+                    </div>
+                </div>
 
-            <a href="#">category a|</a>
-            <a href="#">category b|</a>
-            <a href="#">category c|</a>
-            <a href="#">category d|</a>
             </div>
         </div>
         <div class="news-container">
-            <div class="new">
+            <div class="new-container">
+                <h2>Last added:</h2>
+                <div class="new">
+                    <div class="box">
+                        <a href="#">
+                            <img src="https://picsum.photos/200">
+                            <div class="box-overlay">
+                                <div class="box-text">
+                                    <p>Title</p>
+                                    <p>ID</p>
+                                    <p>Author</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="new-container">
+                <h2>Ending soon:</h2>
+                <div class="new">
+                    <div class="box">
+                        <a href="#">
+                            <img src="https://picsum.photos/200">
+                            <div class="box-overlay">
+                                <div class="box-text">
+                                    <p>Title</p>
+                                    <p>ID</p>
+                                    <p>Author</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        <!--<div class="new">
+
                 <h1>Last added</h1>
                 {% for i in auctions_list %}
                     {{ i.title }} | Category <br>
@@ -29,17 +81,20 @@
                 {% for j in auctions_list %}
                     {{ j.title }} | Category | Expire time<br>
                 {% endfor %}
-            </div>
+            </div> -->
         </div>
     </div>
 
 <!-- TEST AUCTIONS! -->
+    <div class="auction-container">
+    <h2>Avasta:</h2>
     <div class="auction-grid">
         {% for auction in auctions_list %}
             <div class="img-container">
-                <div class="img-wrapper">
+
                 <a href="{% url 'auction:detail' auction.id %}">
                 <img src="{{ pic }}" alt="noku">
+
                     <div class="img-overlay">
                         <div class="img-text">
                             <p>Title: {{auction.title}}</p>
@@ -52,13 +107,13 @@
                                 <p>Auction has ended!</p>
                             {% endif %}
                             <p>autor: {{auction.author}}</p>
-
                         </div>
                     </div>
                 </a>
-                </div>
+
             </div>
         {% endfor %}
+    </div>
     </div>
 
     <!-- DEBUG ZONE -->
