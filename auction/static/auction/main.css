@@ -272,6 +272,11 @@ grid-template-columns: 1fr 1fr;
 	left: 10px;
 	/*transform: translate(-50%, -50%);*/
 	text-align: left;
+
+}
+
+.img-text p {
+    font-size: 0.8vw;
 }
 
 .img-container:hover {

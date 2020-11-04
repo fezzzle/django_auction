@@ -37,6 +37,7 @@
     <div class="auction-grid">
         {% for auction in auctions_list %}
             <div class="img-container">
+                <div class="img-wrapper">
                 <a href="{% url 'auction:detail' auction.id %}">
                 <img src="{{ pic }}" alt="noku">
                     <div class="img-overlay">
@@ -55,6 +56,7 @@
                         </div>
                     </div>
                 </a>
+                </div>
             </div>
         {% endfor %}
     </div>
