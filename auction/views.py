@@ -63,14 +63,17 @@ def create(request):
         try:
             title = request.POST['title']
             description = request.POST['description']
-            min_value = request.POST['min_value']
+            min_value = int(request.POST['min_value'])
             duration = request.POST['duration']
-            buy_now = request.POST['buy_now']
+            buy_now = int(request.POST['buy_now'])
+            logger.info(f"BUY NOW IS: {buy_now}")
+            logger.info(f"TYPE OF BUY NOW IS: {type(buy_now)}")
             logger.info(f"values: {title, description, min_value, buy_now}")
             if not title or not description or not min_value:
                 raise KeyError
-            elif min_value > buy_now:
-                raise KeyError
+            if buy_now:
+                if min_value > buy_now:
+                    raise KeyError
         except KeyError:
             messages.warning(request, 'Please fill all the fields!')
             return render(request, "auction/create.html")
