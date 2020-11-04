@@ -34,13 +34,18 @@ class Auction(models.Model):
     def resolve(self):
         if self.is_active:
             if self.has_expired():
-                logger.info("AUCTION IS EXPIRED")
                 highest_bid = Bid.objects.filter(auction=self).order_by('-amount').first()
+                logger.info("AUCTION IS EXPIRED")
                 logger.info(f"HIGHTEST BID: {highest_bid}")
                 if highest_bid:
                     logger.info(f"INSIDE HIGHEST_BID")
                     self.winner = highest_bid.bidder
                     self.final_value = highest_bid.amount
+                self.is_active = False
+                self.save()
+            if self.active_bid_value >= self.buy_now:
+                self.winner = highest_bid.bidder
+                self.final_value = highest_bid.amount
                 self.is_active = False
                 self.save()
 

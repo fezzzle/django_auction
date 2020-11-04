@@ -13,11 +13,6 @@
     <p>Title: {{ auction.title }}</p>
     <p>Author: {{ auction.author }}</p>
 
-    {% if bid %}
-        <p>Your bid bid: {{ bid }}</p>
-        <p>Highest total bid: {{ auction.active_bid_value}}</p>
-    {% endif %}
-
     <p>Description: {{ auction.description }}</p>
     <p>Starting from: {{ auction.min_value }}</p>
 
@@ -38,8 +33,11 @@
     
 
     {{ json_ctx|json_script:"json_ctx" }}
-
+    <p>Highest total bid: {{ auction.active_bid_value}}</p>
     {% if not own_auction %}
+        {% if bid %}
+            <p>Your bid: {{ bid }}</p>
+        {% endif %}
         {% if auction.is_active %}
             <form action="{% url 'auction:bid' auction.id %}" method="POST">
                 {% csrf_token %}
@@ -68,6 +66,7 @@
             {% endif %}
         {% endif %}
     {% endif %}
+
 
     <script>
         // HAHA JS
