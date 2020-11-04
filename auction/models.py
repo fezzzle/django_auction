@@ -22,6 +22,7 @@ class Auction(models.Model):
     min_value = models.IntegerField()
     buy_now = models.IntegerField(blank=True, null=True)
     date_added = models.DateTimeField(datetime.now, blank=True)
+    active_bid_value = models.IntegerField(blank=True, null=True, default=1)
     is_active = models.BooleanField(default=True)
     total_auction_duration = models.IntegerField()
     winner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True, 
@@ -37,6 +38,7 @@ class Auction(models.Model):
                 highest_bid = Bid.objects.filter(auction=self).order_by('-amount').first()
                 logger.info(f"HIGHTEST BID: {highest_bid}")
                 if highest_bid:
+                    logger.info(f"INSIDE HIGHEST_BID")
                     self.winner = highest_bid.bidder
                     self.final_value = highest_bid.amount
                 self.is_active = False
@@ -62,9 +64,15 @@ class Auction(models.Model):
             return time_remaining
         else:
             return 0
+
     @property
     def expire(self):
         return self.date_added + timedelta(minutes=self.total_auction_duration)
+
+    @property
+    def highest_auction_bid(self):
+        if self.active_bid_value:
+            return self.active_bid_value
 
     def __str__(self):
         return self.title
@@ -75,10 +83,10 @@ class Bid(models.Model):
     auction = models.ForeignKey(Auction, on_delete=models.CASCADE)
     bidder = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="bidder")
     time_added = models.DateTimeField()
-    amount = models.IntegerField(default=1)
+    amount = models.IntegerField(default=0)
 
     @property
-    def highest_bid(self):
+    def highest_user_bid(self):
         if self.amount:
             return self.amount
 

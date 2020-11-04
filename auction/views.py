@@ -127,26 +127,18 @@ def my_bids(request):
 @login_required
 def bid(request, auction_id):
     buy_now_button = request.POST.get('buy_now')
-    logger.info(f"buy_now_button value: {buy_now_button}")
-    # logger.info(f"buy_now_button's type: {type(buy_now_button)}")
 
     bid_amount = int(request.POST['amount'])
     logger.info(f"bid_amount: {bid_amount}")
 
     auction = get_object_or_404(Auction, pk=auction_id)
-    logger.info(f"auction: {auction}")
     auction.resolve()
-    logger.info("after resolve")
     bid = Bid.objects.filter(bidder=request.user).filter(auction=auction).first()
-    logger.info(f"bid: {bid}")
     if not auction.is_active:
         messages.warning(request, 'Auction is not active!')
         return render(request, "auction/detail.html", {'auction': auction})
-    # if buy_now_button:
-    #     logger.info(f"BUY NOW BUTTON HAS BEEN PRESSED: {buy_now_button}")
     
     if not bid:
-        logger.info(f"INSIDE NOT BID")
         bid = Bid()
         bid.auction = auction
         logger.info(f"bid.auction: {bid.auction}")
@@ -163,48 +155,26 @@ def bid(request, auction_id):
             bid.amount = auction.buy_now
             bid.save()
             auction.resolve()
-            # return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.amount})
         elif bid_amount:
             logger.info(f"INSIDE BID_AMOUNT")
             if int(bid_amount) < auction.min_value:
                 raise ValueError
-            elif bid_amount <= bid.amount:
+            if bid_amount <= bid.amount:
                 messages.warning(request, 'You need to enter a bigger bid than the previous amount!')        
-                return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_bid})
+                return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid})
             bid.amount = int(bid_amount)
+            if bid.amount <= auction.active_bid_value:
+                messages.warning(request, 'You need to enter a bigger bid than the previous amount!')        
+                return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid})
+            auction.active_bid_value = bid.amount
     except ValueError:
         messages.warning(request, 'You have entered invalid input or less than min value')
-        return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_bid})
+        return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid})
     else:
         bid.save()
+        auction.save()
         messages.success(request, f"You successfully bidded {bid.amount} eur!")
-        return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_bid})
-
-
-
-
-
-    # try:
-    #     if bid_amount:
-    #         if not bid_amount or int(bid_amount) < auction.min_value:
-    #             raise ValueError
-    #         if not bid:
-    #             bid = Bid()
-    #             bid.auction = auction
-    #             bid.bidder = request.user
-    #         if bid:
-    #             if bid_amount <= bid.amount:
-    #                 messages.warning(request, 'You need to enter a bigger bid than the previous amount!')        
-    #                 return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_bid})
-    #         bid.amount = int(bid_amount)
-    #         bid.time_added = datetime.now(timezone.utc)
-    # except ValueError:
-    #     messages.warning(request, 'You have entered invalid input or less than min value')
-    #     return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_bid})
-    # else:
-    #     bid.save()
-    #     messages.success(request, f"You successfully bidded {bid.amount} eur!")
-    #     return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_bid})
+        return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_user_bid})
 
 
 def searchbar(request):
@@ -239,7 +209,6 @@ def profile(request):
             messages.success(request, "Email successfully changed!")
             user.email = email
             user.save()
-
     if password_change:
         try:
             password1 = request.POST['user_password1']
