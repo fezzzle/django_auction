@@ -197,7 +197,7 @@ text-align:center;
     /*border: 1px solid green;*/
 }
 
-.boxx > a, a:visited, a:hover {
+.category-link:active, .category-link:link, .category-link:visited, .category-link:hover {
     text-decoration: none;
     font-weight: 900;
     font-size: 1.5vw;
