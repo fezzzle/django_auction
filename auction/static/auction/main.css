@@ -221,10 +221,10 @@ grid-template-columns: 1fr 1fr;
 
 .auction-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(6, 1fr);
 	/*flex-wrap: wrap;*/
 	flex-flow: row wrap;
-	border: 1px solid black;
+	/*border: 1px solid black;*/
 
 }
 
@@ -232,7 +232,7 @@ grid-template-columns: 1fr 1fr;
     /*display:block;*/
     display:flex;
 	position:relative;
-	border: 1px solid red;
+	/*border: 1px solid red;*/
 	transform: scale(1);
 	margin:10px;
 	padding:0;
