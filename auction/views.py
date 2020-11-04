@@ -160,15 +160,20 @@ def bid(request, auction_id):
                 raise ValueError
             elif bid_amount <= bid.amount:
                 messages.warning(request, 'You need to enter a bigger bid than the previous amount!')        
-                return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_bid})
+                return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_user_bid})
+            elif bid.amount <= auction.active_bid_value:
+                messages.warning(request, 'You need to enter a bigger bid than the previous amount!')        
+                return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_user_bid})
             bid.amount = int(bid_amount)
+            auction.active_bid_value = bid.amount
     except ValueError:
         messages.warning(request, 'You have entered invalid input or less than min value')
-        return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_bid})
+        return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_user_bid})
     else:
         bid.save()
+        auction.save()
         messages.success(request, f"You successfully bidded {bid.amount} eur!")
-        return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_bid})
+        return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_user_bid})
 
 
 def searchbar(request):
@@ -203,7 +208,6 @@ def profile(request):
             messages.success(request, "Email successfully changed!")
             user.email = email
             user.save()
-
     if password_change:
         try:
             password1 = request.POST['user_password1']
