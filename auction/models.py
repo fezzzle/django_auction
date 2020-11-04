@@ -38,6 +38,7 @@ class Auction(models.Model):
                 highest_bid = Bid.objects.filter(auction=self).order_by('-amount').first()
                 logger.info(f"HIGHTEST BID: {highest_bid}")
                 if highest_bid:
+                    logger.info(f"INSIDE HIGHEST_BID")
                     self.winner = highest_bid.bidder
                     self.final_value = highest_bid.amount
                 self.is_active = False
@@ -82,7 +83,7 @@ class Bid(models.Model):
     auction = models.ForeignKey(Auction, on_delete=models.CASCADE)
     bidder = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="bidder")
     time_added = models.DateTimeField()
-    amount = models.IntegerField(default=1)
+    amount = models.IntegerField(default=0)
 
     @property
     def highest_user_bid(self):
