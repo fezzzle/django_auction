@@ -44,15 +44,14 @@
                             <p>Title: {{auction.title}}</p>
                             <p>ID: {{auction.id}}</p>
                             <p>price: {{auction.min_value}}€</p>
-                            <p{% if auction.is_active %}
-                            <p>{% widthratio auction.seconds_remaining 60 1 %} minutes left</p>
+                            {% if auction.is_active %}
+                                <p>{% widthratio auction.seconds_remaining 60 1 %} minutes left</p>
                                 <!--Time remaining {{auction.seconds_remaining|floatformat:"0"}}-->
                             {% else %}
                                 <p>Auction has ended!</p>
                             {% endif %}
-                            </p>
                             <p>autor: {{auction.author}}</p>
-                            <p></p>
+
                         </div>
                     </div>
                 </a>
