@@ -33,6 +33,7 @@ class Auction(models.Model):
     def resolve(self):
         if self.is_active:
             if self.has_expired():
+                logger.info("AUCTION IS EXPIRED")
                 highest_bid = Bid.objects.filter(auction=self).order_by('-amount').first()
                 logger.info(f"HIGHTEST BID: {highest_bid}")
                 if highest_bid:
@@ -43,9 +44,9 @@ class Auction(models.Model):
 
     def has_expired(self):
         now = timezone.now()
-        # logger.info(f"NOW IS: {now}")
+        logger.info(f"TIME IS NOW: {now}")
         auction_end = self.date_added + timedelta(minutes=self.total_auction_duration)
-        # logger.info(f"AUCTION END IS: {auction_end}")
+        logger.info(f"AUCTION END IS: {auction_end}")
         # logger.info(f"TIME NOW IS BIGGER THAN AUCTION END: {now > auction_end}")
         if now > auction_end:
             return True
@@ -82,5 +83,5 @@ class Bid(models.Model):
             return self.amount
 
     def __str__(self):
-        return self.amount, self.bidder, self.auction
+        return str(self.amount)
 

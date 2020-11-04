@@ -28,6 +28,7 @@ def index(request):
     pic_url = "https://picsum.photos/200"
     return render(request, 'auction/index.html', {'auctions_list': auctions_list, 'user': current_user, 'pic': pic_url})
 
+
 def detail(request, auction_id):
     auction = get_object_or_404(Auction, pk=auction_id)
     bid = Bid.objects.filter(auction=auction)
@@ -36,14 +37,10 @@ def detail(request, auction_id):
     auction.save()
     json_ctx = json.dumps({"auction_end_stamp": int(auction.expire.timestamp() * 1000)})
     cancel_auction_button = request.POST.get('cancel_auction')
-    # buy_now_button = request.POST.get('buy_now')
+    logger.info(f"Submit button value: {cancel_auction_button}")
+    logger.info(f"Submit button's type: {type(cancel_auction_button)}")
     if bid:
         bid = bid.first().amount
-        # logger.info(f"Submit button value: {cancel_auction_button}")
-        # logger.info(f"Submit button's type: {type(cancel_auction_button)}")
-        # logger.info(f"buy_now_button value: {buy_now_button}")
-        # logger.info(f"buy_now_button's type: {type(buy_now_button)}")
-
     if request.user == auction.author or not request.user.is_authenticated:
         own_auction = True
         if cancel_auction_button:
@@ -62,7 +59,6 @@ def create(request):
     submit_button = request.POST.get('submit_button')
     logger.info(f"Submit button value: {submit_button}")
     logger.info(f"Submit button's type: {type(submit_button)}")
-    # logger.info(f"User sending the request: {request.user}")
     if submit_button:
         try:
             title = request.POST['title']
@@ -101,6 +97,7 @@ def auctions(request):
         a.resolve()
     return render(request, "auction/auctions.html", {"auction_list": auction_list, "pic": pic_url})
 
+
 @login_required
 def delete_auctions(request):
     if request.user.is_superuser:
@@ -112,6 +109,7 @@ def delete_auctions(request):
     return render(request, "auction/deleted.html")
     # return HttpResponseRedirect(reverse('auction:detail', args=(auction.id,)))
 
+
 @login_required
 def my_auctions(request):
     my_auctions = Auction.objects.filter(author=request.user).order_by("-date_added")
@@ -119,33 +117,61 @@ def my_auctions(request):
         a.resolve()
     return render(request, "auction/my_auctions.html", {'my_auctions': my_auctions})
 
+
 @login_required
 def my_bids(request):
     my_bids = Bid.objects.all().filter(bidder_id=request.user.id).order_by('-time_added')
     return render(request, "auction/my_bids.html", {'my_bids': my_bids})
 
+
 @login_required
 def bid(request, auction_id):
+    buy_now_button = request.POST.get('buy_now')
+    logger.info(f"buy_now_button value: {buy_now_button}")
+    # logger.info(f"buy_now_button's type: {type(buy_now_button)}")
+
+    bid_amount = int(request.POST['amount'])
+    logger.info(f"bid_amount: {bid_amount}")
+
     auction = get_object_or_404(Auction, pk=auction_id)
+    logger.info(f"auction: {auction}")
     auction.resolve()
+    logger.info("after resolve")
     bid = Bid.objects.filter(bidder=request.user).filter(auction=auction).first()
+    logger.info(f"bid: {bid}")
     if not auction.is_active:
         messages.warning(request, 'Auction is not active!')
         return render(request, "auction/detail.html", {'auction': auction})
+    # if buy_now_button:
+    #     logger.info(f"BUY NOW BUTTON HAS BEEN PRESSED: {buy_now_button}")
+    
+    if not bid:
+        logger.info(f"INSIDE NOT BID")
+        bid = Bid()
+        bid.auction = auction
+        logger.info(f"bid.auction: {bid.auction}")
+        bid.bidder = request.user
+        logger.info(f"bid.bidder: {bid.bidder}")
+        bid.time_added = datetime.now(timezone.utc)
+        
     try:
-        bid_amount = int(request.POST['amount'])
-        if not bid_amount or int(bid_amount) < auction.min_value:
-            raise ValueError
-        if not bid:
-            bid = Bid()
-            bid.auction = auction
+        if buy_now_button:
+            logger.info(f"INSIDE BUY_NOW_BUTTON")
+            auction.total_auction_duration = 0
+            auction.save()
             bid.bidder = request.user
-        if bid:
-            if bid_amount <= bid.amount:
+            bid.amount = auction.buy_now
+            bid.save()
+            auction.resolve()
+            # return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.amount})
+        elif bid_amount:
+            logger.info(f"INSIDE BID_AMOUNT")
+            if int(bid_amount) < auction.min_value:
+                raise ValueError
+            elif bid_amount <= bid.amount:
                 messages.warning(request, 'You need to enter a bigger bid than the previous amount!')        
                 return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_bid})
-        bid.amount = int(bid_amount)
-        bid.time_added = datetime.now(timezone.utc)
+            bid.amount = int(bid_amount)
     except ValueError:
         messages.warning(request, 'You have entered invalid input or less than min value')
         return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_bid})
@@ -153,6 +179,33 @@ def bid(request, auction_id):
         bid.save()
         messages.success(request, f"You successfully bidded {bid.amount} eur!")
         return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_bid})
+
+
+
+
+
+    # try:
+    #     if bid_amount:
+    #         if not bid_amount or int(bid_amount) < auction.min_value:
+    #             raise ValueError
+    #         if not bid:
+    #             bid = Bid()
+    #             bid.auction = auction
+    #             bid.bidder = request.user
+    #         if bid:
+    #             if bid_amount <= bid.amount:
+    #                 messages.warning(request, 'You need to enter a bigger bid than the previous amount!')        
+    #                 return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_bid})
+    #         bid.amount = int(bid_amount)
+    #         bid.time_added = datetime.now(timezone.utc)
+    # except ValueError:
+    #     messages.warning(request, 'You have entered invalid input or less than min value')
+    #     return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_bid})
+    # else:
+    #     bid.save()
+    #     messages.success(request, f"You successfully bidded {bid.amount} eur!")
+    #     return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_bid})
+
 
 def searchbar(request):
     search = request.GET.get('search')
@@ -165,6 +218,7 @@ def searchbar(request):
         return render(request, 'auction/search_result.html', {'auction_list': auction_list})
     else:
         return render(request, 'auction/search_result.html', {'auction_list':auction_list})
+
 
 @login_required
 def profile(request):

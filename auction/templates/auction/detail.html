@@ -12,19 +12,28 @@
 
     <p>Title: {{ auction.title }}</p>
     <p>Author: {{ auction.author }}</p>
+    
     {% if bid %}
         <p>Highest bid: {{ bid }}</p>
     {% endif %}
+
     <p>Description: {{ auction.description }}</p>
     <p>Starting from: {{ auction.min_value }}</p>
+
     {% if auction.is_active %}
-    <p>Expires at: {{ auction.expire }}</p>
-    <p id="clock"></p>
+        <p>Expires at: {{ auction.expire }}</p>
+        <p id="clock"></p>
     {% endif %}
+
     {% if auction.buy_now %}
         <p>Buy now: {{ auction.buy_now }}</p>
     {% endif %}
     <p>Page visits {{ auction.visits }}</p>
+
+    {% if auction.final_value %}
+        <p>Winning value: {{ auction.final_value }}</p>
+        <p>Auction winner: {{ auction.winner }}</p>
+    {% endif %}
     
 
     {{ json_ctx|json_script:"json_ctx" }}
@@ -98,8 +107,4 @@
             setTimeout(countdownTimeStart, 1000);
         })();
     </script>
-    {% if auction.final_value %}
-        <p>Winning value: {{ auction.final_value }}</p>
-        <p>Auction winner: {{ auction.winner }}</p>
-    {% endif %}
 {% endblock content%}
