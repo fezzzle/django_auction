@@ -3,50 +3,68 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hello Bulma!</title>
+    <title>AuctionHAUSS</title>
     {% load static %}
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'auction/normalize.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'auction/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'auction/burger.css' %}">
 <!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" />-->
   </head>
   <body>
-  <div class="navbar">
-    <div class="navbar-drop">MENU DROP</div>
-
-    <div class="site-name"><a href="{% url 'auction:index' %}">YOLOPENO</a></div>
-
-    <div class="searchbar">
-      <form action="{% url 'auction:searchbar' %}" method="GET" >
-        <input type="text" placeholder="Searchbar" name="search" >
-        <button type="submit">Search</button>
-      </form>
-    </div>
-
-    <div class="link">
-      <a href="{% url 'auction:auctions' %}">auctions</a>
-      {% if user.is_authenticated %}
-        <a href="{% url 'auction:create' %}">create</a>
-        <a href="{% url 'auction:my_auctions' %}">my auctions</a>
-        <a href="{% url 'auction:my_bids' %}">my bids</a>
-        <a href="{% url 'logout' %}">Logout</a>
-      {% else %}
-        <a href="{% url 'register' %}">Register</a>
-        <a href="{% url 'login' %}">Login</a>
-      {% endif %}
-    </div>
-  </div>
-
   <div class="container">
+
+    <div class="navbar">
+      <div class="index-drop">
+  <!--      <div class="link-wrapper"><img src="https://www.pikpng.com/pngl/m/65-654126_banana-nanica-png-clipart-picture-of-banana-transparent.png" height="115" width="115"></div>-->
+        <div class="">
+          <a href="{% url 'auction:index' %}"><div class="logo"></div></a>
+        </div>
+        <a href="{% url 'auction:index' %}"><div class="logo-text">AuctionHAUSS</div></a>
+      </div>
+
+      <div class="searchbar">
+        <form action="{% url 'auction:searchbar' %}" method="GET" >
+          <!-- ajutiselt hardcoded "size" -->
+          <input type="text" placeholder="Searchbar" name="search" >
+          <button type="submit" class="search-btn">Search</button>
+        </form>
+      </div>
+
+      <div class="link">
+        {% if user.is_authenticated %}
+          <div class="logout-drop">
+            <div class="burger logout">
+              <div class="bar1"></div>
+              <div class="bar2"></div>
+              <div class="bar3"></div>
+            </div>
+            <ul>
+              <p><a href="{% url 'auction:create' %}">create |</a></p>
+              <p><a href="{% url 'auction:my_auctions' %}">my auctions |</a></p>
+              <p><a href="{% url 'auction:my_bids' %}">my bids |</a></p>
+              <p><a href="{% url 'auction:profile' %}">my profile |</a></p>
+              <p><a href="{% url 'logout' %}">Logout |</a></p>
+              
+            </ul>
+          </div>
+        {% else %}
+          <a class="logout" href="{% url 'register' %}">Register</a>
+          <a class="logout" href="{% url 'login' %}">Login</a>
+        {% endif %}
+      </div>
+    </div>
 
     <div class="content">
       {% block content %}
       {% endblock content %}
     </div>
-  </div>
 
+  </div>
   </body>
+
   <footer>
-    <p>Created by:</p>
+    <p>Project by:</p>
     <p>Martin P. & Rauno K.</p>
   </footer>
 </html>

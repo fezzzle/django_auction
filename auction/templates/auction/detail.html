@@ -12,33 +12,62 @@
 
     <p>Title: {{ auction.title }}</p>
     <p>Author: {{ auction.author }}</p>
-    {% if bid %}
-        <p>Highest bid: {{ bid }}</p>
-    {% endif %}
 
     <p>Description: {{ auction.description }}</p>
     <p>Starting from: {{ auction.min_value }}</p>
+
+    {% if auction.is_active %}
+        <p>Expires at: {{ auction.expire }}</p>
+        <p id="clock"></p>
+    {% endif %}
+
+    {% if auction.buy_now %}
+        <p>Buy now: {{ auction.buy_now }}</p>
+    {% endif %}
+    <p>Page visits {{ auction.visits }}</p>
+
+    {% if auction.final_value %}
+        <p>Winning value: {{ auction.final_value }}</p>
+        <p>Auction winner: {{ auction.winner }}</p>
+    {% endif %}
     
 
     {{ json_ctx|json_script:"json_ctx" }}
-
+    <p>Highest total bid: {{ auction.active_bid_value}}</p>
     {% if not own_auction %}
+        {% if bid %}
+            <p>Your bid: {{ bid }}</p>
+        {% endif %}
         {% if auction.is_active %}
             <form action="{% url 'auction:bid' auction.id %}" method="POST">
                 {% csrf_token %}
                 {% if error_message %}<p>{{ error_message }}</p>{% endif %}
-                {% if bid %}
-                    <input type="number" name="amount" id="bid_amount" value="{{ bid|add:'1' }}" required>
+                    <input type="number" name="amount" id="bid_amount" value="{{ auction.active_bid_value|add:'1' }}" required>
+                {% if auction.buy_now %}
+                    <input type="submit" name="submit_bid" value="Submit Bid">
+                    <input type="submit" name="buy_now" value="Buy now!">
                 {% else %}
-                    <input type="number" name="amount" id="bid_amount" value="{{ auction.min_value|add:1 }}" required>
+                    <input type="submit" name="submit_bid">
                 {% endif %}
-                <input type="submit" name="submit_bid">
             </form>
+        {% else %}
+            <h1>AUCTION IS NOT ACTIVE</h1>
+        {% endif %}
+    {% else %}
+        {% if not bid %}
+            {% if auction.is_active %}
+                <form action="{% url 'auction:detail' auction.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" name="cancel_auction" value="Cancel">
+                </form>
+                <h1>AUCTION IS ACTIVE</h1>
+            {% else %}
+                <h1>AUCTION IS NOT ACTIVE</h1>
+            {% endif %}
         {% endif %}
     {% endif %}
-    <p>Expires at: {{ auction.expire }}</p>
-    <p>Page visits {{ auction.visits }}</p>
-    <p id="clock"></p>
+
+
     <script>
         // HAHA JS
         let jsonCtx = JSON.parse(JSON.parse(document.getElementById('json_ctx').textContent));
@@ -50,7 +79,7 @@
 
         (function countdownTimeStart(){
             
-             var auctionEndStamp = jsonCtx['auction_end_stamp'];
+            var auctionEndStamp = jsonCtx['auction_end_stamp'];
 
             // Get todays date and time, convert to string, get only 10 digits
             var now = new Date().getTime();
@@ -74,8 +103,4 @@
             setTimeout(countdownTimeStart, 1000);
         })();
     </script>
-    {% if auction.final_value %}
-        <p>Winning value: {{ auction.final_value }}</p>
-        <p>Auction winner: {{ auction.winner }}</p>
-    {% endif %}
 {% endblock content%}

@@ -1,5 +1,4 @@
 from django.urls import path, include
-
 from . import views
 
 app_name = 'auction'
@@ -14,4 +13,5 @@ urlpatterns = [
     path('auctions/bid/<int:auction_id>', views.bid, name='bid'),
     path('searchbar/', views.searchbar, name='searchbar'),
     path('auctions/my_bids', views.my_bids, name='my_bids'),
+    path('profile/', views.profile, name='profile'),
     ]

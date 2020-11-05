@@ -1,6 +1,15 @@
+* {
+margin:0;
+padding:0;
+}
 
+body {
+font-family: 'Montserrat', sans-serif;
+}
+
+/* views rida 146 */
 .warning {
-    border-style: dotted;
+    border-style: solid;
     color: red;
 }
 
@@ -9,63 +18,349 @@
     color: green;
 }
 
-.navbar {
-border: 1px solid black;
+/* base.html */
+
+.banner {
+position: relative;
+background-image: url("https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80");
+background-attachment: fixed;
+background-repeat: no-repeat;
+background-size: 100%;
+background-position:center;
+width: 100%;
+height: 400px;
 }
 
+.banner > h2 {
+position:absolute;
+top: 40%;
+left: 40%;
+background:grey;
+padding: 20px 15px;
+opacity: 0.7;
+color: white;
+}
+
+/*
 .link {
+padding:15px;
 }
 
-.link a {
+.logout {
+background-image: linear-gradient(to bottom right, #AF4D98, #9DF7E5);
+padding: 15px 25px;
+border-radius: 25px;
 }
+*/
+.index-drop {
+display:flex;
+}
+
+.index-drop a, a:hover, a:visited {
+    color:black;
+    text-decoration: none;
+}
+
+.logo-text {
+font-size: 25px;
+padding: 12px;
+}
+
+.logout-drop ul {
+list-style:none;
+height: 0px;
+position:absolute;
+overflow: hidden;
+-webkit-transition: all 0.5s ease-in-out;
+-moz-transition: all 0.5s ease-in-out;
+-o-transition: all 0.5s ease-in-out;
+transition: all 0.5s ease-in-out;
+z-index:1;
+}
+
+.logout-drop:hover ul {
+height: auto;
+background-color:white;
+z-index:1;
+border: 1px solid black;
+padding:0px;
+width:125px;
+margin:0;
+}
+
+.navbar {
+position:fixed;
+display:flex;
+width:70%;
+top:0px;
+/*margin-left:10%;
+margin-right:10%;*/
+justify-content: space-between;
+z-index:1;
+background-color: white;
+/*text-transform: uppercase;*/
+overflow: visible;
+/*border-bottom: 1px solid black;*/
+}
+
+.navbar > div {
+margin: 5px;
+/*border: 1px solid red;*/
+}
+
+.searchbar {
+/*display:block;/*
+/*border: 1px solid red;*/
+}
+
+.search-btn {
+/*background-color: #EE6F55;*/
+background-image: linear-gradient(to bottom right, #AF4D98, #9DF7E5);
+color: white;
+padding: 15px 25px;
+border: none;
+width: 50;
+/*cursor:pointer;*/
+/* opacity: 0.5; */
+/*font-size:10px;*/
+border-radius: 25px;
+transition: 0.3s;
+}
+
+.search-btn:hover {
+transition:0.3s;
+opacity:0.5;
+outline:none;
+}
+
+.link-wrapper {
+background-image: linear-gradient(to bottom right, #AF4D98, #9DF7E5);
+padding: 15px 25px;
+border-radius: 25px;
+}
+
+.link-wrapper > img {
+position:absolute;
+top:0px;
+left:0px;
+}
+/*
+a:link, a:visited {
+text-decoration: none;
+color:black;
+}
+
+a:hover {
+text-decoration: none;
+color:black;
+border-bottom: 1px solid black;
+}
+*/
 
 .container {
-border: 1px red solid;
+margin-top:80px;
+width:70%;
+margin-left:15%;
+margin-right:15%;
+/*border: 1px red solid;*/
 }
 
 .category {
-border: 1px solid black;
+/*border: 1px solid black;*/
 }
 
 .content {
-border: 1px blue solid;
+/*border: 1px blue solid;*/
 }
 
-.category-text {
-}
-
-.category-text h2 {
-}
-
-footer{
+footer {
 padding:50px;
+width:80%;
+margin:auto;
+text-align:center;
+}
+
+/* CATEGORY VER.1 */
+.category-container {
+    /*display: grid;
+    grid-template-columns: repeat(6, 1fr)*/
+    display:flex;
+    justify-content: space-between;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    /*border: 1px solid red;*/
+}
+
+.boxx {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    /*border: 1px solid green;*/
+}
+
+.category-link:active, .category-link:link, .category-link:visited, .category-link:hover {
+    text-decoration: none;
+    font-weight: 900;
+    font-size: 1.5vw;
+    cursor: pointer;
+}
+
+/* LATEST ENDING BOX */
+.new-container{
+    /*border: 1px solid green;*/
+    margin-bottom: 20px;
+}
+
+.new-container h2 {
+    margin: 10px 10px 10px 0px;
 }
 
 .new {
-border:1px solid black;
+    /*border:1px solid black;*/
+    display: grid;
+    grid-template-columns: repeat(6, 1fr)
 }
 
-.old {
-border:1px solid black;
+.box {
+    display:flex;
+	position:relative;
+	transform: scale(1);
+	margin:10px;
+	padding:0;
+	transition:0.3s;
+    /*border: 1px solid blue;*/
 }
 
+.box img {
+	width: 100%;
+	height: auto;
+	border-radius: 10px;
+}
+
+.box-overlay {
+    position:absolute;
+	overflow:hidden;
+	width: 100%;
+	height: 0;
+	background-color: black;
+	transition: 0.3s;
+	border-radius: 10px;
+	bottom:0;
+	left:0;
+	right:0;
+	opacity:0.6;
+}
+
+.box:hover .box-overlay {
+	height: 100%;
+}
+
+.box-text {
+    position:absolute;
+	color: white;
+	z-index:10;
+	top: 50%;
+	left: 10px;
+	/*transform: translate(-50%, -50%);*/
+	text-align: left;
+}
+
+.box-text p {
+    font-size: 0.8vw;
+}
+
+.box:hover {
+	transform: scale(1.1);
+}
 .debug {
 opacity:0.3;
+position: relative;
 }
 
 /* index.html */
+
 .news-container {
-display:grid;
-grid-template-columns: 1fr 1fr;
+/*display:grid;
+grid-template-columns: 1fr 1fr;*/
 }
 
 /* auction.html */
 
-.auction-details {
-display:grid;
-grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+.auction-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+	/*border: 1px solid black;*/
 }
 
-.auction-detail {
-border: 1px solid black;
+.auction-container h2 {
+    margin: 10px 10px 10px 0px;
+}
+
+.img-container {
+    display:flex;
+	position:relative;
+	transform: scale(1);
+	margin:10px;
+	padding:0;
+	transition:0.3s;
+    /*border: 1px solid red;*/
+}
+
+.img-container img {
+	width: 100%;
+	height: auto;
+	border-radius: 10px;
+}
+
+.img-overlay {
+	position:absolute;
+	overflow:hidden;
+	width: 100%;
+	height: 0;
+	background-color: black;
+	transition: 0.3s;
+	border-radius: 10px;
+	bottom:0;
+	left:0;
+	right:0;
+	opacity:0.6;
+}
+
+.img-container:hover .img-overlay {
+	height: 100%;
+}
+
+.img-text {
+	position:absolute;
+	color: white;
+	z-index:10;
+	top: 50%;
+	left: 10px;
+	/*transform: translate(-50%, -50%);*/
+	text-align: left;
+
+}
+
+.img-text p {
+    font-size: 0.8vw;
+}
+
+.img-container:hover {
+	transform: scale(1.1);
+}
+
+/* input CSS */
+
+.searchbar input[type=text] {
+    padding: 15px;
+    display: inline-block;
+    border: none;
+    background-color: lightgrey;
+    border-radius: 25px;
+}
+
+.searchbar input[type=text]:focus {
+    background-color: lightgrey;
+    outline: none;
+    transition: 0.3s;
+    opacity:0.7;
 }
