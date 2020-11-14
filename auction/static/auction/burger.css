@@ -4,7 +4,7 @@ cursor: pointer;
 /*border: 1px solid black;*/
 }
 
-.bar1, .bar2, .bar3 {
+.bar1 {
 width: 35px;
 height: 8px;
 background-color: #333;
