@@ -3,6 +3,7 @@ margin:0;
 padding:0;
 }
 
+
 body {
 font-family: 'Montserrat', sans-serif;
 /*background: #333138;*/
@@ -176,6 +177,10 @@ margin:auto;
 text-align:center;
 }
 
+.footer-box {
+    margin:50px;
+}
+
 /* CATEGORY VER.1 */
 .category-container {
     /*display: grid;
@@ -268,7 +273,7 @@ text-align:center;
 	transform: scale(1.1);
 }
 .debug {
-opacity:0.3;
+opacity:0.5;
 position: relative;
 }
 
