@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
+from .utils import path_and_rename
 
 import logging
 
@@ -30,6 +31,7 @@ class Auction(models.Model):
                               related_query_name="auction_winner")
     final_value = models.IntegerField(blank=True, null=True)
     visits = models.IntegerField(default=0)
+    image = models.ImageField(upload_to=path_and_rename, max_length=255, null=True, blank=True)
 
     def resolve(self):
         if self.is_active:

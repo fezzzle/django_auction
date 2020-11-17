@@ -1,4 +1,5 @@
 {% extends "auction/base.html" %}
+{% load static %}
 {% block content%}
     <div class="">
         <div class="category">
@@ -93,7 +94,7 @@
             <div class="img-container">
 
                 <a href="{% url 'auction:detail' auction.id %}">
-                <img src="{{ pic }}" alt="noku">
+                <img src="{% static auction.image %}" alt="image">
 
                     <div class="img-overlay">
                         <div class="img-text">

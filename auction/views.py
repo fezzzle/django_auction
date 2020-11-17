@@ -13,6 +13,7 @@ from django.contrib import messages
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
+from django.core.files.storage import FileSystemStorage
 
 
 import logging
@@ -25,8 +26,7 @@ def index(request):
     for a in auctions_list:
         a.resolve()
     current_user = request.user
-    pic_url = "https://picsum.photos/200"
-    return render(request, 'auction/index.html', {'auctions_list': auctions_list, 'user': current_user, 'pic': pic_url})
+    return render(request, 'auction/index.html', {'auctions_list': auctions_list, 'user': current_user})
 
 
 def detail(request, auction_id):
@@ -37,8 +37,6 @@ def detail(request, auction_id):
     auction.save()
     json_ctx = json.dumps({"auction_end_stamp": int(auction.expire.timestamp() * 1000)})
     cancel_auction_button = request.POST.get('cancel_auction')
-    logger.info(f"Submit button value: {cancel_auction_button}")
-    logger.info(f"Submit button's type: {type(cancel_auction_button)}")
     if bid:
         bid = bid.first().amount
     if request.user == auction.author or not request.user.is_authenticated:
@@ -56,17 +54,19 @@ def detail(request, auction_id):
 
 @login_required
 def create(request):
-    submit_button = request.POST.get('submit_button')
-    if submit_button:
+    if request.method == 'POST':
         try:
             title = request.POST['title']
             description = request.POST['description']
             min_value = request.POST['min_value']
             duration = request.POST['duration']
-            buy_now = request.POST['buy_now']
+            buy_now = int(request.POST['buy_now'])
+            pic = request.FILES['myfile']
             if not title or not description or not min_value:
                 raise KeyError
-            if buy_now:
+            if buy_now == 0:
+                buy_now = None
+            else:
                 if int(min_value) > int(buy_now):
                     raise ValueError
         except KeyError as err:
@@ -83,7 +83,8 @@ def create(request):
             auction.min_value = int(min_value)
             auction.date_added = timezone.now()
             auction.total_auction_duration = duration
-            auction.buy_now = int(buy_now)
+            auction.buy_now = buy_now
+            auction.image = pic
             auction.save()
             messages.success(request, 'Your listing has been created!')
             return HttpResponseRedirect(reverse('auction:detail', args=(auction.id,)))
@@ -93,10 +94,9 @@ def create(request):
 
 def auctions(request):
     auction_list = Auction.objects.all().order_by('-date_added')
-    pic_url = "https://picsum.photos/200"
     for a in auction_list:
         a.resolve()
-    return render(request, "auction/auctions.html", {"auction_list": auction_list, "pic": pic_url})
+    return render(request, "auction/auctions.html", {"auction_list": auction_list})
 
 
 @login_required

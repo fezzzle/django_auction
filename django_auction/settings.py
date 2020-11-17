@@ -152,5 +152,12 @@ LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = '/' 
 LOGOUT_REDIRECT_URL = '/'
 
+STATICFILES_DIRS = [
+    BASE_DIR / "media",
+    '/var/www/static/',
+]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 AUTH_USER_MODEL = 'auction.CustomUser'
 AUTHENTICATION_BACKENDS = ['auction.backends.EmailBackend']
