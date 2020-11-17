@@ -290,7 +290,9 @@ position: relative;
 
 .auction-grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    /*grid-gap: 1rem;*/
+    /*grid-template-columns: repeat(6, 1fr);*/
+    grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
 	/*border: 1px solid black;*/
 }
 
@@ -301,11 +303,11 @@ position: relative;
 .img-container {
     display:flex;
 	position:relative;
-	transform: scale(1);
+	/*transform: scale(1);*/
 	margin:10px;
 	padding:0;
 	transition:0.3s;
-    /*border: 1px solid red;*/
+    border: 1px solid red;
 }
 
 .img-container img {
@@ -317,7 +319,7 @@ position: relative;
 .img-overlay {
 	position:absolute;
 	overflow:hidden;
-	width: 100%;
+	width: auto;
 	height: 0;
 	background-color: black;
 	transition: 0.3s;
