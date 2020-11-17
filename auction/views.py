@@ -57,8 +57,6 @@ def detail(request, auction_id):
 @login_required
 def create(request):
     submit_button = request.POST.get('submit_button')
-    logger.info(f"Submit button value: {submit_button}")
-    logger.info(f"Submit button's type: {type(submit_button)}")
     if submit_button:
         try:
             title = request.POST['title']
@@ -66,16 +64,16 @@ def create(request):
             min_value = request.POST['min_value']
             duration = request.POST['duration']
             buy_now = request.POST['buy_now']
-            logger.info(f"BUY NOW IS: {buy_now}")
-            logger.info(f"TYPE OF BUY NOW IS: {type(buy_now)}")
-            logger.info(f"values: {title, description, min_value, buy_now}")
             if not title or not description or not min_value:
                 raise KeyError
             if buy_now:
-                if min_value > buy_now:
-                    raise KeyError
-        except KeyError:
+                if int(min_value) > int(buy_now):
+                    raise ValueError
+        except KeyError as err:
             messages.warning(request, 'Please fill all the fields!')
+            return render(request, "auction/create.html")
+        except ValueError:
+            messages.warning(request, 'Buy now needs to be bigger than minimum bid!')
             return render(request, "auction/create.html")
         else:
             auction = Auction()
