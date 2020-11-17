@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
+from .utils import path_and_rename
 
 import logging
 
@@ -22,7 +23,7 @@ class Auction(models.Model):
     min_value = models.IntegerField()
     buy_now = models.IntegerField(blank=True, null=True)
     date_added = models.DateTimeField(datetime.now, blank=True)
-    active_bid_value = models.IntegerField(blank=True, null=True, default=1)
+    active_bid_value = models.IntegerField(blank=True, null=True, default=0)
     is_active = models.BooleanField(default=True)
     total_auction_duration = models.IntegerField()
     winner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True, 
@@ -30,11 +31,12 @@ class Auction(models.Model):
                               related_query_name="auction_winner")
     final_value = models.IntegerField(blank=True, null=True)
     visits = models.IntegerField(default=0)
+    image = models.ImageField(upload_to=path_and_rename, max_length=255, null=True, blank=True)
 
     def resolve(self):
         if self.is_active:
+            highest_bid = Bid.objects.filter(auction=self).order_by('-amount').first()
             if self.has_expired():
-                highest_bid = Bid.objects.filter(auction=self).order_by('-amount').first()
                 logger.info("AUCTION IS EXPIRED")
                 logger.info(f"HIGHTEST BID: {highest_bid}")
                 if highest_bid:
@@ -43,11 +45,12 @@ class Auction(models.Model):
                     self.final_value = highest_bid.amount
                 self.is_active = False
                 self.save()
-            if self.active_bid_value >= self.buy_now:
-                self.winner = highest_bid.bidder
-                self.final_value = highest_bid.amount
-                self.is_active = False
-                self.save()
+            if self.active_bid_value:
+                if self.active_bid_value >= self.buy_now:
+                    self.winner = highest_bid.bidder
+                    self.final_value = highest_bid.amount
+                    self.is_active = False
+                    self.save()
 
     def has_expired(self):
         now = timezone.now()
@@ -81,7 +84,6 @@ class Auction(models.Model):
 
     def __str__(self):
         return self.title
-
 
 
 class Bid(models.Model):

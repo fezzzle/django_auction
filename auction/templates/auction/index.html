@@ -1,4 +1,6 @@
 {% extends "auction/base.html" %}
+{% load static %}
+
 {% block content%}
     <div class="">
         <div class="category">
@@ -20,7 +22,7 @@
                         <a href="#" class="category-link">Electronics</a>
                     </div>
                     <div class="boxx">
-                        <a href="#" class="category-link">Wamen</a>
+                        <a href="#" class="category-link">Women</a>
                     </div>
                     <div class="boxx">
                         <a href="#" class="category-link">Men</a>
@@ -56,7 +58,7 @@
                     <div class="box">
                         <a href="#">
                             <img src="https://picsum.photos/200">
-                            <div class="box-overlay">
+                            <div class="box-overlay" >
                                 <div class="box-text">
                                     <p>Title</p>
                                     <p>ID</p>
@@ -90,10 +92,13 @@
     <h2>Avasta:</h2>
     <div class="auction-grid">
         {% for auction in auctions_list %}
+                                                      <!-- pic on placeholder! -->
+            <!-- <div class="img-container" style="background-image:url('{{ pic }}');"> -->
             <div class="img-container">
 
                 <a href="{% url 'auction:detail' auction.id %}">
-                <img src="{{ pic }}" alt="noku">
+
+                <img src="{% static auction.image %}" alt="image">
 
                     <div class="img-overlay">
                         <div class="img-text">
@@ -110,14 +115,13 @@
                         </div>
                     </div>
                 </a>
-
             </div>
         {% endfor %}
     </div>
     </div>
 
     <!-- DEBUG ZONE -->
-    <div class="debug">
+    <!--<div class="debug">
         <p>Debug section</p>
         <h1>USER LOGGED IN: {{ user }}</h1>
         <h2>USER IS SUPERUSER: {{ user.is_superuser }}</h2>
@@ -134,5 +138,5 @@
             <input type="button" name="my_auctions" id="" value="See your auctions">
         </a>
     </div>
-
+    -->
 {% endblock content %}
