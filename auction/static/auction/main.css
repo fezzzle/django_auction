@@ -321,8 +321,8 @@ position: relative;
     }
 }
 
-.auction-container h2 {
-    font-size: calc(1rem + 1vw);
+/*.auction-container*/ h2 {
+    font-size: calc(0.8rem + 1vw);
     margin: 10px 10px 10px 0px;
 }
 
