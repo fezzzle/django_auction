@@ -1,9 +1,9 @@
 {% extends "auction/base.html" %}
     
 {% block content %}
-    <ul>
     {% if my_auctions %}
-        {% for auction in my_auctions %}
+    {% for auction in my_auctions %}
+        <ul>
         <a href="{% url 'auction:detail' auction.id %}">
             <li>{{ auction.title }}</li>
             <li>{{ auction.description }}</li>
@@ -19,9 +19,9 @@
                 <br>
             {% endif %}
         </a>
+        </ul>
         {% endfor %}
     {% else %}
         <h1>You dont have any auctions!</h1>
     {% endif%}
-    </ul>
 {% endblock content%}
