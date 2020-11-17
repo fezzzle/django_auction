@@ -1,5 +1,6 @@
 {% extends "auction/base.html" %}
 {% load static %}
+
 {% block content%}
     <div class="">
         <div class="category">
@@ -91,9 +92,12 @@
     <h2>Avasta:</h2>
     <div class="auction-grid">
         {% for auction in auctions_list %}
+                                                      <!-- pic on placeholder! -->
+            <!-- <div class="img-container" style="background-image:url('{{ pic }}');"> -->
             <div class="img-container">
 
                 <a href="{% url 'auction:detail' auction.id %}">
+
                 <img src="{% static auction.image %}" alt="image">
 
                     <div class="img-overlay">
@@ -111,7 +115,6 @@
                         </div>
                     </div>
                 </a>
-
             </div>
         {% endfor %}
     </div>
