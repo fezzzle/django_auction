@@ -23,7 +23,7 @@ class Auction(models.Model):
     min_value = models.IntegerField()
     buy_now = models.IntegerField(blank=True, null=True)
     date_added = models.DateTimeField(datetime.now, blank=True)
-    active_bid_value = models.IntegerField(blank=True, null=True, default=1)
+    active_bid_value = models.IntegerField(blank=True, null=True, default=0)
     is_active = models.BooleanField(default=True)
     total_auction_duration = models.IntegerField()
     winner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True, 
@@ -83,7 +83,6 @@ class Auction(models.Model):
 
     def __str__(self):
         return self.title
-
 
 
 class Bid(models.Model):
