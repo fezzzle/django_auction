@@ -59,14 +59,15 @@
 				but hey, it's pure CSS magic.
 				-->
 				<ul id="menu">
-                  <a href="{% url 'auction:create' %}"><li>Create</li></a>
-                  <a href="{% url 'auction:my_auctions' %}"><li>My auctions</li></a>
-                  <a href="{% url 'auction:my_bids' %}"><li>My bids</li></a>
-                  <a href="{% url 'auction:profile' %}"><li>Profile</li></a>
-				  <a href="#"><li>About</li></a>
-				  <a href="#"><li>Info</li></a>
-				  <a href="#"><li>Contact</li></a>
-                  <a href="{% url 'logout' %}"><li>Logout</li></a>
+                    USER LOGGED IN: <u style="text-transform:capitalize;">{{ user }}</u>
+                    <a href="{% url 'auction:create' %}"><li>Create</li></a>
+                    <a href="{% url 'auction:my_auctions' %}"><li>My auctions</li></a>
+                    <a href="{% url 'auction:my_bids' %}"><li>My bids</li></a>
+                    <a href="{% url 'auction:profile' %}"><li>Profile</li></a>
+				    <a href="#"><li>About</li></a>
+				    <a href="#"><li>Info</li></a>
+				    <a href="#"><li>Contact</li></a>
+                    <a href="{% url 'logout' %}"><li>Logout</li></a>
 				</ul>
 			</div>
           {% else %}

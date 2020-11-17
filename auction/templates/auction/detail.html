@@ -1,5 +1,6 @@
 {% extends "auction/base.html" %}
-    
+{% load static%}
+
 {% block content %}
 
     {% if messages %}
@@ -9,6 +10,8 @@
         {% endfor %}
     </ul>
     {% endif %}
+
+    <img src="{% static auction.image %}" height="auto" width="500px" alt="image">
 
     <p>Title: {{ auction.title }}</p>
     <p>Author: {{ auction.author }}</p>
