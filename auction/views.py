@@ -63,9 +63,9 @@ def create(request):
         try:
             title = request.POST['title']
             description = request.POST['description']
-            min_value = int(request.POST['min_value'])
+            min_value = request.POST['min_value']
             duration = request.POST['duration']
-            buy_now = int(request.POST['buy_now'])
+            buy_now = request.POST['buy_now']
             logger.info(f"BUY NOW IS: {buy_now}")
             logger.info(f"TYPE OF BUY NOW IS: {type(buy_now)}")
             logger.info(f"values: {title, description, min_value, buy_now}")
@@ -82,10 +82,10 @@ def create(request):
             auction.author = request.user
             auction.title = title
             auction.description = description
-            auction.min_value = min_value
+            auction.min_value = int(min_value)
             auction.date_added = timezone.now()
             auction.total_auction_duration = duration
-            auction.buy_now = buy_now
+            auction.buy_now = int(buy_now)
             auction.save()
             messages.success(request, 'Your listing has been created!')
             return HttpResponseRedirect(reverse('auction:detail', args=(auction.id,)))
@@ -156,11 +156,11 @@ def bid(request, auction_id):
             if int(bid_amount) < auction.min_value:
                 raise ValueError
             if bid_amount <= bid.amount:
-                messages.warning(request, 'You need to enter a bigger bid than the previous amount!')        
+                messages.warning(request, 'You need to enter a bigger bid than the previous amount!')
                 return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid})
             bid.amount = int(bid_amount)
             if bid.amount <= auction.active_bid_value:
-                messages.warning(request, 'You need to enter a bigger bid than the previous amount!')        
+                messages.warning(request, 'You need to enter a bigger bid than the previous amount!')
                 return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid})
             auction.active_bid_value = bid.amount
     except ValueError:
@@ -184,7 +184,7 @@ def searchbar(request):
         )
         return render(request, 'auction/search_result.html', {'auction_list': auction_list})
     else:
-        return render(request, 'auction/search_result.html', {'auction_list':auction_list})
+        return render(request, 'auction/search_result.html', {'auction_list': auction_list})
 
 
 @login_required
