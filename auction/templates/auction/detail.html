@@ -45,8 +45,12 @@
             <form action="{% url 'auction:bid' auction.id %}" method="POST">
                 {% csrf_token %}
                 {% if error_message %}<p>{{ error_message }}</p>{% endif %}
-                    <input type="number" name="amount" id="bid_amount" value="{{ auction.active_bid_value|add:'1' }}" required>
                 {% if auction.buy_now %}
+                    {% if not auction.active_bid_value %}
+                        <input type="number" name="amount" id="bid_amount" value="{{ auction.min_value|add:'1' }}" required>
+                    {% else %}
+                        <input type="number" name="amount" id="bid_amount" value="{{ auction.active_bid_value|add:'1' }}" required>
+                    {% endif %}
                     <input type="submit" name="submit_bid" value="Submit Bid">
                     <input type="submit" name="buy_now" value="Buy now!">
                 {% else %}

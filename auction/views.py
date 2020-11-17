@@ -13,7 +13,6 @@ from django.contrib import messages
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
-from django.core.files.storage import FileSystemStorage
 
 
 import logging
