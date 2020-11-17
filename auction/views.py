@@ -63,11 +63,12 @@ def create(request):
             pic = request.FILES['myfile']
             if not title or not description or not min_value:
                 raise KeyError
-            if buy_now == 0:
-                buy_now = None
+            if int(min_value) < 0:
+                raise ValueError
             else:
-                logger.info(f"ZERO IS BIGGER THAN MIN VALUE: {int(min_value) < 0}")
-                if int(min_value) < 0 or int(min_value) > int(buy_now):
+                if buy_now == 0:
+                    buy_now = None
+                elif int(min_value) > int(buy_now):
                     raise ValueError
         except KeyError as err:
             messages.warning(request, 'Please fill all the fields!')
