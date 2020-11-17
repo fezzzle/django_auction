@@ -436,7 +436,6 @@ align-items: center;
   color: tomato;
 }
 
-
 #menuToggle input
 {
   display: block;
@@ -526,7 +525,8 @@ align-items: center;
   /*width: 300px;*/
   width: 300px;
   margin: -100px 0 0 38px;
-  padding: 50px;
+  /*padding: 50px;*/
+  padding: calc(1rem + 1vw);
   padding-top: 125px;
   height: 100vh;
   background: #ededed;
@@ -544,7 +544,7 @@ align-items: center;
 {
   padding: 10px 0;
   /*font-size: 22px;*/
-  font-size: calc(22px + 1vw);
+  font-size: calc(0.5rem + 1vw);
 }
 
 /*
