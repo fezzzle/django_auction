@@ -63,7 +63,7 @@ def create(request):
             pic = request.FILES['myfile']
             if not title or not description or not min_value:
                 raise KeyError
-            if int(min_value) < 0:
+            if int(min_value) < 0 or int(duration) < 0:
                 raise ValueError
             else:
                 if buy_now == 0:
