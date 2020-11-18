@@ -4,24 +4,27 @@
 {% block content %}
 
 <div class="detail-container">
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li class="{{ message.tags }}">{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-
+    <div class="error-box">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
     <div class="detail-pic-container">
 
         <div class="detail-pic-main">
             <!-- <img src="{% static auction.image %}" height="auto" width="500px" alt="image"> -->
             <img id="expandedImg" height="auto" width="500px">
         </div>
-        
+
         <div class="detail-pic-row">
             <div class="left-to-right">
+
                 <img src="{% static auction.image %}" id="sml_img" height="auto" width="150px" onclick="myFunction(this);">
+
             </div>
         </div>
 
@@ -130,6 +133,8 @@
             }
             setTimeout(countdownTimeStart, 1000);
         })();
+
+        // IMG CONTAINER
 
         function myFunction(imgs) {
             // Get the expanded image

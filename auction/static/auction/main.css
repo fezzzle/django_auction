@@ -589,9 +589,15 @@ align-items: center;
 }
 
 .detail-pic-main {
-
+    display:none;
 }
 
 .detail-info-container {
     padding-left:25px;
+}
+
+.error-box {
+    display: grid;
+    grid-column: 1/3;
+    /*border: 1px solid black;*/
 }

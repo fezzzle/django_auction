@@ -30,8 +30,6 @@ class Auction(models.Model):
                               related_name="auction_winner",
                               related_query_name="auction_winner")
     final_value = models.IntegerField(blank=True, null=True)
-    visits = models.IntegerField(default=0)
-    image = models.ImageField(upload_to=path_and_rename, max_length=255, null=True, blank=True)
 
     def resolve(self):
         if self.is_active:
@@ -99,4 +97,9 @@ class Bid(models.Model):
 
     def __str__(self):
         return str(self.amount)
+
+
+class AuctionImage(models.Model):
+    auction = models.ForeignKey(Auction, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to=path_and_rename, max_length=255, null=True, blank=True)
 
