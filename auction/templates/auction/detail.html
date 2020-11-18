@@ -22,9 +22,9 @@
 
         <div class="detail-pic-row">
             <div class="left-to-right">
-
-                <img src="{% static auction.image %}" id="sml_img" height="auto" width="150px" onclick="myFunction(this);">
-
+                {% for img in images %}
+                <img src="{% static img.image %}" id="sml_img" height="auto" width="150px" onclick="myFunction(this);">
+                {% endfor %}
             </div>
         </div>
 

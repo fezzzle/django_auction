@@ -24,15 +24,18 @@ logger = logging.getLogger("mylogger")
 
 def index(request):
     auctions_list = Auction.objects.all()
+    images = AuctionImage.objects.filter(auction=auction)
     for a in auctions_list:
         a.resolve()
     current_user = request.user
-    return render(request, 'auction/index.html', {'auctions_list': auctions_list, 'user': current_user})
+    return render(request, 'auction/index.html', {"auctions_list": auctions_list, "user": current_user, "images": auction})
 
 
 def detail(request, auction_id):
     auction = get_object_or_404(Auction, pk=auction_id)
     bid = Bid.objects.filter(auction=auction)
+    images = AuctionImage.objects.filter(auction=auction)
+    print(f"IMAGES IN DETAIL: {images}")
     auction.resolve()
     auction.save()
     json_ctx = json.dumps({"auction_end_stamp": int(auction.expire.timestamp() * 1000)})
@@ -45,11 +48,11 @@ def detail(request, auction_id):
             try:
                 auction.is_active = False
                 auction.save()
-                return render(request, "auction/detail.html", {"auction": auction, "own_auction": own_auction})
+                return render(request, "auction/detail.html", {"auction": auction, "own_auction": own_auction, "images": images})
             except Exception as e:
                 logger.info(e)
-        return render(request, "auction/detail.html", {"auction": auction, "own_auction": own_auction, "bid": bid, "json_ctx": json_ctx})
-    return render(request, "auction/detail.html", {"auction": auction, 'bid': bid, "json_ctx": json_ctx})
+        return render(request, "auction/detail.html", {"auction": auction, "own_auction": own_auction, "bid": bid, "json_ctx": json_ctx, "images": images})
+    return render(request, "auction/detail.html", {"auction": auction, 'bid': bid, "json_ctx": json_ctx, "images": images})
 
 
 @login_required
@@ -80,7 +83,6 @@ def create(request):
             return render(request, "auction/create.html")
         else:
             auction = Auction()
-            auction_img = AuctionImage()
             auction.author = request.user
             auction.title = title
             auction.description = description
@@ -90,6 +92,7 @@ def create(request):
             auction.buy_now = buy_now
             auction.save()
             for img in images:
+                auction_img = AuctionImage(auction=auction, image=img)
                 print(f"ONE IMG IS: {img}")
                 auction_img.image = img
                 auction_img.save()
