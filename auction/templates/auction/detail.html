@@ -18,9 +18,15 @@
             <!-- <img src="{% static auction.image %}" height="auto" width="500px" alt="image"> -->
             <img id="expandedImg" height="auto" width="500px">
         </div>
-        
+
         <div class="detail-pic-row">
             <div class="left-to-right">
+                <img src="{% static auction.image %}" height="auto" width="150px" onclick="myFunction(this);">
+            </div><div class="left-to-right">
+                <img src="{% static auction.image %}" height="auto" width="150px" onclick="myFunction(this);">
+            </div><div class="left-to-right">
+                <img src="{% static auction.image %}" height="auto" width="150px" onclick="myFunction(this);">
+            </div><div class="left-to-right">
                 <img src="{% static auction.image %}" height="auto" width="150px" onclick="myFunction(this);">
             </div>
         </div>
@@ -140,6 +146,6 @@
 
         // Show the container element (hidden with CSS)
         expandImg.parentElement.style.display = "block";
-}
+        }
     </script>
 {% endblock content%}

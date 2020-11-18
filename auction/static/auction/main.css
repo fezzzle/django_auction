@@ -589,7 +589,7 @@ align-items: center;
 }
 
 .detail-pic-main {
-
+    display:none;
 }
 
 .detail-info-container {
