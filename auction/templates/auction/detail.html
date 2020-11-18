@@ -77,8 +77,8 @@
             {% endif %}
         {% endif %}
 
-        <p>Title: {{ auction.title }}</p>
-        <p>Author: {{ auction.author }}</p>
+        <p>Product: {{ auction.title }}</p>
+        <p>Seller: {{ auction.author }}</p>
         <p>Description: {{ auction.description }}</p>
         <p>Starting from: {{ auction.min_value }}</p>
 
@@ -91,8 +91,6 @@
             <p>Buy now: {{ auction.buy_now }}</p>
         {% endif %}
 
-        <p>Page visits {{ auction.visits }}</p>
-
         {% if auction.final_value %}
             <p>Winning value: {{ auction.final_value }}</p>
             <p>Auction winner: {{ auction.winner }}</p>
@@ -103,13 +101,10 @@
 </div>
 
     <script>
-        // HAHA JS
-        let jsonCtx = JSON.parse(JSON.parse(document.getElementById('json_ctx').textContent));
 
-//         (function foo() {
-//     ...
-//          setTimeout(foo, delay);
-//      })();
+        let getImgSrc = document.getElementById("sml_img")
+        myFunction(getImgSrc)
+        let jsonCtx = JSON.parse(JSON.parse(document.getElementById('json_ctx').textContent));
 
         (function countdownTimeStart(){
             
@@ -136,7 +131,6 @@
             }
             setTimeout(countdownTimeStart, 1000);
 
-
         })();
 
         // IMG CONTAINER
@@ -151,9 +145,6 @@
             // Show the container element (hidden with CSS)
             expandImg.parentElement.style.display = "block";
         }
-
-        let getImgSrc = document.getElementById("sml_img")
-        myFunction(getImgSrc)
 
     </script>
 {% endblock content%}

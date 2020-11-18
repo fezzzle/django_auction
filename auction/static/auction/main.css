@@ -312,7 +312,7 @@ position: relative;
     /*grid-template-columns: repeat(auto-fill, minmax(200px,1fr));*/
 	/*border: 1px solid black;*/
 }
-@media (max-width:900px){
+@media (max-width:1440px){
     .auction-grid {
     display: grid;
     grid-gap: 1rem;
@@ -366,7 +366,7 @@ position: relative;
 .img-text {
 	position:absolute;
 	color: white;
-	z-index:10;
+	z-index:2;
 	top: 50%;
 	left: 10px;
 	/*transform: translate(-50%, -50%);*/
@@ -559,12 +559,12 @@ align-items: center;
 
 .detail-container {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 1fr 1fr;
 }
 
 .detail-pic-container {
     display:grid;
-    grid-template-roc: auto 1fr;
+    grid-template-row: auto 1fr;
     /*border: 1px solid black;*/
 }
 
@@ -594,6 +594,11 @@ align-items: center;
 
 .detail-info-container {
     padding-left:25px;
+}
+
+.detail-info-container p {
+    font-weight:600;
+    margin-bottom: 10px;
 }
 
 .error-box {

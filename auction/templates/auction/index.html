@@ -103,7 +103,7 @@
 
                     <div class="img-overlay">
                         <div class="img-text">
-                            <p>Title: {{auction.title}}</p>
+                            <p>Product: {{auction.title}}</p>
                             <p>ID: {{auction.id}}</p>
                             <p>price: {{auction.min_value}}€</p>
                             {% if auction.is_active %}
@@ -112,7 +112,7 @@
                             {% else %}
                                 <p>Auction has ended!</p>
                             {% endif %}
-                            <p>autor: {{auction.author}}</p>
+                            <p>Seller: {{auction.author}}</p>
                         </div>
                     </div>
                 </a>
