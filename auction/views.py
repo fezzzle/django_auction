@@ -13,7 +13,9 @@ from django.contrib import messages
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import password_validation
 
+from itertools import chain
 
 import logging
 
@@ -206,10 +208,11 @@ def profile(request):
         try:
             password1 = request.POST['user_password1']
             password2 = request.POST['user_password2']
-            if password1 != password2:
+            if password1 and password2 and password1 != password2:
                 raise ValidationError('Password did not match')
+            password_validation.validate_password(password1)
         except ValidationError as e:
-            messages.warning(request, "Your passwords did not match. Try again!")
+            messages.warning(request, f"{e.args[0]}")
         else:
             user = CustomUser.objects.get(pk=request.user.id)
             if user.check_password(password1):
