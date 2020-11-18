@@ -63,7 +63,7 @@ def create(request):
             pic = request.FILES['myfile']
             if not title or not description or not min_value:
                 raise KeyError
-            if int(min_value) < 0 or int(duration) < 0:
+            if int(min_value) < 0 or int(duration) < 10:
                 raise ValueError
             else:
                 if buy_now == 0:
@@ -188,14 +188,10 @@ def searchbar(request):
 
 @login_required
 def profile(request):
-    email_change = request.POST.get('email_change')
-    password_change = request.POST.get('password_change')
-    location_change = request.POST.get('location_change')
     user = get_object_or_404(CustomUser, pk=request.user.id)
-    logger.info(f"USER TYPE IS {type(user)}")
-    logger.info(f"USER IS {user}")
-
-    if email_change:
+    if request.method == 'POST' and 'email_change' in request.POST:
+        logger.info(f'REQUEST.POST {request.POST}')
+        logger.info(f'REQUEST.POST {type(request.POST)}')
         try:
             email = request.POST['email']
             validate_email(email)
@@ -205,7 +201,7 @@ def profile(request):
             messages.success(request, "Email successfully changed!")
             user.email = email
             user.save()
-    if password_change:
+    if request.method == 'POST' and 'password_change' in request.POST:
         try:
             password1 = request.POST['user_password1']
             password2 = request.POST['user_password2']
@@ -221,8 +217,7 @@ def profile(request):
             user.set_password(password1)
             user.save()
             messages.success(request, "Successfully changed password!")
-
-    if location_change:
+    if request.method == 'POST' and 'location_change' in request.POST:
         try:
             location = request.POST['location']
         except Exception as e:
