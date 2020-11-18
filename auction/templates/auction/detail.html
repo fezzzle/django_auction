@@ -60,8 +60,8 @@
             {% endif %}
             {% if auction.is_active %}
             <form action="{% url 'auction:bid' auction.id %}" method="POST">
-                {% csrf_token %}
-                {% if error_message %}<p>{{ error_message }}</p>{% endif %}
+            {% csrf_token %}
+            {% if error_message %}<p>{{ error_message }}</p>{% endif %}
             {% if not auction.min_value == auction.buy_now %}
                 {% if auction.buy_now %}
                     {% if auction.active_bid_value %}
