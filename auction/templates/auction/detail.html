@@ -100,13 +100,10 @@
 </div>
 
     <script>
-        // HAHA JS
-        let jsonCtx = JSON.parse(JSON.parse(document.getElementById('json_ctx').textContent));
 
-//         (function foo() {
-//     ...
-//          setTimeout(foo, delay);
-//      })();
+        let getImgSrc = document.getElementById("sml_img")
+        myFunction(getImgSrc)
+        let jsonCtx = JSON.parse(JSON.parse(document.getElementById('json_ctx').textContent));
 
         (function countdownTimeStart(){
             
@@ -132,8 +129,6 @@
                 document.getElementById("clock").innerHTML = "EXPIRED";
             }
             setTimeout(countdownTimeStart, 1000);
-
-                    // IMG CONTAINER
         })();
 
         function myFunction(imgs) {
@@ -146,8 +141,5 @@
             // Show the container element (hidden with CSS)
             expandImg.parentElement.style.display = "block";
         }
-
-        let getImgSrc = document.getElementById("sml_img")
-        myFunction(getImgSrc)
     </script>
 {% endblock content%}
