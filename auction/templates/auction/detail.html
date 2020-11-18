@@ -32,6 +32,26 @@
 
     <div class="detail-info-container">
 
+        <p>Product: {{ auction.title }}</p>
+        <p>Seller: {{ auction.author }}</p>
+        <p>Description: {{ auction.description }}</p>
+        <p>Starting from: {{ auction.min_value }}</p>
+
+        {% if auction.is_active %}
+            <p>Expires at: {{ auction.expire }}</p>
+            <p id="clock"></p>
+        {% endif %}
+
+        {% if auction.buy_now %}
+            <p>Buy now: {{ auction.buy_now }}</p>
+        {% endif %}
+
+        {% if auction.final_value %}
+            <p>Winning value: {{ auction.final_value }}</p>
+            <p>Auction winner: {{ auction.winner }}</p>
+        {% endif %}
+        <p>Highest total bid: {{ auction.active_bid_value}}</p>
+
         {{ json_ctx|json_script:"json_ctx" }}
 
         {% if not own_auction %}
@@ -76,27 +96,6 @@
                 {% endif %}
             {% endif %}
         {% endif %}
-
-        <p>Product: {{ auction.title }}</p>
-        <p>Seller: {{ auction.author }}</p>
-        <p>Description: {{ auction.description }}</p>
-        <p>Starting from: {{ auction.min_value }}</p>
-
-        {% if auction.is_active %}
-            <p>Expires at: {{ auction.expire }}</p>
-            <p id="clock"></p>
-        {% endif %}
-
-        {% if auction.buy_now %}
-            <p>Buy now: {{ auction.buy_now }}</p>
-        {% endif %}
-
-        {% if auction.final_value %}
-            <p>Winning value: {{ auction.final_value }}</p>
-            <p>Auction winner: {{ auction.winner }}</p>
-        {% endif %}
-        <p>Highest total bid: {{ auction.active_bid_value}}</p>
-
     </div>
 </div>
 
