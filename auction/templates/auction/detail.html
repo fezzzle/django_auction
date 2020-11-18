@@ -4,14 +4,15 @@
 {% block content %}
 
 <div class="detail-container">
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li class="{{ message.tags }}">{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-
+    <div class="error-box">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
     <div class="detail-pic-container">
 
         <div class="detail-pic-main">
@@ -21,13 +22,9 @@
 
         <div class="detail-pic-row">
             <div class="left-to-right">
-                <img src="{% static auction.image %}" height="auto" width="150px" onclick="myFunction(this);">
-            </div><div class="left-to-right">
-                <img src="{% static auction.image %}" height="auto" width="150px" onclick="myFunction(this);">
-            </div><div class="left-to-right">
-                <img src="{% static auction.image %}" height="auto" width="150px" onclick="myFunction(this);">
-            </div><div class="left-to-right">
-                <img src="{% static auction.image %}" height="auto" width="150px" onclick="myFunction(this);">
+
+                <img src="{% static auction.image %}" id="sml_img" height="auto" width="150px" onclick="myFunction(this);">
+
             </div>
         </div>
 
@@ -42,24 +39,29 @@
                 <p>Your bid: {{ bid }}</p>
             {% endif %}
             {% if auction.is_active %}
-                <form action="{% url 'auction:bid' auction.id %}" method="POST">
-                    {% csrf_token %}
-                    {% if error_message %}<p>{{ error_message }}</p>{% endif %}
-                    {% if auction.buy_now %}
-                        {% if not auction.active_bid_value %}
-                            <input type="number" name="amount" id="bid_amount" value="{{ auction.min_value|add:'1' }}" required>
-                        {% else %}
-                            <input type="number" name="amount" id="bid_amount" value="{{ auction.active_bid_value|add:'1' }}" required>
-                        {% endif %}
-                        <input type="submit" name="submit_bid" value="Submit Bid">
-                        <input type="submit" name="buy_now" value="Buy now!">
+            <form action="{% url 'auction:bid' auction.id %}" method="POST">
+                {% csrf_token %}
+                {% if error_message %}<p>{{ error_message }}</p>{% endif %}
+                {% if auction.buy_now %}
+                    {% if not auction.active_bid_value %}
+                        <input type="number" name="amount" id="bid_amount" value="{{ auction.min_value|add:'1' }}" required>
                     {% else %}
-                        <input type="submit" name="submit_bid">
+                        <input type="number" name="amount" id="bid_amount" value="{{ auction.active_bid_value|add:'1' }}" required>
                     {% endif %}
-                </form>
-            {% else %}
-                <h1>AUCTION IS NOT ACTIVE</h1>
-            {% endif %}
+                    <input type="submit" name="submit_bid" value="Submit Bid">
+                    <input type="submit" name="buy_now" value="Buy now!">
+                {% else %}
+                    {% if not auction.active_bid_value %}
+                        <input type="number" name="amount" id="bid_amount" value="{{ auction.min_value|add:'1' }}" required>
+                    {% else %}
+                        <input type="number" name="amount" id="bid_amount" value="{{ auction.active_bid_value|add:'1' }}" required>
+                    {% endif %}
+                    <input type="submit" name="submit_bid">
+                {% endif %}
+            </form>
+        {% else %}
+            <h1>AUCTION IS NOT ACTIVE</h1>
+        {% endif %}
 
         {% else %}
             {% if not bid %}
@@ -133,19 +135,25 @@
                 document.getElementById("clock").innerHTML = "EXPIRED";
             }
             setTimeout(countdownTimeStart, 1000);
+
+
         })();
 
         // IMG CONTAINER
 
         function myFunction(imgs) {
-        // Get the expanded image
-        var expandImg = document.getElementById("expandedImg");
+            // Get the expanded image
+            var expandImg = document.getElementById("expandedImg");
 
-        // Use the same src in the expanded image as the image being clicked on from the grid
-        expandImg.src = imgs.src;
+            // Use the same src in the expanded image as the image being clicked on from the grid
+            expandImg.src = imgs.src;
 
-        // Show the container element (hidden with CSS)
-        expandImg.parentElement.style.display = "block";
+            // Show the container element (hidden with CSS)
+            expandImg.parentElement.style.display = "block";
         }
+
+        let getImgSrc = document.getElementById("sml_img")
+        myFunction(getImgSrc)
+
     </script>
 {% endblock content%}

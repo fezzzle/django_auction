@@ -45,7 +45,7 @@ class Auction(models.Model):
                     self.final_value = highest_bid.amount
                 self.is_active = False
                 self.save()
-            if self.active_bid_value:
+            if self.active_bid_value and self.buy_now is not None:
                 if self.active_bid_value >= self.buy_now:
                     self.winner = highest_bid.bidder
                     self.final_value = highest_bid.amount
