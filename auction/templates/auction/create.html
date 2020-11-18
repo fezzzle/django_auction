@@ -37,10 +37,24 @@
         <input type="number" name="buy_now" value="0">
         <br>
         <br>
-        <input type="file" name="myfile"/>
+        <div id="images">
+            <input type="file" name="file[]">
+        </div>
+        <br>
+        <input type="button" name="add_image" id="add_image" value="Add Image">
+        <br>
         <br>
         <br>
         <input type="submit" class="submit_button" name="submit_button" value="Create">
-        <!-- <input type="submit" name="submit_button" id="submit_button" value="Submit a new"> -->
     </form>
+
+<script>
+    document.getElementById("add_image").onclick = function(e) {
+        let image = document.getElementById("images");
+        let newInput = document.createElement("input");
+        newInput.type = "file";
+        newInput.name = "file[]";
+        image.appendChild(newInput)
+    }
+</script>
 {% endblock content %}

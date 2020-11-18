@@ -2,7 +2,7 @@ import json
 from time import time
 
 from django.shortcuts import render
-from .models import Auction, Bid, CustomUser
+from .models import Auction, Bid, CustomUser, AuctionImage
 from datetime import datetime, timezone
 from django.utils import timezone
 from django.http import HttpResponseRedirect
@@ -34,7 +34,6 @@ def detail(request, auction_id):
     auction = get_object_or_404(Auction, pk=auction_id)
     bid = Bid.objects.filter(auction=auction)
     auction.resolve()
-    auction.visits += 1
     auction.save()
     json_ctx = json.dumps({"auction_end_stamp": int(auction.expire.timestamp() * 1000)})
     cancel_auction_button = request.POST.get('cancel_auction')
@@ -62,7 +61,8 @@ def create(request):
             min_value = request.POST['min_value']
             duration = request.POST['duration']
             buy_now = int(request.POST['buy_now'])
-            pic = request.FILES['myfile']
+            images = request.FILES.getlist("file[]")
+            logger.info(f"IMAGES ARE: {images}")
             if not title or not description or not min_value:
                 raise KeyError
             if int(min_value) < 0 or int(duration) < 10:
@@ -80,6 +80,7 @@ def create(request):
             return render(request, "auction/create.html")
         else:
             auction = Auction()
+            auction_img = AuctionImage()
             auction.author = request.user
             auction.title = title
             auction.description = description
@@ -87,8 +88,11 @@ def create(request):
             auction.date_added = timezone.now()
             auction.total_auction_duration = duration
             auction.buy_now = buy_now
-            auction.image = pic
             auction.save()
+            for img in images:
+                print(f"ONE IMG IS: {img}")
+                auction_img.image = img
+                auction_img.save()
             messages.success(request, 'Your listing has been created!')
             return HttpResponseRedirect(reverse('auction:detail', args=(auction.id,)))
     else:
