@@ -52,6 +52,7 @@
         {% endif %}
         <p>Highest total bid: {{ auction.active_bid_value}}</p>
 
+        <div class="">
         {{ json_ctx|json_script:"json_ctx" }}
 
         {% if not own_auction %}
@@ -96,6 +97,7 @@
                 {% endif %}
             {% endif %}
         {% endif %}
+        </div>
     </div>
 </div>
 
