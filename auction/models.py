@@ -31,6 +31,9 @@ class Auction(models.Model):
                               related_query_name="auction_winner")
     final_value = models.IntegerField(blank=True, null=True)
 
+    def get_first_image(self):
+        return self.auctionimage_set.first()
+
     def resolve(self):
         if self.is_active:
             highest_bid = Bid.objects.filter(auction=self).order_by('-amount').first()
