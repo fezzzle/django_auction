@@ -143,6 +143,7 @@ def bid(request, auction_id):
         bid.time_added = datetime.now(timezone.utc)
     try:
         # When user clicks buy now
+        # if request.method == 'POST' and 'buy_now_button' in request.POST:
         if buy_now_button:
             auction.total_auction_duration = 0
             auction.save()
