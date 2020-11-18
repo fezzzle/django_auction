@@ -99,7 +99,7 @@
 
                 <a href="{% url 'auction:detail' auction.id %}">
 
-                <img src="{% static images.image.0 %}" alt="image">
+                <img src="{% static auction.get_first_image.image %}" alt="image">
 
                     <div class="img-overlay">
                         <div class="img-text">

@@ -24,9 +24,9 @@ logger = logging.getLogger("mylogger")
 
 def index(request):
     auctions_list = Auction.objects.all()
-    # images = AuctionImage.objects.filter(auction=auction)
     for a in auctions_list:
-        print(f"a in auctions_list: {a}")
+        # img = a.auctionimage_set.first()
+        # print(f"a in auctions_list: {type(a)}")
         a.resolve()
     current_user = request.user
     return render(request, 'auction/index.html', {"auctions_list": auctions_list, "user": current_user})
