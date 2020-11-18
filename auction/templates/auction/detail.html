@@ -3,6 +3,7 @@
 
 {% block content %}
 
+<div class="detail-container">
     {% if messages %}
     <ul class="messages">
         {% for message in messages %}
@@ -11,37 +12,30 @@
     </ul>
     {% endif %}
 
-    <img src="{% static auction.image %}" height="auto" width="500px" alt="image">
+    <div class="detail-pic-container">
 
-    <p>Title: {{ auction.title }}</p>
-    <p>Author: {{ auction.author }}</p>
+        <div class="detail-pic-main">
+            <!-- <img src="{% static auction.image %}" height="auto" width="500px" alt="image"> -->
+            <img id="expandedImg" height="auto" width="500px">
+        </div>
+        
+        <div class="detail-pic-row">
+            <div class="left-to-right">
+                <img src="{% static auction.image %}" id="sml_img" height="auto" width="150px" onclick="myFunction(this);">
+            </div>
+        </div>
 
-    <p>Description: {{ auction.description }}</p>
-    <p>Starting from: {{ auction.min_value }}</p>
+    </div>
 
-    {% if auction.is_active %}
-        <p>Expires at: {{ auction.expire }}</p>
-        <p id="clock"></p>
-    {% endif %}
+    <div class="detail-info-container">
 
-    {% if auction.buy_now %}
-        <p>Buy now: {{ auction.buy_now }}</p>
-    {% endif %}
-    <p>Page visits {{ auction.visits }}</p>
+        {{ json_ctx|json_script:"json_ctx" }}
 
-    {% if auction.final_value %}
-        <p>Winning value: {{ auction.final_value }}</p>
-        <p>Auction winner: {{ auction.winner }}</p>
-    {% endif %}
-    
-
-    {{ json_ctx|json_script:"json_ctx" }}
-    <p>Highest total bid: {{ auction.active_bid_value}}</p>
-    {% if not own_auction %}
-        {% if bid %}
-            <p>Your bid: {{ bid }}</p>
-        {% endif %}
-        {% if auction.is_active %}
+        {% if not own_auction %}
+            {% if bid %}
+                <p>Your bid: {{ bid }}</p>
+            {% endif %}
+            {% if auction.is_active %}
             <form action="{% url 'auction:bid' auction.id %}" method="POST">
                 {% csrf_token %}
                 {% if error_message %}<p>{{ error_message }}</p>{% endif %}
@@ -65,20 +59,45 @@
         {% else %}
             <h1>AUCTION IS NOT ACTIVE</h1>
         {% endif %}
-    {% else %}
-        {% if not bid %}
-            {% if auction.is_active %}
-                <form action="{% url 'auction:detail' auction.id %}" method="POST">
-                    {% csrf_token %}
-                    <input type="submit" name="cancel_auction" value="Cancel the auction">
-                </form>
-                <h1>AUCTION IS ACTIVE</h1>
-            {% else %}
-                <h1>AUCTION IS NOT ACTIVE</h1>
+
+        {% else %}
+            {% if not bid %}
+                {% if auction.is_active %}
+                    <form action="{% url 'auction:detail' auction.id %}" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" name="cancel_auction" value="Cancel">
+                    </form>
+                    <h1>AUCTION IS ACTIVE</h1>
+                {% else %}
+                    <h1>AUCTION IS NOT ACTIVE</h1>
+                {% endif %}
             {% endif %}
         {% endif %}
-    {% endif %}
 
+        <p>Title: {{ auction.title }}</p>
+        <p>Author: {{ auction.author }}</p>
+        <p>Description: {{ auction.description }}</p>
+        <p>Starting from: {{ auction.min_value }}</p>
+
+        {% if auction.is_active %}
+            <p>Expires at: {{ auction.expire }}</p>
+            <p id="clock"></p>
+        {% endif %}
+
+        {% if auction.buy_now %}
+            <p>Buy now: {{ auction.buy_now }}</p>
+        {% endif %}
+
+        <p>Page visits {{ auction.visits }}</p>
+
+        {% if auction.final_value %}
+            <p>Winning value: {{ auction.final_value }}</p>
+            <p>Auction winner: {{ auction.winner }}</p>
+        {% endif %}
+        <p>Highest total bid: {{ auction.active_bid_value}}</p>
+
+    </div>
+</div>
 
     <script>
         // HAHA JS
@@ -113,6 +132,22 @@
                 document.getElementById("clock").innerHTML = "EXPIRED";
             }
             setTimeout(countdownTimeStart, 1000);
+
+                    // IMG CONTAINER
         })();
+
+        function myFunction(imgs) {
+            // Get the expanded image
+            var expandImg = document.getElementById("expandedImg");
+
+            // Use the same src in the expanded image as the image being clicked on from the grid
+            expandImg.src = imgs.src;
+
+            // Show the container element (hidden with CSS)
+            expandImg.parentElement.style.display = "block";
+        }
+
+        let getImgSrc = document.getElementById("sml_img")
+        myFunction(getImgSrc)
     </script>
 {% endblock content%}
