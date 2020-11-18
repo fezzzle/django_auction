@@ -62,22 +62,24 @@
             <form action="{% url 'auction:bid' auction.id %}" method="POST">
                 {% csrf_token %}
                 {% if error_message %}<p>{{ error_message }}</p>{% endif %}
+            {% if not auction.min_value == auction.buy_now %}
                 {% if auction.buy_now %}
-                    {% if not auction.active_bid_value %}
+                    {% if auction.active_bid_value %}
+                        <p>TERE ON ACTIVE BID VALUE</p>
                         <input type="number" name="amount" id="bid_amount" value="{{ auction.min_value|add:'1' }}" required>
+                        <input type="submit" name="submit_bid" value="Submit Bid">
+                        <input type="submit" name="buy_now" value="Buy now!">
                     {% else %}
+                        <p>TERE EI OLE ACTIVE BID VALUE</p>
                         <input type="number" name="amount" id="bid_amount" value="{{ auction.active_bid_value|add:'1' }}" required>
+                        <input type="submit" name="submit_bid" value="Submit Bid">
+                        <input type="submit" name="buy_now" value="Buy now!">
                     {% endif %}
-                    <input type="submit" name="submit_bid" value="Submit Bid">
-                    <input type="submit" name="buy_now" value="Buy now!">
-                {% else %}
-                    {% if not auction.active_bid_value %}
-                        <input type="number" name="amount" id="bid_amount" value="{{ auction.min_value|add:'1' }}" required>
-                    {% else %}
-                        <input type="number" name="amount" id="bid_amount" value="{{ auction.active_bid_value|add:'1' }}" required>
-                    {% endif %}
-                    <input type="submit" name="submit_bid">
                 {% endif %}
+            {% else %}
+                <input type="hidden" name="amount" value="{{ auction.buy_now }}" required>
+                <input type="submit" name="buy_now" value="Buy now!">
+            {% endif %}
             </form>
         {% else %}
             <h1>AUCTION IS NOT ACTIVE</h1>

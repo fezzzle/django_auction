@@ -38,16 +38,14 @@ class Auction(models.Model):
         if self.is_active:
             highest_bid = Bid.objects.filter(auction=self).order_by('-amount').first()
             if self.has_expired():
-                logger.info("AUCTION IS EXPIRED")
-                logger.info(f"HIGHTEST BID: {highest_bid}")
                 if highest_bid:
-                    logger.info(f"INSIDE HIGHEST_BID")
                     self.winner = highest_bid.bidder
                     self.final_value = highest_bid.amount
                 self.is_active = False
                 self.save()
             if self.active_bid_value and self.buy_now is not None:
                 if self.active_bid_value >= self.buy_now:
+                    self.active_bid_value = highest_bid.amount
                     self.winner = highest_bid.bidder
                     self.final_value = highest_bid.amount
                     self.is_active = False
@@ -58,7 +56,6 @@ class Auction(models.Model):
         logger.info(f"TIME IS NOW: {now}")
         auction_end = self.date_added + timedelta(minutes=self.total_auction_duration)
         logger.info(f"AUCTION END IS: {auction_end}")
-        # logger.info(f"TIME NOW IS BIGGER THAN AUCTION END: {now > auction_end}")
         if now > auction_end:
             return True
         else:

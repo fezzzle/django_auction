@@ -25,8 +25,6 @@ logger = logging.getLogger("mylogger")
 def index(request):
     auctions_list = Auction.objects.all()
     for a in auctions_list:
-        # img = a.auctionimage_set.first()
-        # print(f"a in auctions_list: {type(a)}")
         a.resolve()
     current_user = request.user
     return render(request, 'auction/index.html', {"auctions_list": auctions_list, "user": current_user})
@@ -156,22 +154,37 @@ def bid(request, auction_id):
         # if request.method == 'POST' and 'buy_now_button' in request.POST:
         if buy_now_button:
             auction.total_auction_duration = 0
-            auction.save()
             bid.bidder = request.user
             bid.amount = auction.buy_now
             bid.save()
             auction.resolve()
+            auction.save()
         # When user bids instead of buynow
         elif bid_amount:
-            if int(bid_amount) < auction.min_value:
+            print(f"TYPE OF bid_amount: {type(bid_amount)}")
+            print(f"TYPE OF bid.amount IN 166: {type(bid.amount)}")
+            print(f"bid_____amount: {bid_amount}")
+            print(f"bid.....amount: {bid.amount}")
+            if bid_amount < auction.min_value or bid_amount > auction.buy_now:
                 raise ValueError
             if bid_amount <= bid.amount:
-                messages.warning(request, 'You need to enter a bigger bid than the previous amount!')
+                messages.warning(request, 'Inside first')
+                # messages.warning(request, 'You need to enter a bigger bid than the previous amount!')
                 return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid})
-            bid.amount = int(bid_amount)
+
+            bid.amount = bid_amount
+            bid.save()
+            
             if bid.amount <= auction.active_bid_value:
-                messages.warning(request, 'You need to enter a bigger bid than the previous amount!')
+                messages.warning(request, 'Inside second')
+                # messages.warning(request, 'You need to enter a bigger bid than the previous amount!')
                 return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid})
+            if bid.amount == auction.buy_now:
+                auction.active_bid_value = bid.amount
+                bid.save()
+                auction.resolve()
+                auction.save()
+
             auction.active_bid_value = bid.amount
     except ValueError:
         messages.warning(request, 'You have entered invalid input or less than min value')
