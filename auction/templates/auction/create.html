@@ -2,40 +2,42 @@
 
 {% block content %}
 <h1>Create an auction</h1>
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li class="{{ message.tags }}">{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+    <div class="error-box">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+
     <form action="{% url 'auction:create' %}" method="POST" enctype="multipart/form-data">
         <!-- {% if error_message %}<p class="error"><strong>{{ error_message }}</strong></p>{% endif %} -->
         {% csrf_token %}
-        <label for="title">Title</label>
-        <br>
-        <input type="text" name="title" placeholder="teretere">
-        <br>
+        <label for="title">Product name </label>
+        <input type="text" name="title" placeholder="ie. laptop, shoes..">
         <br>
         <label for="description">Descripton of the auction</label>
         <br>
-        <input type="text" name="description" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum in tortor ut nisi eleifend elementum id quis enim. Quisque eu dolor dictum neque venenatis eleifend in id sem. Maecenas in fermentum erat, at mattis turpis. Aliquam erat volutpat. Donec rutrum scelerisque orci. Proin lacinia erat sed magna sodales, sit amet aliquam lorem dignissim. Donec euismod non massa eget pellentesque. Nullam ultricies condimentum tempus. Nunc sit amet dui scelerisque, mattis felis a, molestie magna. Vivamus aliquam mi et sem finibus volutpat. Integer quis pulvinar ex. Quisque et ligula ac magna hendrerit vestibulum eget eget nibh. Nullam aliquam magna nibh, ac vehicula ligula aliquam at. Mauris vitae augue eu lacus facilisis convallis.">
+        <textarea name="description" placeholder="Pane oma deskription" rows="10" cols="40" maxlength="250"></textarea>
         <br>
-        <br>
+        Total auction duration:
+	    <input type="range" name="duration" id="duration" value="50" min="1" max="100" oninput="durationOut.value = duration.value">
+	    <output name="durationOut" id="durationOut">50</output> Minutes<br>
+        <!-- original timer
         <label for="duration">Total auction duration</label>
         <br>
         <input type="number" name="duration" id="" max="100">
-        <br>
+        -->
         <br>
         <label for="min_value">Starting value of the bidding</label>
         <br>
-        <input type="number" name="min_value">
+        <input type="number" name="min_value" placeholder="Min. 1€">
         <br>
+        <label for="buy_now">Set buy now?</label><input type="checkbox">
         <br>
-        <label for="buy_now">Set buy now?</label>
-        <br>
-        <input type="number" name="buy_now" value="0">
-        <br>
+        <input type="number" name="buy_now" placeholder="0€">
         <br>
         <div id="images">
             <input type="file" name="file[]">

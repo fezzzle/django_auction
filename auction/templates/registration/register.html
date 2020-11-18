@@ -10,15 +10,10 @@
     <form method="POST">
         {% csrf_token %}
         {{form.as_p}}
-
         <br>
-        <div class="center_div">
-            <button class="submit_button" type="submit">Sign Up</button>
-            <br>
-            If you already have an account <a href="/login" target="blank"><strong>login</strong></a> instead.
-        </div>
+        <button class="submit_button" type="submit">Sign Up</button>
     </form>
-
+    <small>already have an account? <a href="/login" target="blank"><strong>login here!</strong></a> </small>
 </div>
 
 {% endblock %}

@@ -1,5 +1,5 @@
 {% extends "auction/base.html" %}
-{% load static%}
+{% load static %}
 
 {% block content %}
 
@@ -21,37 +21,43 @@
         </div>
 
         <div class="detail-pic-row">
+
+            {% for img in images %}
             <div class="left-to-right">
-                {% for img in images %}
                 <img src="{% static img.image %}" id="sml_img" height="auto" width="150px" onclick="myFunction(this);">
-                {% endfor %}
             </div>
+            {% endfor %}
+
         </div>
 
     </div>
 
     <div class="detail-info-container">
 
-        <p>Product: {{ auction.title }}</p>
-        <p>Seller: {{ auction.author }}</p>
+        <h2>Product: {{ auction.title }}</h2>
+
         <p>Description: {{ auction.description }}</p>
-        <p>Starting from: {{ auction.min_value }}</p>
+        <p>Seller: {{ auction.author }}</p>
+        <p>Startinging price: {{ auction.min_value }} €</p>
 
         {% if auction.is_active %}
             <p>Expires at: {{ auction.expire }}</p>
-            <p id="clock"></p>
+
+            <p>AEG: <div id="clock"></div></p>
         {% endif %}
 
         {% if auction.buy_now %}
-            <p>Buy now: {{ auction.buy_now }}</p>
+            <p>Buy now: {{ auction.buy_now }} €</p>
         {% endif %}
 
         {% if auction.final_value %}
             <p>Winning value: {{ auction.final_value }}</p>
             <p>Auction winner: {{ auction.winner }}</p>
         {% endif %}
-        <p>Highest total bid: {{ auction.active_bid_value}}</p>
 
+        <p>Highest total bid: {{ auction.active_bid_value}} €</p>
+
+        <div class="test">
         {{ json_ctx|json_script:"json_ctx" }}
 
         {% if not own_auction %}
@@ -98,6 +104,7 @@
                 {% endif %}
             {% endif %}
         {% endif %}
+        </div>
     </div>
 </div>
 
