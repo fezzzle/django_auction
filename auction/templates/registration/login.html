@@ -18,4 +18,6 @@
 {% else %}
     <a href="{% url 'auction:index'%}"><p>Go back to index</p></a>
 {% endif %}
+
+<small>Don't have an user? <strong><a href="{% url 'register' %}">Register here!</a></strong></small>
 {% endblock content %}

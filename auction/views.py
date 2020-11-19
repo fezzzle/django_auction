@@ -2,7 +2,7 @@ import json
 from time import time
 
 from django.shortcuts import render
-from .models import Auction, Bid, CustomUser
+from .models import Auction, Bid, CustomUser, AuctionImage
 from datetime import datetime, timezone
 from django.utils import timezone
 from django.http import HttpResponseRedirect
@@ -13,7 +13,7 @@ from django.contrib import messages
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth import password_validation
 
 import logging
 
@@ -25,14 +25,14 @@ def index(request):
     for a in auctions_list:
         a.resolve()
     current_user = request.user
-    return render(request, 'auction/index.html', {'auctions_list': auctions_list, 'user': current_user})
+    return render(request, 'auction/index.html', {"auctions_list": auctions_list, "user": current_user})
 
 
 def detail(request, auction_id):
     auction = get_object_or_404(Auction, pk=auction_id)
     bid = Bid.objects.filter(auction=auction)
-    auction.resolve()
-    auction.visits += 1
+    images = AuctionImage.objects.filter(auction=auction)
+    # auction.resolve()
     auction.save()
     json_ctx = json.dumps({"auction_end_stamp": int(auction.expire.timestamp() * 1000)})
     cancel_auction_button = request.POST.get('cancel_auction')
@@ -44,11 +44,11 @@ def detail(request, auction_id):
             try:
                 auction.is_active = False
                 auction.save()
-                return render(request, "auction/detail.html", {"auction": auction, "own_auction": own_auction})
+                return render(request, "auction/detail.html", {"auction": auction, "own_auction": own_auction, "images": images})
             except Exception as e:
                 logger.info(e)
-        return render(request, "auction/detail.html", {"auction": auction, "own_auction": own_auction, "bid": bid, "json_ctx": json_ctx})
-    return render(request, "auction/detail.html", {"auction": auction, 'bid': bid, "json_ctx": json_ctx})
+        return render(request, "auction/detail.html", {"auction": auction, "own_auction": own_auction, "bid": bid, "json_ctx": json_ctx, "images": images})
+    return render(request, "auction/detail.html", {"auction": auction, 'bid': bid, "json_ctx": json_ctx, "images": images})
 
 
 @login_required
@@ -60,19 +60,22 @@ def create(request):
             min_value = request.POST['min_value']
             duration = request.POST['duration']
             buy_now = int(request.POST['buy_now'])
-            pic = request.FILES['myfile']
+            images = request.FILES.getlist("file[]")
+            logger.info(f"IMAGES ARE: {images}")
             if not title or not description or not min_value:
                 raise KeyError
-            if buy_now == 0:
-                buy_now = None
+            if int(min_value) < 0 or int(duration) < 10:
+                raise ValueError
             else:
-                if int(min_value) > int(buy_now):
+                if buy_now == 0:
+                    buy_now = None
+                elif int(min_value) > int(buy_now):
                     raise ValueError
         except KeyError as err:
             messages.warning(request, 'Please fill all the fields!')
             return render(request, "auction/create.html")
         except ValueError:
-            messages.warning(request, 'Buy now needs to be bigger than minimum bid!')
+            messages.warning(request, 'Buy now needs to be bigger than minimum bid or input was wrong!')
             return render(request, "auction/create.html")
         else:
             auction = Auction()
@@ -83,8 +86,11 @@ def create(request):
             auction.date_added = timezone.now()
             auction.total_auction_duration = duration
             auction.buy_now = buy_now
-            auction.image = pic
             auction.save()
+            for img in images:
+                auction_img = AuctionImage(auction=auction, image=img)
+                auction_img.image = img
+                auction_img.save()
             messages.success(request, 'Your listing has been created!')
             return HttpResponseRedirect(reverse('auction:detail', args=(auction.id,)))
     else:
@@ -105,9 +111,7 @@ def delete_auctions(request):
         logger.info(f"All auctions deleted")
     else:
         logger.info("You need to be a superuser")
-
     return render(request, "auction/deleted.html")
-    # return HttpResponseRedirect(reverse('auction:detail', args=(auction.id,)))
 
 
 @login_required
@@ -129,6 +133,7 @@ def bid(request, auction_id):
     buy_now_button = request.POST.get('buy_now')
     bid_amount = int(request.POST['amount'])
     auction = get_object_or_404(Auction, pk=auction_id)
+    images = AuctionImage.objects.filter(auction=auction)
     auction.resolve()
     bid = Bid.objects.filter(bidder=request.user).filter(auction=auction).first()
     if not auction.is_active:
@@ -141,24 +146,30 @@ def bid(request, auction_id):
         bid.time_added = datetime.now(timezone.utc)
     try:
         # When user clicks buy now
-        if buy_now_button:
+        if request.method == 'POST' and 'buy_now' in request.POST:
             auction.total_auction_duration = 0
-            auction.save()
             bid.bidder = request.user
             bid.amount = auction.buy_now
             bid.save()
             auction.resolve()
+            auction.save()
         # When user bids instead of buynow
-        elif bid_amount:
-            if int(bid_amount) < auction.min_value:
+        elif request.method == 'POST' and 'amount' in request.POST:
+            if bid_amount < auction.min_value or bid_amount > auction.buy_now:
                 raise ValueError
             if bid_amount <= bid.amount:
                 messages.warning(request, 'You need to enter a bigger bid than the previous amount!')
                 return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid})
-            bid.amount = int(bid_amount)
+            bid.amount = bid_amount
+            bid.save()
             if bid.amount <= auction.active_bid_value:
                 messages.warning(request, 'You need to enter a bigger bid than the previous amount!')
                 return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid})
+            if bid.amount == auction.buy_now:
+                auction.active_bid_value = bid.amount
+                bid.save()
+                auction.resolve()
+                auction.save()
             auction.active_bid_value = bid.amount
     except ValueError:
         messages.warning(request, 'You have entered invalid input or less than min value')
@@ -168,7 +179,7 @@ def bid(request, auction_id):
         bid.save()
         auction.save()
         messages.success(request, f"You successfully bidded {bid.amount} eur!")
-        return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_user_bid})
+        return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_user_bid, "images": images})
 
 
 def searchbar(request):
@@ -186,14 +197,10 @@ def searchbar(request):
 
 @login_required
 def profile(request):
-    email_change = request.POST.get('email_change')
-    password_change = request.POST.get('password_change')
-    location_change = request.POST.get('location_change')
     user = get_object_or_404(CustomUser, pk=request.user.id)
-    logger.info(f"USER TYPE IS {type(user)}")
-    logger.info(f"USER IS {user}")
-
-    if email_change:
+    if request.method == 'POST' and 'email_change' in request.POST:
+        logger.info(f'REQUEST.POST {request.POST}')
+        logger.info(f'REQUEST.POST {type(request.POST)}')
         try:
             email = request.POST['email']
             validate_email(email)
@@ -203,14 +210,15 @@ def profile(request):
             messages.success(request, "Email successfully changed!")
             user.email = email
             user.save()
-    if password_change:
+    if request.method == 'POST' and 'password_change' in request.POST:
         try:
             password1 = request.POST['user_password1']
             password2 = request.POST['user_password2']
-            if password1 != password2:
+            if password1 and password2 and password1 != password2:
                 raise ValidationError('Password did not match')
+            password_validation.validate_password(password1)
         except ValidationError as e:
-            messages.warning(request, "Your passwords did not match. Try again!")
+            messages.warning(request, f"{e.args[0]}")
         else:
             user = CustomUser.objects.get(pk=request.user.id)
             if user.check_password(password1):
@@ -219,8 +227,7 @@ def profile(request):
             user.set_password(password1)
             user.save()
             messages.success(request, "Successfully changed password!")
-
-    if location_change:
+    if request.method == 'POST' and 'location_change' in request.POST:
         try:
             location = request.POST['location']
         except Exception as e:

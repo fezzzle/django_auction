@@ -1,7 +1,7 @@
 {% extends "auction/base.html" %}
     
 {% block content %}
-    <ul>
+    <ul class="auction-list-items">
     {% if my_bids %}
         {% for bid in my_bids %}
         <a href="{% url 'auction:detail' bid.auction.id %}">

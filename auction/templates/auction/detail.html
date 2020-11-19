@@ -1,88 +1,118 @@
 {% extends "auction/base.html" %}
-{% load static%}
+{% load static %}
 
 {% block content %}
 
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li class="{{ message.tags }}">{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-
-    <img src="{% static auction.image %}" height="auto" width="500px" alt="image">
-
-    <p>Title: {{ auction.title }}</p>
-    <p>Author: {{ auction.author }}</p>
-
-    <p>Description: {{ auction.description }}</p>
-    <p>Starting from: {{ auction.min_value }}</p>
-
-    {% if auction.is_active %}
-        <p>Expires at: {{ auction.expire }}</p>
-        <p id="clock"></p>
-    {% endif %}
-
-    {% if auction.buy_now %}
-        <p>Buy now: {{ auction.buy_now }}</p>
-    {% endif %}
-    <p>Page visits {{ auction.visits }}</p>
-
-    {% if auction.final_value %}
-        <p>Winning value: {{ auction.final_value }}</p>
-        <p>Auction winner: {{ auction.winner }}</p>
-    {% endif %}
-    
-
-    {{ json_ctx|json_script:"json_ctx" }}
-    <p>Highest total bid: {{ auction.active_bid_value}}</p>
-    {% if not own_auction %}
-        {% if bid %}
-            <p>Your bid: {{ bid }}</p>
+<div class="detail-container">
+    <div class="error-box">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
         {% endif %}
+    </div>
+    <div class="detail-pic-container">
+
+        <div class="detail-pic-main">
+            <!-- <img src="{% static auction.image %}" height="auto" width="500px" alt="image"> -->
+            <img id="expandedImg" height="auto" width="500px">
+        </div>
+
+        <div class="detail-pic-row">
+
+            {% for img in images %}
+            <div class="left-to-right">
+                <img src="{% static img.image %}" id="sml_img" height="auto" width="150px" onclick="myFunction(this);">
+            </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    <div class="detail-info-container">
+
+        <h2>Product: {{ auction.title }}</h2>
+
+        <p>Description: {{ auction.description }}</p>
+        <p>Seller: {{ auction.author }}</p>
+        <p>Startinging price: {{ auction.min_value }} €</p>
+
         {% if auction.is_active %}
+            <p>Expires at: {{ auction.expire }}</p>
+
+            <p>Time remaining: <div id="clock"></div></p>
+        {% endif %}
+
+        {% if auction.buy_now %}
+            <p>Buy now: {{ auction.buy_now }} €</p>
+        {% endif %}
+
+        {% if auction.final_value %}
+            <p>Winning value: {{ auction.final_value }}</p>
+            <p>Auction winner: {{ auction.winner }}</p>
+        {% endif %}
+
+        <p>Highest total bid: {{ auction.active_bid_value}} €</p>
+
+        <div class="test">
+        {{ json_ctx|json_script:"json_ctx" }}
+
+        {% if not own_auction %}
+            {% if bid %}
+                <p>Your bid: {{ bid }}</p>
+            {% endif %}
+            {% if auction.is_active %}
             <form action="{% url 'auction:bid' auction.id %}" method="POST">
-                {% csrf_token %}
-                {% if error_message %}<p>{{ error_message }}</p>{% endif %}
+            {% csrf_token %}
+            {% if error_message %}<p>{{ error_message }}</p>{% endif %}
+            {% if not auction.min_value == auction.buy_now %}
                 {% if auction.buy_now %}
-                    {% if not auction.active_bid_value %}
-                        <input type="number" name="amount" id="bid_amount" value="{{ auction.min_value|add:'1' }}" required>
-                    {% else %}
+                    {% if auction.active_bid_value %}
+                        <p>TERE ON ACTIVE BID VALUE</p>
                         <input type="number" name="amount" id="bid_amount" value="{{ auction.active_bid_value|add:'1' }}" required>
+                        <input type="submit" name="submit_bid" value="Submit Bid">
+                        <input type="submit" name="buy_now" value="Buy now!">
+                    {% else %}
+                        <p>TERE EI OLE ACTIVE BID VALUE</p>
+                        <input type="number" name="amount" id="bid_amount" value="{{ auction.min_value|add:'1' }}" required>
+                        <input type="submit" name="submit_bid" value="Submit Bid">
+                        <input type="submit" name="buy_now" value="Buy now!">
                     {% endif %}
-                    <input type="submit" name="submit_bid" value="Submit Bid">
-                    <input type="submit" name="buy_now" value="Buy now!">
-                {% else %}
-                    <input type="submit" name="submit_bid">
                 {% endif %}
+            {% else %}
+                <input type="hidden" name="amount" value="{{ auction.buy_now }}" required>
+                <input type="submit" name="buy_now" value="Buy now!">
+            {% endif %}
             </form>
         {% else %}
             <h1>AUCTION IS NOT ACTIVE</h1>
         {% endif %}
-    {% else %}
-        {% if not bid %}
-            {% if auction.is_active %}
-                <form action="{% url 'auction:detail' auction.id %}" method="POST">
-                    {% csrf_token %}
-                    <input type="submit" name="cancel_auction" value="Cancel">
-                </form>
-                <h1>AUCTION IS ACTIVE</h1>
-            {% else %}
-                <h1>AUCTION IS NOT ACTIVE</h1>
+
+        {% else %}
+            {% if not bid %}
+                {% if auction.is_active %}
+                    <form action="{% url 'auction:detail' auction.id %}" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" name="cancel_auction" value="Cancel">
+                    </form>
+                    <h1>AUCTION IS ACTIVE</h1>
+                {% else %}
+                    <h1>AUCTION IS NOT ACTIVE</h1>
+                {% endif %}
             {% endif %}
         {% endif %}
-    {% endif %}
-
+        </div>
+    </div>
+</div>
 
     <script>
-        // HAHA JS
+        // let getImgSrc = document.getElementById("sml_img")
+        // myFunction(getImgSrc)
+        myFunction(document.getElementById("sml_img"))
         let jsonCtx = JSON.parse(JSON.parse(document.getElementById('json_ctx').textContent));
-
-//         (function foo() {
-//     ...
-//          setTimeout(foo, delay);
-//      })();
 
         (function countdownTimeStart(){
             
@@ -108,6 +138,24 @@
                 document.getElementById("clock").innerHTML = "EXPIRED";
             }
             setTimeout(countdownTimeStart, 1000);
+
         })();
+
+        // document.getElementById("formSubmit").addEventListener("click", function(e) {
+        //     console.log("PREVENT DEFAULT")
+        //     e.preventDefault();
+        // })
+
+        // IMG CONTAINER
+        function myFunction(imgs) {
+            // Get the expanded image
+            var expandImg = document.getElementById("expandedImg");
+
+            // Use the same src in the expanded image as the image being clicked on from the grid
+            expandImg.src = imgs.src;
+
+            // Show the container element (hidden with CSS)
+            expandImg.parentElement.style.display = "block";
+        }
     </script>
 {% endblock content%}

@@ -30,23 +30,22 @@ class Auction(models.Model):
                               related_name="auction_winner",
                               related_query_name="auction_winner")
     final_value = models.IntegerField(blank=True, null=True)
-    visits = models.IntegerField(default=0)
-    image = models.ImageField(upload_to=path_and_rename, max_length=255, null=True, blank=True)
+
+    def get_first_image(self):
+        return self.auctionimage_set.first()
 
     def resolve(self):
         if self.is_active:
             highest_bid = Bid.objects.filter(auction=self).order_by('-amount').first()
             if self.has_expired():
-                logger.info("AUCTION IS EXPIRED")
-                logger.info(f"HIGHTEST BID: {highest_bid}")
                 if highest_bid:
-                    logger.info(f"INSIDE HIGHEST_BID")
                     self.winner = highest_bid.bidder
                     self.final_value = highest_bid.amount
                 self.is_active = False
                 self.save()
-            if self.active_bid_value:
+            if self.active_bid_value and self.buy_now is not None:
                 if self.active_bid_value >= self.buy_now:
+                    self.active_bid_value = highest_bid.amount
                     self.winner = highest_bid.bidder
                     self.final_value = highest_bid.amount
                     self.is_active = False
@@ -57,7 +56,6 @@ class Auction(models.Model):
         logger.info(f"TIME IS NOW: {now}")
         auction_end = self.date_added + timedelta(minutes=self.total_auction_duration)
         logger.info(f"AUCTION END IS: {auction_end}")
-        # logger.info(f"TIME NOW IS BIGGER THAN AUCTION END: {now > auction_end}")
         if now > auction_end:
             return True
         else:
@@ -99,4 +97,9 @@ class Bid(models.Model):
 
     def __str__(self):
         return str(self.amount)
+
+
+class AuctionImage(models.Model):
+    auction = models.ForeignKey(Auction, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to=path_and_rename, max_length=255, null=True, blank=True)
 

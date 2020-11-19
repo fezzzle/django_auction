@@ -10,4 +10,4 @@ class RegisterForm(UserCreationForm):
 
 
 class LoginForm(AuthenticationForm):
-    username = forms.CharField(label='Email / Username', widget=forms.TextInput(attrs={'autofocus': 'autofocus'}))
+    username = forms.CharField(widget=forms.TextInput(attrs={'autofocus': 'autofocus', 'placeholder': 'Email / Username'}))

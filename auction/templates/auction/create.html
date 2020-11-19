@@ -2,45 +2,61 @@
 
 {% block content %}
 <h1>Create an auction</h1>
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li class="{{ message.tags }}">{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+    <div class="error-box">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+
     <form action="{% url 'auction:create' %}" method="POST" enctype="multipart/form-data">
         <!-- {% if error_message %}<p class="error"><strong>{{ error_message }}</strong></p>{% endif %} -->
         {% csrf_token %}
-        <label for="title">Title</label>
-        <br>
-        <input type="text" name="title">
-        <br>
+        <label for="title">Product name </label>
+        <input type="text" name="title" placeholder="ie. laptop, shoes..">
         <br>
         <label for="description">Descripton of the auction</label>
         <br>
-        <input type="text" name="description">
+        <textarea name="description" placeholder="Pane oma deskription" rows="10" cols="40" maxlength="250"></textarea>
         <br>
-        <br>
+        Total auction duration:
+	    <input type="range" name="duration" id="duration" value="50" min="1" max="100" oninput="durationOut.value = duration.value">
+	    <output name="durationOut" id="durationOut">50</output> Minutes<br>
+        <!-- original timer
         <label for="duration">Total auction duration</label>
         <br>
         <input type="number" name="duration" id="" max="100">
-        <br>
+        -->
         <br>
         <label for="min_value">Starting value of the bidding</label>
         <br>
-        <input type="number" name="min_value">
+        <input type="number" name="min_value" placeholder="Min. 1€">
         <br>
+        <label for="buy_now">Set buy now?</label><input type="checkbox">
         <br>
-        <label for="buy_now">Set buy now?</label>
+        <input type="number" name="buy_now" placeholder="0€">
         <br>
-        <input type="number" name="buy_now" value="0">
+        <div id="images">
+            <input type="file" name="file[]">
+        </div>
         <br>
+        <input type="button" name="add_image" id="add_image" value="Add Image">
         <br>
-        <input type="file" name="myfile"/>
         <br>
         <br>
         <input type="submit" class="submit_button" name="submit_button" value="Create">
-        <!-- <input type="submit" name="submit_button" id="submit_button" value="Submit a new"> -->
     </form>
+
+<script>
+    document.getElementById("add_image").onclick = function(e) {
+        let image = document.getElementById("images");
+        let newInput = document.createElement("input");
+        newInput.type = "file";
+        newInput.name = "file[]";
+        image.appendChild(newInput)
+    }
+</script>
 {% endblock content %}
