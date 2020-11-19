@@ -43,7 +43,7 @@
         {% if auction.is_active %}
             <p>Expires at: {{ auction.expire }}</p>
 
-            <p>AEG: <div id="clock"></div></p>
+            <p>Time remaining: <div id="clock"></div></p>
         {% endif %}
 
         {% if auction.buy_now %}
@@ -72,12 +72,12 @@
                 {% if auction.buy_now %}
                     {% if auction.active_bid_value %}
                         <p>TERE ON ACTIVE BID VALUE</p>
-                        <input type="number" name="amount" id="bid_amount" value="{{ auction.min_value|add:'1' }}" required>
+                        <input type="number" name="amount" id="bid_amount" value="{{ auction.active_bid_value|add:'1' }}" required>
                         <input type="submit" name="submit_bid" value="Submit Bid">
                         <input type="submit" name="buy_now" value="Buy now!">
                     {% else %}
                         <p>TERE EI OLE ACTIVE BID VALUE</p>
-                        <input type="number" name="amount" id="bid_amount" value="{{ auction.active_bid_value|add:'1' }}" required>
+                        <input type="number" name="amount" id="bid_amount" value="{{ auction.min_value|add:'1' }}" required>
                         <input type="submit" name="submit_bid" value="Submit Bid">
                         <input type="submit" name="buy_now" value="Buy now!">
                     {% endif %}
@@ -109,9 +109,9 @@
 </div>
 
     <script>
-
-        let getImgSrc = document.getElementById("sml_img")
-        myFunction(getImgSrc)
+        // let getImgSrc = document.getElementById("sml_img")
+        // myFunction(getImgSrc)
+        myFunction(document.getElementById("sml_img"))
         let jsonCtx = JSON.parse(JSON.parse(document.getElementById('json_ctx').textContent));
 
         (function countdownTimeStart(){
@@ -141,8 +141,12 @@
 
         })();
 
-        // IMG CONTAINER
+        // document.getElementById("formSubmit").addEventListener("click", function(e) {
+        //     console.log("PREVENT DEFAULT")
+        //     e.preventDefault();
+        // })
 
+        // IMG CONTAINER
         function myFunction(imgs) {
             // Get the expanded image
             var expandImg = document.getElementById("expandedImg");
@@ -153,6 +157,5 @@
             // Show the container element (hidden with CSS)
             expandImg.parentElement.style.display = "block";
         }
-
     </script>
 {% endblock content%}

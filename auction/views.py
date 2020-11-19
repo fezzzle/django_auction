@@ -15,8 +15,6 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import password_validation
 
-from itertools import chain
-
 import logging
 
 logger = logging.getLogger("mylogger")
@@ -34,8 +32,7 @@ def detail(request, auction_id):
     auction = get_object_or_404(Auction, pk=auction_id)
     bid = Bid.objects.filter(auction=auction)
     images = AuctionImage.objects.filter(auction=auction)
-    print(f"IMAGES IN DETAIL: {images}")
-    auction.resolve()
+    # auction.resolve()
     auction.save()
     json_ctx = json.dumps({"auction_end_stamp": int(auction.expire.timestamp() * 1000)})
     cancel_auction_button = request.POST.get('cancel_auction')
@@ -92,7 +89,6 @@ def create(request):
             auction.save()
             for img in images:
                 auction_img = AuctionImage(auction=auction, image=img)
-                print(f"ONE IMG IS: {img}")
                 auction_img.image = img
                 auction_img.save()
             messages.success(request, 'Your listing has been created!')
@@ -115,9 +111,7 @@ def delete_auctions(request):
         logger.info(f"All auctions deleted")
     else:
         logger.info("You need to be a superuser")
-
     return render(request, "auction/deleted.html")
-    # return HttpResponseRedirect(reverse('auction:detail', args=(auction.id,)))
 
 
 @login_required
@@ -139,6 +133,7 @@ def bid(request, auction_id):
     buy_now_button = request.POST.get('buy_now')
     bid_amount = int(request.POST['amount'])
     auction = get_object_or_404(Auction, pk=auction_id)
+    images = AuctionImage.objects.filter(auction=auction)
     auction.resolve()
     bid = Bid.objects.filter(bidder=request.user).filter(auction=auction).first()
     if not auction.is_active:
@@ -151,8 +146,7 @@ def bid(request, auction_id):
         bid.time_added = datetime.now(timezone.utc)
     try:
         # When user clicks buy now
-        # if request.method == 'POST' and 'buy_now_button' in request.POST:
-        if buy_now_button:
+        if request.method == 'POST' and 'buy_now' in request.POST:
             auction.total_auction_duration = 0
             bid.bidder = request.user
             bid.amount = auction.buy_now
@@ -160,31 +154,22 @@ def bid(request, auction_id):
             auction.resolve()
             auction.save()
         # When user bids instead of buynow
-        elif bid_amount:
-            print(f"TYPE OF bid_amount: {type(bid_amount)}")
-            print(f"TYPE OF bid.amount IN 166: {type(bid.amount)}")
-            print(f"bid_____amount: {bid_amount}")
-            print(f"bid.....amount: {bid.amount}")
+        elif request.method == 'POST' and 'amount' in request.POST:
             if bid_amount < auction.min_value or bid_amount > auction.buy_now:
                 raise ValueError
             if bid_amount <= bid.amount:
-                messages.warning(request, 'Inside first')
-                # messages.warning(request, 'You need to enter a bigger bid than the previous amount!')
+                messages.warning(request, 'You need to enter a bigger bid than the previous amount!')
                 return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid})
-
             bid.amount = bid_amount
             bid.save()
-            
             if bid.amount <= auction.active_bid_value:
-                messages.warning(request, 'Inside second')
-                # messages.warning(request, 'You need to enter a bigger bid than the previous amount!')
+                messages.warning(request, 'You need to enter a bigger bid than the previous amount!')
                 return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid})
             if bid.amount == auction.buy_now:
                 auction.active_bid_value = bid.amount
                 bid.save()
                 auction.resolve()
                 auction.save()
-
             auction.active_bid_value = bid.amount
     except ValueError:
         messages.warning(request, 'You have entered invalid input or less than min value')
@@ -194,7 +179,7 @@ def bid(request, auction_id):
         bid.save()
         auction.save()
         messages.success(request, f"You successfully bidded {bid.amount} eur!")
-        return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_user_bid})
+        return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_user_bid, "images": images})
 
 
 def searchbar(request):
