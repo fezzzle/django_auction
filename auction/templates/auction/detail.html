@@ -35,16 +35,11 @@
     <div class="detail-info-container">
 
         <h2>Product: {{ auction.title }}</h2>
+        <small>Expire date: {{ auction.expire }}</small>
 
         <p>Description: {{ auction.description }}</p>
         <p>Seller: {{ auction.author }}</p>
         <p>Starting price: {{ auction.min_value }} €</p>
-
-        {% if auction.is_active %}
-            <p>Expires at: {{ auction.expire }}</p>
-
-            <p>Time remaining: <div id="clock"></div></p>
-        {% endif %}
 
         {% if auction.buy_now %}
             <p>Buy now: {{ auction.buy_now }} €</p>
@@ -57,7 +52,11 @@
 
         <p>Highest total bid: {{ auction.active_bid_value}} €</p>
 
-        <div class="test">
+        {% if auction.is_active %}
+            <p>Time remaining: <span id="clock"></span></p>
+        {% endif %}
+
+        <div class="not-active">
         {{ json_ctx|json_script:"json_ctx" }}
 
         {% if not own_auction %}
