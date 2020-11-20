@@ -32,7 +32,6 @@ def detail(request, auction_id):
     auction = get_object_or_404(Auction, pk=auction_id)
     bid = Bid.objects.filter(auction=auction)
     images = AuctionImage.objects.filter(auction=auction)
-    # auction.resolve()
     auction.save()
     json_ctx = json.dumps({"auction_end_stamp": int(auction.expire.timestamp() * 1000)})
     cancel_auction_button = request.POST.get('cancel_auction')
@@ -60,14 +59,15 @@ def create(request):
             if not title or not description or not int(min_value) or not images:
                 raise KeyError
             if int(min_value) < 0 or int(duration) < 10:
-                raise ValueError("ROW 78")
+                raise ValueError
             else:
                 if buy_now == "":
                     buy_now = 0
                     logger.info(f"BUY NOW IS inside else: {buy_now}")
                 elif int(min_value) > int(buy_now):
-                    raise ValueError("ROW 84")
-        except KeyError as err:
+                    raise ValueError
+        except KeyError as e:
+            messages.warning(request, e)
             messages.warning(request, 'Please fill all the fields!')
             return render(request, "auction/create.html")
         except ValueError as e:
@@ -163,7 +163,8 @@ def bid(request, auction_id):
                 if bid_amount < auction.min_value or bid_amount > auction.buy_now:
                     raise ValueError
             auction.active_bid_value = bid.amount
-    except ValueError:
+    except ValueError as e:
+        messages.warning(request, e)
         messages.warning(request, 'You have entered invalid input or less than min value')
         return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid, "images": images})
     else:
