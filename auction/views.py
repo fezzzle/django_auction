@@ -55,29 +55,23 @@ def detail(request, auction_id):
 def create(request):
     if request.method == 'POST':
         try:
-            title = request.POST['title']
-            description = request.POST['description']
-            min_value = request.POST['min_value']
-            duration = request.POST['duration']
-            buy_now = request.POST['buy_now']
-            logger.info(f"BUY NOW IS: {request.POST['buy_now']}")
-            logger.info(f"BUY NOW TYPE IS: {type(request.POST['buy_now'])}")
+            _, title, description, duration, min_value, buy_now, _ = list(request.POST.dict().values())
             images = request.FILES.getlist("file[]")
-            logger.info(f"IMAGES ARE: {images}")
-            if not title or not description or not min_value:
+            if not title or not description or not int(min_value) or not images:
                 raise KeyError
             if int(min_value) < 0 or int(duration) < 10:
-                raise ValueError
+                raise ValueError("ROW 78")
             else:
                 if buy_now == "":
                     buy_now = 0
                     logger.info(f"BUY NOW IS inside else: {buy_now}")
                 elif int(min_value) > int(buy_now):
-                    raise ValueError
+                    raise ValueError("ROW 84")
         except KeyError as err:
             messages.warning(request, 'Please fill all the fields!')
             return render(request, "auction/create.html")
-        except ValueError:
+        except ValueError as e:
+            messages.warning(request, e)
             messages.warning(request, 'Buy now needs to be bigger than minimum bid or input was wrong!')
             return render(request, "auction/create.html")
         else:
@@ -87,8 +81,8 @@ def create(request):
             auction.description = description
             auction.min_value = int(min_value)
             auction.date_added = timezone.now()
-            auction.total_auction_duration = duration
-            auction.buy_now = buy_now
+            auction.total_auction_duration = int(duration)
+            auction.buy_now = int(buy_now)
             auction.save()
             for img in images:
                 auction_img = AuctionImage(auction=auction, image=img)
@@ -159,19 +153,19 @@ def bid(request, auction_id):
         elif request.method == 'POST' and 'amount' in request.POST:
             if bid_amount <= bid.amount:
                 messages.warning(request, 'You need to enter a bigger bid than the previous amount!')
-                return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid})
+                return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid, "images": images})
             bid.amount = bid_amount
             bid.save()
             if bid.amount <= auction.active_bid_value:
                 messages.warning(request, 'You need to enter a bigger bid than the previous amount!')
-                return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid})
+                return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid, "images": images})
             if auction.buy_now:
                 if bid_amount < auction.min_value or bid_amount > auction.buy_now:
                     raise ValueError
             auction.active_bid_value = bid.amount
     except ValueError:
         messages.warning(request, 'You have entered invalid input or less than min value')
-        return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid})
+        return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid, "images": images})
     else:
         if not auction.is_active:
             auction.active_bid_value = bid.amount
@@ -199,8 +193,6 @@ def searchbar(request):
 def profile(request):
     user = get_object_or_404(CustomUser, pk=request.user.id)
     if request.method == 'POST' and 'email_change' in request.POST:
-        logger.info(f'REQUEST.POST {request.POST}')
-        logger.info(f'REQUEST.POST {type(request.POST)}')
         try:
             email = request.POST['email']
             validate_email(email)
