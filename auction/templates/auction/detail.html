@@ -71,12 +71,10 @@
             {% if not auction.min_value == auction.buy_now %}
                 {% if auction.buy_now %}
                     {% if auction.active_bid_value %}
-                        <p>TERE ON ACTIVE BID VALUE</p>
                         <input type="number" name="amount" id="bid_amount" value="{{ auction.active_bid_value|add:'1' }}" required>
                         <input type="submit" name="submit_bid" value="Submit Bid">
                         <input type="submit" name="buy_now" value="Buy now!">
                     {% else %}
-                        <p>TERE EI OLE ACTIVE BID VALUE</p>
                         <input type="number" name="amount" id="bid_amount" value="{{ auction.min_value|add:'1' }}" required>
                         <input type="submit" name="submit_bid" value="Submit Bid">
                         <input type="submit" name="buy_now" value="Buy now!">
