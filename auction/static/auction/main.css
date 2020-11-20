@@ -586,13 +586,27 @@ footer {
 }
 
 .detail-info-container {
-    padding-left:25px;
     border: 1px solid red;
+}
+
+.detail-info-container h2 {
+
+}
+
+.detail-info-container small {
+    margin:0px;
 }
 
 .detail-info-container p {
     font-weight:600;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+
+}
+
+.detail-info-container p:first-of-type {
+    font-weight:600;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .error-box {
@@ -601,7 +615,33 @@ footer {
     /*border: 1px solid black;*/
 }
 
+.clock {
+    display: inline;
+}
+
 .test {
     border: 1px solid black;
     padding: 10px;
+}
+
+/*--------------CREATE.html------------*/
+
+.mmm {
+    background-color: lightgrey;
+    padding:20px;
+}
+
+#add_image {
+    margin-bottom: 20px;
+}
+
+#images input{
+    margin-bottom: 10px;
+    padding:10px 10px 10px 0px;
+    width:100%;
+    border:1px solid grey;
+}
+
+textarea {
+    resize: none;
 }
