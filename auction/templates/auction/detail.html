@@ -38,7 +38,7 @@
 
         <p>Description: {{ auction.description }}</p>
         <p>Seller: {{ auction.author }}</p>
-        <p>Startinging price: {{ auction.min_value }} €</p>
+        <p>Starting price: {{ auction.min_value }} €</p>
 
         {% if auction.is_active %}
             <p>Expires at: {{ auction.expire }}</p>
@@ -81,6 +81,9 @@
                         <input type="submit" name="submit_bid" value="Submit Bid">
                         <input type="submit" name="buy_now" value="Buy now!">
                     {% endif %}
+                {% else %}
+                    <input type="number" name="amount" id="bid_amount" value="{{ auction.active_bid_value|add:'1' }}" required>
+                    <input type="submit" name="submit_bid" value="Submit Bid">
                 {% endif %}
             {% else %}
                 <input type="hidden" name="amount" value="{{ auction.buy_now }}" required>
