@@ -39,7 +39,7 @@
 
         <p>Description: {{ auction.description }}</p>
         <p>Seller: {{ auction.author }}</p>
-        <p>Startinging price: {{ auction.min_value }} €</p>
+        <p>Starting price: {{ auction.min_value }} €</p>
 
         {% if auction.buy_now %}
             <p>Buy now: {{ auction.buy_now }} €</p>
@@ -56,7 +56,7 @@
             <p>Time remaining: <span id="clock"></span></p>
         {% endif %}
 
-        <div class="test">
+        <div class="not-active">
         {{ json_ctx|json_script:"json_ctx" }}
 
         {% if not own_auction %}
@@ -80,6 +80,9 @@
                         <input type="submit" name="submit_bid" value="Submit Bid">
                         <input type="submit" name="buy_now" value="Buy now!">
                     {% endif %}
+                {% else %}
+                    <input type="number" name="amount" id="bid_amount" value="{{ auction.active_bid_value|add:'1' }}" required>
+                    <input type="submit" name="submit_bid" value="Submit Bid">
                 {% endif %}
             {% else %}
                 <input type="hidden" name="amount" value="{{ auction.buy_now }}" required>

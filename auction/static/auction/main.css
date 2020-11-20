@@ -385,6 +385,7 @@ footer {
 
 .img-container:hover {
 	transform: scale(1.1);
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 /* input CSS */
@@ -556,7 +557,7 @@ footer {
 .detail-pic-container {
     display:grid;
     grid-template-row: auto 1fr;
-    border: 1px solid black;
+    /*border: 1px solid black;*/
 }
 
 .detail-pic-container img {
@@ -568,7 +569,7 @@ footer {
     height:auto;
     overflow-x: auto;
     display: flex;
-    border: 1px solid red;
+    /*border: 1px solid red;*/
 }
 
 .left-to-right {
@@ -586,7 +587,7 @@ footer {
 }
 
 .detail-info-container {
-    border: 1px solid red;
+    /*border: 1px solid red;*/
 }
 
 .detail-info-container h2 {
@@ -619,8 +620,8 @@ footer {
     display: inline;
 }
 
-.test {
-    border: 1px solid black;
+.not-active {
+    /*border: 1px solid black;*/
     padding: 10px;
 }
 
@@ -643,5 +644,29 @@ footer {
 }
 
 textarea {
+    height:200px;
+    width:400px;
     resize: none;
+    padding: 5px;
+    border: 1px solid lightgrey;
+    transition:all 0.5s ease-in-out;
+}
+
+form {
+    /*border: 1px solid green;*/
+}
+
+textarea:focus {
+    outline: none;
+    border: none;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    transform: scale(1.8);
+    margin-left: 25vw;
+    font-size: 0.5rem;
+}
+
+
+
+.formal input, label{
+    /*border: 1px solid red;*/
 }

@@ -59,7 +59,9 @@ def create(request):
             description = request.POST['description']
             min_value = request.POST['min_value']
             duration = request.POST['duration']
-            buy_now = int(request.POST['buy_now'])
+            buy_now = request.POST['buy_now']
+            logger.info(f"BUY NOW IS: {request.POST['buy_now']}")
+            logger.info(f"BUY NOW TYPE IS: {type(request.POST['buy_now'])}")
             images = request.FILES.getlist("file[]")
             logger.info(f"IMAGES ARE: {images}")
             if not title or not description or not min_value:
@@ -67,8 +69,9 @@ def create(request):
             if int(min_value) < 0 or int(duration) < 10:
                 raise ValueError
             else:
-                if buy_now == 0:
-                    buy_now = None
+                if buy_now == "":
+                    buy_now = 0
+                    logger.info(f"BUY NOW IS inside else: {buy_now}")
                 elif int(min_value) > int(buy_now):
                     raise ValueError
         except KeyError as err:
@@ -130,7 +133,6 @@ def my_bids(request):
 
 @login_required
 def bid(request, auction_id):
-    buy_now_button = request.POST.get('buy_now')
     bid_amount = int(request.POST['amount'])
     auction = get_object_or_404(Auction, pk=auction_id)
     images = AuctionImage.objects.filter(auction=auction)
@@ -150,13 +152,11 @@ def bid(request, auction_id):
             auction.total_auction_duration = 0
             bid.bidder = request.user
             bid.amount = auction.buy_now
+            auction.active_bid_value = bid.amount
             bid.save()
             auction.resolve()
-            auction.save()
-        # When user bids instead of buynow
+        #When user bids instead of buynow
         elif request.method == 'POST' and 'amount' in request.POST:
-            if bid_amount < auction.min_value or bid_amount > auction.buy_now:
-                raise ValueError
             if bid_amount <= bid.amount:
                 messages.warning(request, 'You need to enter a bigger bid than the previous amount!')
                 return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid})
@@ -165,16 +165,16 @@ def bid(request, auction_id):
             if bid.amount <= auction.active_bid_value:
                 messages.warning(request, 'You need to enter a bigger bid than the previous amount!')
                 return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid})
-            if bid.amount == auction.buy_now:
-                auction.active_bid_value = bid.amount
-                bid.save()
-                auction.resolve()
-                auction.save()
+            if auction.buy_now:
+                if bid_amount < auction.min_value or bid_amount > auction.buy_now:
+                    raise ValueError
             auction.active_bid_value = bid.amount
     except ValueError:
         messages.warning(request, 'You have entered invalid input or less than min value')
         return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid})
     else:
+        if not auction.is_active:
+            auction.active_bid_value = bid.amount
         auction.resolve()
         bid.save()
         auction.save()
