@@ -55,8 +55,31 @@
             </div>
             <div class="new-container">
                 <h2>Ending soon:</h2>
+                <!-- grid "new" -->
                 <div class="new">
                     <div class="box">
+                        <a href="#">
+                            <img src="https://picsum.photos/200">
+                            <div class="box-overlay" >
+                                <div class="box-text">
+                                    <p>Title</p>
+                                    <p>ID</p>
+                                    <p>Author</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div><div class="box">
+                        <a href="#">
+                            <img src="https://picsum.photos/200">
+                            <div class="box-overlay" >
+                                <div class="box-text">
+                                    <p>Title</p>
+                                    <p>ID</p>
+                                    <p>Author</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div><div class="box">
                         <a href="#">
                             <img src="https://picsum.photos/200">
                             <div class="box-overlay" >
@@ -96,7 +119,7 @@
         {% for auction in auctions_list %}
                                                       <!-- pic on placeholder! -->
             <!-- <div class="img-container" style="background-image:url('{{ pic }}');"> -->
-            <div class="img-container">
+<!--            <div class="img-container">-->
                 <a href="{% url 'auction:detail' auction.id %}">
                     <div class="img-container-background" style="background-image:url('{% static auction.get_first_image.image %}')">
                         <div class="img-overlay">
@@ -115,7 +138,7 @@
                         </div>
                     </div>
                 </a>
-            </div>
+<!--            </div>-->
         {% endfor %}
     </div>
     </div>
