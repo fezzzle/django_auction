@@ -89,6 +89,7 @@
     </div>
 
 <!-- TEST AUCTIONS! -->
+
     <div class="auction-container">
     <h2>Discover:</h2>
     <div class="auction-grid">
@@ -97,19 +98,20 @@
             <!-- <div class="img-container" style="background-image:url('{{ pic }}');"> -->
             <div class="img-container">
                 <a href="{% url 'auction:detail' auction.id %}">
-                <img src="{% static auction.get_first_image.image %}" alt="image">
-                    <div class="img-overlay">
-                        <div class="img-text">
-                            <p>Product: {{auction.title}}</p>
-                            <p>ID: {{auction.id}}</p>
-                            <p>price: {{auction.min_value}}€</p>
-                            {% if auction.is_active %}
-                                <p>{% widthratio auction.seconds_remaining 60 1 %} minutes left</p>
-                                <!--Time remaining {{auction.seconds_remaining|floatformat:"0"}}-->
-                            {% else %}
-                                <p>Auction has ended!</p>
-                            {% endif %}
-                            <p>Seller: {{auction.author}}</p>
+                    <div class="img-container-background" style="background-image:url('{% static auction.get_first_image.image %}')">
+                        <div class="img-overlay">
+                            <div class="img-text">
+                                <p>Product: {{auction.title}}</p>
+                                <p>ID: {{auction.id}}</p>
+                                <p>price: {{auction.min_value}}€</p>
+                                {% if auction.is_active %}
+                                    <p>{% widthratio auction.seconds_remaining 60 1 %} minutes left</p>
+                                    <!--Time remaining {{auction.seconds_remaining|floatformat:"0"}}-->
+                                {% else %}
+                                    <p>Auction has ended!</p>
+                                {% endif %}
+                                <p>Seller: {{auction.author}}</p>
+                            </div>
                         </div>
                     </div>
                 </a>
