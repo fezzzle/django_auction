@@ -3,7 +3,7 @@
 {% block content %}
     {% if my_auctions %}
     {% for auction in my_auctions %}
-        <ul>
+        <ul class="auction-list-items">
         <a href="{% url 'auction:detail' auction.id %}">
             <li>{{ auction.title }}</li>
             <li>{{ auction.description }}</li>
