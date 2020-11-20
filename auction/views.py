@@ -56,7 +56,7 @@ def create(request):
         try:
             _, title, description, duration, min_value, buy_now, _ = list(request.POST.dict().values())
             images = request.FILES.getlist("file[]")
-            if not title or not description or not int(min_value) or not images:
+            if not title or not description or not min_value or not images:
                 raise KeyError
             if int(min_value) < 0 or int(duration) < 10:
                 raise ValueError
