@@ -29,10 +29,15 @@ def index(request):
 
 
 def detail(request, auction_id):
+
+    # Buy using get method, we pass in default value and then set every time user visits detail view, request.session['num_visits'] = num_visits + 1
+    num_visits = request.session.get('num_visits', 0)
+    request.session['num_visits'] = num_visits + 1
+
+
     auction = get_object_or_404(Auction, pk=auction_id)
     bid = Bid.objects.filter(auction=auction)
     images = AuctionImage.objects.filter(auction=auction)
-    # auction.resolve()
     auction.save()
     json_ctx = json.dumps({"auction_end_stamp": int(auction.expire.timestamp() * 1000)})
     cancel_auction_button = request.POST.get('cancel_auction')
@@ -55,26 +60,24 @@ def detail(request, auction_id):
 def create(request):
     if request.method == 'POST':
         try:
-            title = request.POST['title']
-            description = request.POST['description']
-            min_value = request.POST['min_value']
-            duration = request.POST['duration']
-            buy_now = int(request.POST['buy_now'])
+            _, title, description, duration, min_value, buy_now, _ = list(request.POST.dict().values())
             images = request.FILES.getlist("file[]")
-            logger.info(f"IMAGES ARE: {images}")
-            if not title or not description or not min_value:
+            if not title or not description or not min_value or not images:
                 raise KeyError
             if int(min_value) < 0 or int(duration) < 10:
                 raise ValueError
             else:
-                if buy_now == 0:
-                    buy_now = None
+                if buy_now == "":
+                    buy_now = 0
+                    logger.info(f"BUY NOW IS inside else: {buy_now}")
                 elif int(min_value) > int(buy_now):
                     raise ValueError
-        except KeyError as err:
+        except KeyError as e:
+            messages.warning(request, e)
             messages.warning(request, 'Please fill all the fields!')
             return render(request, "auction/create.html")
-        except ValueError:
+        except ValueError as e:
+            messages.warning(request, e)
             messages.warning(request, 'Buy now needs to be bigger than minimum bid or input was wrong!')
             return render(request, "auction/create.html")
         else:
@@ -84,8 +87,8 @@ def create(request):
             auction.description = description
             auction.min_value = int(min_value)
             auction.date_added = timezone.now()
-            auction.total_auction_duration = duration
-            auction.buy_now = buy_now
+            auction.total_auction_duration = int(duration)
+            auction.buy_now = int(buy_now)
             auction.save()
             for img in images:
                 auction_img = AuctionImage(auction=auction, image=img)
@@ -130,7 +133,6 @@ def my_bids(request):
 
 @login_required
 def bid(request, auction_id):
-    buy_now_button = request.POST.get('buy_now')
     bid_amount = int(request.POST['amount'])
     auction = get_object_or_404(Auction, pk=auction_id)
     images = AuctionImage.objects.filter(auction=auction)
@@ -150,31 +152,30 @@ def bid(request, auction_id):
             auction.total_auction_duration = 0
             bid.bidder = request.user
             bid.amount = auction.buy_now
+            auction.active_bid_value = bid.amount
             bid.save()
             auction.resolve()
-            auction.save()
-        # When user bids instead of buynow
+        #When user bids instead of buynow
         elif request.method == 'POST' and 'amount' in request.POST:
-            if bid_amount < auction.min_value or bid_amount > auction.buy_now:
-                raise ValueError
             if bid_amount <= bid.amount:
                 messages.warning(request, 'You need to enter a bigger bid than the previous amount!')
-                return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid})
+                return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid, "images": images})
             bid.amount = bid_amount
             bid.save()
             if bid.amount <= auction.active_bid_value:
                 messages.warning(request, 'You need to enter a bigger bid than the previous amount!')
-                return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid})
-            if bid.amount == auction.buy_now:
-                auction.active_bid_value = bid.amount
-                bid.save()
-                auction.resolve()
-                auction.save()
+                return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid, "images": images})
+            if auction.buy_now:
+                if bid_amount < auction.min_value or bid_amount > auction.buy_now:
+                    raise ValueError
             auction.active_bid_value = bid.amount
-    except ValueError:
+    except ValueError as e:
+        messages.warning(request, e)
         messages.warning(request, 'You have entered invalid input or less than min value')
-        return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid})
+        return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid, "images": images})
     else:
+        if not auction.is_active:
+            auction.active_bid_value = bid.amount
         auction.resolve()
         bid.save()
         auction.save()
@@ -195,12 +196,70 @@ def searchbar(request):
         return render(request, 'auction/search_result.html', {'auction_list': auction_list})
 
 
+# @login_required
+# def profile(request):
+#     user = get_object_or_404(CustomUser, pk=request.user.id)
+#     if request.method == 'POST' and 'email_change' in request.POST:
+#         try:
+#             email = request.POST['email']
+#             validate_email(email)
+#         except ValidationError as e:
+#             messages.warning(request, 'Please enter a valid email!')
+#         else:
+#             messages.success(request, "Email successfully changed!")
+#             user.email = email
+#             user.save()
+#     if request.method == 'POST' and 'password_change' in request.POST:
+#         try:
+#             password1 = request.POST['user_password1']
+#             password2 = request.POST['user_password2']
+#             if password1 and password2 and password1 != password2:
+#                 raise ValidationError('Password did not match')
+#             password_validation.validate_password(password1)
+#         except ValidationError as e:
+#             messages.warning(request, f"{e.args[0]}")
+#         else:
+#             user = CustomUser.objects.get(pk=request.user.id)
+#             if user.check_password(password1):
+#                 messages.warning(request, 'You already have used this password')
+#                 return render(request, "auction/profile.html", {"user": user})
+#             user.set_password(password1)
+#             user.save()
+#             messages.success(request, "Successfully changed password!")
+#     if request.method == 'POST' and 'location_change' in request.POST:
+#         try:
+#             location = request.POST['location']
+#         except Exception as e:
+#             messages.warning(request, 'Something went wrong when changing location')
+#         else:
+#             messages.success(request, "Location successfully changed!")
+#             user.location = location
+#             user.save()
+
+#     return render(request, "auction/profile.html", {"user": user})
+
+
 @login_required
-def profile(request):
+def user(request, username):
+    user = get_object_or_404(CustomUser, username=username)
+    logger.info(f"USER IS: {user}")
+
+    # return HttpResponseRedirect(reverse('auction:user', args=(username,)))
+    # return HttpResponseRedirect(reverse('auction:profile'))
+    # return (request, "auction/user.html", {})
+
+
+@login_required
+def profile(request, **username):
+    if len(username) > 0:
+        if username['username'] == str(request.user):
+            return render(request, "auction/profile.html", {"user": request.user})
+        else:
+            user = get_object_or_404(CustomUser, username=username['username'])
+            return render(request, "auction/user.html", {"user": user})
+
     user = get_object_or_404(CustomUser, pk=request.user.id)
     if request.method == 'POST' and 'email_change' in request.POST:
-        logger.info(f'REQUEST.POST {request.POST}')
-        logger.info(f'REQUEST.POST {type(request.POST)}')
         try:
             email = request.POST['email']
             validate_email(email)
@@ -236,5 +295,12 @@ def profile(request):
             messages.success(request, "Location successfully changed!")
             user.location = location
             user.save()
-
     return render(request, "auction/profile.html", {"user": user})
+
+
+def handler404(request, err):
+    return render(request, 'auction/404.html', status=404)
+
+
+def handler500(request):
+    return render(request, 'auction/500.html', status=500)

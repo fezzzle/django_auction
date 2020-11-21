@@ -19,14 +19,15 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from .views import LoginView, RegisterView, LogoutView
+from auction import views
+
+handler404 = views.handler404
+handler500 = views.handler500
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('auction.urls')),
-    path('login/', LoginView.as_view(), name="login"),
-    path('register/', RegisterView.as_view(), name="register"),
-    path('logout/', LogoutView.as_view(), name="logout")
+    path('', include('register.urls')),
 ]
 
 if settings.DEBUG: # new

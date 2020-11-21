@@ -26,8 +26,7 @@ SECRET_KEY = '00000000000000000000000000000000000000000000000001'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 # Application definition
 
@@ -58,6 +57,7 @@ LOGGING = {
 INSTALLED_APPS = [
     'django_extensions',
     'auction.apps.AuctionConfig',
+    'register.apps.RegisterConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

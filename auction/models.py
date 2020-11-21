@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from datetime import datetime, timedelta
 
+from django.urls import reverse
+
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 from .utils import path_and_rename
@@ -13,7 +15,12 @@ logger = logging.getLogger("mylogger")
 
 class CustomUser(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
-    location = models.CharField(max_length=100)
+    location = models.CharField(max_length=30)
+    phone = models.CharField(max_length=15)
+    
+    def get_absolute_url(self):
+        """Returns the url to access a particular instance of the model."""
+        return reverse('auction:profile', args=[str(self.id)])
 
 
 class Auction(models.Model):
@@ -43,7 +50,7 @@ class Auction(models.Model):
                     self.final_value = highest_bid.amount
                 self.is_active = False
                 self.save()
-            if self.active_bid_value and self.buy_now is not None:
+            if self.active_bid_value and self.buy_now is not 0:
                 if self.active_bid_value >= self.buy_now:
                     self.active_bid_value = highest_bid.amount
                     self.winner = highest_bid.bidder

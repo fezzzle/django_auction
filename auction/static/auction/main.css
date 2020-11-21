@@ -3,6 +3,11 @@
     padding: 0;
 }
 
+/* For smooooooth experience ;D */
+html {
+    scroll-behavior: smooth;
+}
+
 .auction-list-items ul, a {
     list-style-type: none;
     color: inherit;
@@ -15,15 +20,56 @@ body {
     /*background: #333138;*/
 }
 
+.error-box {
+    display: flex;
+    /*justify-content: center;*/
+    grid-column: 1/3;
+    /*border: 1px solid black;*/
+
+}
+
+.messages {
+list-style-type: none;
+}
+
 /* views rida 146 */
 .warning {
-    border-style: solid;
-    color: red;
+    margin: 5px 0px;
+    width: auto;
+    color: #cc0033;
+    font-size: 0.8em;
+    font-weight: bold;
+    line-height: 20px;
+    text-shadow: 1px 1px rgba(250,250,250,.3);
+    background-color: #fce4e4;
+    border: 1px solid #fcc2c3;
+    padding: 10px 30px;
+    border-radius: 5px;
+    animation-name: example;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
 }
 
 .success {
-    border-style: solid;
+    margin: 5px 0px;
+    width: auto;
     color: green;
+    font-size: 0.8em;
+    font-weight: bold;
+    line-height: 20px;
+    text-shadow: 1px 1px rgba(250,250,250,.3);
+    background-color: rgb(236, 255, 216);
+    border: 1px solid green;
+    padding: 10px 30px;
+    border-radius: 5px;
+    animation-name: example;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes example {
+0%   {opacity:0;}
+100%   {opacity:1;}
 }
 
 /* base.html */
@@ -250,11 +296,11 @@ footer {
 .box {
     display: flex;
 	position: relative;
-	transform: scale(1);
 	margin: 10px;
 	padding: 0;
 	transition: 0.3s;
     /*border: 1px solid blue;*/
+    border-radius: 10px;
 }
 
 .box img {
@@ -310,22 +356,27 @@ footer {
 
 /* auction.html */
 
+/* GRID work in progress */
 .auction-grid {
     display: grid;
+    /*grid-row-gap: 1rem;*/
     grid-gap: 1rem;
-    grid-template-columns: repeat(6, minmax(200px, 1fr));
+    /*grid-template-columns: repeat(6,1fr);*/
     /*grid-template-columns: repeat(auto-fill, minmax(200px,1fr));*/
+    grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
 	/*border: 1px solid black;*/
+	padding: 10px;
 }
+/* i dont know man
 @media (max-width:1440px) {
     .auction-grid {
     display: grid;
     grid-gap: 1rem;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    /*grid-template-columns: repeat(4, 1fr);*/
     }
 }
 
+*/
 /*.auction-container*/ h2 {
     font-size: calc(0.8rem + 1vw);
     margin: 10px 10px 10px 0px;
@@ -335,19 +386,25 @@ footer {
     display: flex;
 	position: relative;
 	/*transform: scale(1);*/
-	margin: 10px;
+	/*margin: 10px;*/
 	padding: 0;
 	transition: 0.3s;
-    width: 200px;
-    height: 200px;
+    /*width: 100%;
+    height: 100%;*/
     border-radius: 10px;
-    /*border: 1px solid red;*/
+    border: 1px solid red;
+    background-color:green;
 }
 
-.img-container img {
-	width: 100%;
-	height: auto;
-	border-radius: 10px;
+.img-container-background {
+    width:200px;
+    height:200px;
+    max-width:200px;
+    background:red;
+    background-position: center;
+    background-size: cover;
+    border-radius:10px;
+    transition: all .3s;
 }
 
 .img-overlay {
@@ -364,7 +421,7 @@ footer {
 	opacity: 0.6;
 }
 
-.img-container:hover .img-overlay {
+.img-container-background:hover .img-overlay {
 	height: 100%;
 }
 
@@ -383,8 +440,9 @@ footer {
     font-size: 1rem;
 }
 
-.img-container:hover {
+/*.img-container:hover*/ .img-container-background:hover{
 	transform: scale(1.1);
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 /* input CSS */
@@ -556,52 +614,120 @@ footer {
 .detail-pic-container {
     display:grid;
     grid-template-row: auto 1fr;
-    border: 1px solid black;
+    /*border: 1px solid black;*/
 }
 
 .detail-pic-container img {
-    /*border-radius:10px;*/
+
 }
 
 .detail-pic-row {
-    width: auto;
-    height:auto;
-    overflow-x: auto;
     display: flex;
+    width: 500px;
+    /*height: auto;*/
+    overflow-x: auto;
+    overflow-y: hidden;
+
     border: 1px solid red;
 }
 
 .left-to-right {
-    margin-right: 5px;
+    margin-right: 15px;
     opacity:0.7;
+    transform: rotate(-10deg);
+    transition: 0.3s;
+    /*display: inline-block;*/
+    border: 1px solid black;
 }
 
 .left-to-right:hover {
-    transition:0.3s;
+    transform: scale(1.5);
     opacity: 1;
+    z-index: 1;
 }
 
-.detail-pic-main {
-    display:none;
+.detail-pic-main img{
+    width: 500px;
+    height: auto;
 }
 
 .detail-info-container {
-    padding-left:25px;
+    /* word-break: normal|break-all|keep-all|break-word|initial|inherit; */
+    word-break: break-word;
     border: 1px solid red;
+}
+
+.detail-info-container h2 {
+
+}
+
+.detail-info-container small {
+    margin:0px;
 }
 
 .detail-info-container p {
     font-weight:600;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+
 }
 
-.error-box {
-    display: grid;
-    grid-column: 1/3;
+.detail-info-container p:first-of-type {
+    font-weight:600;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.clock {
+    display: inline;
+}
+
+.not-active {
     /*border: 1px solid black;*/
 }
 
-.test {
-    border: 1px solid black;
-    padding: 10px;
+/*--------------CREATE.html------------*/
+
+.mmm {
+    background-color: lightgrey;
+    padding:20px;
+}
+
+#add_image {
+    margin-bottom: 20px;
+}
+
+#images input{
+    margin-bottom: 10px;
+    padding:10px 10px 10px 0px;
+    width:100%;
+    border:1px solid grey;
+}
+
+textarea {
+    height:200px;
+    width:400px;
+    resize: none;
+    padding: 5px;
+    border: 1px solid lightgrey;
+    transition:all 0.5s ease-in-out;
+}
+
+form {
+    /*border: 1px solid green;*/
+}
+
+textarea:focus {
+    outline: none;
+    border: none;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    transform: scale(1.8);
+    margin-left: 25vw;
+    font-size: 0.5em;
+    background:green;
+}
+
+
+
+.formal input, label{
+    /*border: 1px solid red;*/
 }
