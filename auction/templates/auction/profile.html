@@ -12,6 +12,7 @@
 <p>User.id: {{ user.id }}</p>
 <p>User email: {{ user.email }}</p>
 <p>Location: {{ user.location }}</p>
+<p>Phone: {{ user.phone }}</p>
 {% if user.is_authenticated %}
     <form action="{% url 'auction:profile' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}

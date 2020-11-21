@@ -39,7 +39,7 @@
         <small>Expire date: {{ auction.expire }}</small>
 
         <p>Description: {{ auction.description }}</p>
-        <p>Seller: {{ auction.author }}</p>
+        <p><a href="{% url 'auction:profile' auction.author %}">Seller: {{ auction.author }} <small>click here to see their profile</small></a></p>
         <p>Starting price: {{ auction.min_value }} €</p>
 
         {% if auction.buy_now %}

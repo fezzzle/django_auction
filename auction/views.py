@@ -196,8 +196,68 @@ def searchbar(request):
         return render(request, 'auction/search_result.html', {'auction_list': auction_list})
 
 
+# @login_required
+# def profile(request):
+#     user = get_object_or_404(CustomUser, pk=request.user.id)
+#     if request.method == 'POST' and 'email_change' in request.POST:
+#         try:
+#             email = request.POST['email']
+#             validate_email(email)
+#         except ValidationError as e:
+#             messages.warning(request, 'Please enter a valid email!')
+#         else:
+#             messages.success(request, "Email successfully changed!")
+#             user.email = email
+#             user.save()
+#     if request.method == 'POST' and 'password_change' in request.POST:
+#         try:
+#             password1 = request.POST['user_password1']
+#             password2 = request.POST['user_password2']
+#             if password1 and password2 and password1 != password2:
+#                 raise ValidationError('Password did not match')
+#             password_validation.validate_password(password1)
+#         except ValidationError as e:
+#             messages.warning(request, f"{e.args[0]}")
+#         else:
+#             user = CustomUser.objects.get(pk=request.user.id)
+#             if user.check_password(password1):
+#                 messages.warning(request, 'You already have used this password')
+#                 return render(request, "auction/profile.html", {"user": user})
+#             user.set_password(password1)
+#             user.save()
+#             messages.success(request, "Successfully changed password!")
+#     if request.method == 'POST' and 'location_change' in request.POST:
+#         try:
+#             location = request.POST['location']
+#         except Exception as e:
+#             messages.warning(request, 'Something went wrong when changing location')
+#         else:
+#             messages.success(request, "Location successfully changed!")
+#             user.location = location
+#             user.save()
+
+#     return render(request, "auction/profile.html", {"user": user})
+
+
 @login_required
-def profile(request):
+def user(request, username):
+    user = get_object_or_404(CustomUser, username=username)
+    logger.info(f"USER IS: {user}")
+
+    # return HttpResponseRedirect(reverse('auction:user', args=(username,)))
+    # return HttpResponseRedirect(reverse('auction:profile'))
+    # return (request, "auction/user.html", {})
+
+
+@login_required
+def profile(request, **username):
+    if len(username) > 0:
+        if username['username'] == str(request.user):
+            return render(request, "auction/profile.html", {"user": request.user})
+        else:
+            user = get_object_or_404(CustomUser, username=username['username'])
+            return render(request, "auction/user.html", {"user": user})
+
     user = get_object_or_404(CustomUser, pk=request.user.id)
     if request.method == 'POST' and 'email_change' in request.POST:
         try:
@@ -235,5 +295,12 @@ def profile(request):
             messages.success(request, "Location successfully changed!")
             user.location = location
             user.save()
-
     return render(request, "auction/profile.html", {"user": user})
+
+
+def handler404(request, err):
+    return render(request, 'auction/404.html', status=404)
+
+
+def handler500(request):
+    return render(request, 'auction/500.html', status=500)
