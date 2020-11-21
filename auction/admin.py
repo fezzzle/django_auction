@@ -1,6 +1,6 @@
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib import admin
-from auction.models import Auction, Bid, CustomUser
+from auction.models import Auction, Bid, CustomUser, AuctionImage
 
 
 class CustomUserAdmin(BaseUserAdmin):
@@ -19,3 +19,4 @@ class CustomUserAdmin(BaseUserAdmin):
 admin.site.register(CustomUser, BaseUserAdmin)
 admin.site.register(Auction)
 admin.site.register(Bid)
+admin.site.register(AuctionImage)

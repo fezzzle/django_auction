@@ -58,6 +58,7 @@ LOGGING = {
 INSTALLED_APPS = [
     'django_extensions',
     'auction.apps.AuctionConfig',
+    'register.apps.RegisterConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

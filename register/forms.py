@@ -4,9 +4,13 @@ from django import forms
 
 
 class RegisterForm(UserCreationForm):
+    username = forms.CharField(max_length=15)
+    email = forms.EmailField(max_length=30)
+    location = forms.CharField(max_length=30)
+    
     class Meta:
         model = get_user_model()
-        fields = ('email', 'username', 'password1', 'password2')
+        fields = ('email', 'username', 'location', 'password1', 'password2')
 
 
 class LoginForm(AuthenticationForm):

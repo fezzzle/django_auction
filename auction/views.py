@@ -29,6 +29,12 @@ def index(request):
 
 
 def detail(request, auction_id):
+
+    # Buy using get method, we pass in default value and then set every time user visits detail view, request.session['num_visits'] = num_visits + 1
+    num_visits = request.session.get('num_visits', 0)
+    request.session['num_visits'] = num_visits + 1
+
+
     auction = get_object_or_404(Auction, pk=auction_id)
     bid = Bid.objects.filter(auction=auction)
     images = AuctionImage.objects.filter(auction=auction)

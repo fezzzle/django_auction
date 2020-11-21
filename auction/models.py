@@ -13,7 +13,7 @@ logger = logging.getLogger("mylogger")
 
 class CustomUser(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
-    location = models.CharField(max_length=100)
+    location = models.CharField(max_length=30)
 
 
 class Auction(models.Model):
