@@ -39,7 +39,7 @@
         <small>Expire date: {{ auction.expire }}</small>
 
         <p>Description: {{ auction.description }}</p>
-        <p><a href="{% url 'auction:profile' auction.author %}">Seller: {{ auction.author }} <small>click here to see their profile</small></a></p>
+        <p><a href="{% url 'auction:profile' auction.author %}">Seller: {{ auction.author }} <small>*click here to see their profile*</small></a></p>
         <p>Starting price: {{ auction.min_value }} €</p>
 
         {% if auction.buy_now %}
@@ -50,8 +50,8 @@
             <p>Winning value: {{ auction.final_value }}</p>
             <p>Auction winner: {{ auction.winner }}</p>
         {% endif %}
-
-        <p>Highest total bid: {{ auction.active_bid_value}} €</p>
+        *parandada viga*
+        <p>Highest bid: {{ auction.active_bid_value}}€ by  {{auction.winner}} <!-- viimane pakkuja --></p>
 
         {% if auction.is_active %}
             <p>Time remaining: <span id="clock"></span></p>
