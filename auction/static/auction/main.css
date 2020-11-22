@@ -4,9 +4,9 @@
 }
 
 /* For smooooooth experience ;D */
-html {
+/* html {
     scroll-behavior: smooth;
-}
+} */
 
 .auction-list-items ul, a {
     list-style-type: none;
