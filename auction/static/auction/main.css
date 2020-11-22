@@ -623,12 +623,12 @@ footer {
 
 .detail-pic-row {
     display: flex;
-    width: 500px;
+    /*width: 500px;*/
+    width: 100%;
     /*height: auto;*/
     overflow-x: auto;
     overflow-y: hidden;
-
-    border: 1px solid red;
+    /*border: 1px solid blue;*/
 }
 
 .left-to-right {
@@ -637,7 +637,7 @@ footer {
     transform: rotate(-10deg);
     transition: 0.3s;
     /*display: inline-block;*/
-    border: 1px solid black;
+    /*border: 1px solid black;*/
 }
 
 .left-to-right:hover {
@@ -646,15 +646,21 @@ footer {
     z-index: 1;
 }
 
+.detail-pic-main {
+    padding-right: 1rem;
+    /*border: 1px solid green;*/
+}
+
 .detail-pic-main img{
-    width: 500px;
+    /*width: 500px;*/
+    width: 100%;
     height: auto;
 }
 
 .detail-info-container {
     /* word-break: normal|break-all|keep-all|break-word|initial|inherit; */
     word-break: break-word;
-    border: 1px solid red;
+    /*border: 1px solid red;*/
 }
 
 .detail-info-container h2 {
@@ -723,7 +729,7 @@ textarea:focus {
     transform: scale(1.8);
     margin-left: 25vw;
     font-size: 0.5em;
-    background:green;
+    /*background:green;*/
 }
 
 
