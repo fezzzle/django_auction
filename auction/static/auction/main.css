@@ -722,6 +722,9 @@ textarea {
     transition:all 0.5s ease-in-out;
     background: #ecf0f3;
     border-radius: 25px;
+    /*box-shadow: inset 8px 8px 8px #cbced1,*/
+    box-shadow: inset 8px 8px 8px #555,
+                 inset -8px -8px -8px #ffffff;
 }
 
 .create-div {
@@ -736,27 +739,16 @@ textarea {
                 -13px -13px 20px #ffffff;
 }
 
-form {
-    /*padding: 10px;
-    outline:none;
-    background: #ecf0f3;*/
-    /*border: 1px solid green;*/
-    width:100%;
-    /*padding: 75px 5px 5px 5px;*/
-}
-
 .create-input {
+    border: 5px solid red;
+    border-radius: 25px;
+    /*box-shadow: 8px 8px 8px #cbced1,
+                -8px -8px -8px #ffffff;*/
 }
 
-.create-input input {
-    border: none;
-    outline: none;
-    background: none;
-    color: #555;
-    padding: 20px 10px 20px 5px;
-}
 
 .field-input {
+
 }
 
 textarea:focus {
@@ -769,8 +761,17 @@ textarea:focus {
     /*background:green;*/
 }
 
+.formal {
+    width:100%;
+    padding: 5px;
+}
 
-
-.formal input, label{
+.formal input{
+    border: none;
+    outline: none;
+    background: none;
+    color: #555;
+    padding: 20px 10px 20px 5px;
     /*border: 1px solid red;*/
+
 }
