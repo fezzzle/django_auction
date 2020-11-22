@@ -18,6 +18,8 @@ html {
 body {
     font-family: 'Montserrat', sans-serif;
     /*background: #333138;*/
+    background: #ecf0f3;
+    /*color: #555;*/
 }
 
 .error-box {
@@ -129,6 +131,7 @@ body {
     /*text-transform: uppercase;*/
     overflow: visible;
     /*border-bottom: 1px solid black;*/
+    background: #ecf0f3;
 }
 
 .navbar > div {
@@ -146,6 +149,7 @@ body {
     background: lightgrey;
     border-radius: 10px;
     /*position:relative;*/
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .fas {
@@ -250,7 +254,7 @@ a:hover {
 .form-button {
     display: inline-block;
     padding: 0.35em 1.2em;
-    border: 0.1px solid #FFFFFF;
+    border: 0.1px solid #000;
     border-radius: 0.12em;
     margin: 0.8em 0.8em 0.8em 0;
     text-decoration: none;
@@ -273,7 +277,6 @@ a:hover {
 
 .form-button:active {
     background-color:#FFFFFF;
-    /* border: 1px solid transparent; */
     outline: none;
     transform: translateY(1px);
 }
@@ -508,8 +511,8 @@ footer {
 /* input CSS */
 
 .searchbar input[type=text] {
-   padding-top: 15px;
-   padding-bottom: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
     display: inline-block;
     border: none;
     width: 20vw;
@@ -772,8 +775,8 @@ textarea:focus {
     outline: none;
     border: none;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    transform: scale(1.8);
-    margin-left: 25vw;
-    font-size: 0.5em;
+    transform: scale(1.5);
+    margin-left: 7vw;
+    font-size: 0.8em;
     /*background:green;*/
 }

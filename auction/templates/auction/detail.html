@@ -38,8 +38,9 @@
         <h2>Product: {{ auction.title }}</h2>
         <small>Expire date: {{ auction.expire }}</small>
 
+        <p>Auction ID: {{ auction.id }}</p>
         <p>Description: {{ auction.description }}</p>
-        <p><a href="{% url 'auction:profile' auction.author %}">Seller: {{ auction.author }} <small>click here to see their profile</small></a></p>
+        <p><a href="{% url 'auction:profile' auction.author %}">Seller: {{ auction.author }} <small> *click here to see their profile*</small></a></p>
         <p>Starting price: {{ auction.min_value }} €</p>
 
         {% if auction.buy_now %}
@@ -47,13 +48,12 @@
         {% endif %}
 
         {% if auction.final_value %}
-            <p>Winning value: {{ auction.final_value }}</p>
+            <p>Winning value: {{ auction.final_value }}€</p>
             <p>Auction winner: {{ auction.winner }}</p>
         {% endif %}
-
-        <p>Highest total bid: {{ auction.active_bid_value}} €</p>
-
+        
         {% if auction.is_active %}
+            <p>Highest bid: {{ auction.active_bid_value}}€</p>
             <p>Time remaining: <span id="clock"></span></p>
         {% endif %}
 
