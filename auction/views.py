@@ -157,14 +157,14 @@ def bid(request, auction_id):
             auction.resolve()
         #When user bids instead of buynow
         elif request.method == 'POST' and 'amount' in request.POST:
-            if bid_amount <= bid.amount:
+            if bid_amount <= bid.amount or auction.buy_now < bid_amount:
                 messages.warning(request, 'You need to enter a bigger bid than the previous amount!')
-                return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid, "images": images})
+                return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_user_bid, "images": images})
             bid.amount = bid_amount
             bid.save()
             if bid.amount <= auction.active_bid_value:
                 messages.warning(request, 'You need to enter a bigger bid than the previous amount!')
-                return render(request, "auction/detail.html", {'auction': auction, 'user_bid': bid.highest_user_bid, "images": images})
+                return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_user_bid, "images": images})
             if auction.buy_now:
                 if bid_amount < auction.min_value or bid_amount > auction.buy_now:
                     raise ValueError
