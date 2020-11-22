@@ -18,6 +18,8 @@ html {
 body {
     font-family: 'Montserrat', sans-serif;
     /*background: #333138;*/
+    background: #ecf0f3;
+    /*color: #555;*/
 }
 
 .error-box {
@@ -129,6 +131,7 @@ list-style-type: none;
     /*text-transform: uppercase;*/
     overflow: visible;
     /*border-bottom: 1px solid black;*/
+    background: #ecf0f3;
 }
 
 .navbar > div {
@@ -146,6 +149,7 @@ list-style-type: none;
     background: lightgrey;
     border-radius: 10px;
     /*position:relative;*/
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .fas {
@@ -448,8 +452,8 @@ footer {
 /* input CSS */
 
 .searchbar input[type=text] {
-   padding-top: 15px;
-   padding-bottom: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
     display: inline-block;
     border: none;
     width: 20vw;
