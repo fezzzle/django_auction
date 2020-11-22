@@ -29,7 +29,7 @@ body {
 }
 
 .messages {
-list-style-type: none;
+    list-style-type: none;
 }
 
 /* views rida 146 */
@@ -68,8 +68,8 @@ list-style-type: none;
 }
 
 @keyframes example {
-0%   {opacity:0;}
-100%   {opacity:1;}
+    0%   {opacity:0;}
+    100%   {opacity:1;}
 }
 
 /* base.html */
@@ -221,9 +221,70 @@ a:hover {
     /*border: 1px solid black;*/
 }
 
-.content {
-    /*border: 1px blue solid;*/
+.form-style {
+    /* border: 10px blue solid; */
+    display: flex;
+    flex-direction: column;
 }
+
+.form-style > * {
+    width: 70%;
+    margin: 0.2em;
+}
+
+.form-style > input {
+    height: 2rem;
+    padding: 0.5em;
+    outline: none;
+}
+
+.form-style > textarea {
+    height: 10rem;
+    border: 1px solid grey;
+}
+
+.form-style > label {
+    margin: 1rem 1rem 1rem 0;
+}
+
+.form-button {
+    display: inline-block;
+    padding: 0.35em 1.2em;
+    border: 0.1px solid #FFFFFF;
+    border-radius: 0.12em;
+    margin: 0.8em 0.8em 0.8em 0;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-weight: 300;
+    font-family:'Roboto',sans-serif;
+    color: black;
+    text-align: center;
+    transition: all 0.2s;
+    width: 10em;
+    height: 2em;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.form-button:hover {
+    color:#000000;
+    background-color:#FFFFFF;
+}
+
+.form-button:active {
+    background-color:#FFFFFF;
+    /* border: 1px solid transparent; */
+    outline: none;
+    transform: translateY(1px);
+}
+
+.form-button:focus {
+    outline: none;
+}
+
+/* input[type="file"] {
+    display: none;
+} */
 
 /* .content {
     border: 1px blue solid;
@@ -433,7 +494,6 @@ footer {
 	left: 10px;
 	/*transform: translate(-50%, -50%);*/
 	text-align: left;
-
 }
 
 .img-text p {
@@ -693,29 +753,15 @@ footer {
 
 /*--------------CREATE.html------------*/
 
-.mmm {
-    background-color: lightgrey;
-    padding:20px;
-}
-
-#add_image {
-    margin-bottom: 20px;
-}
-
-#images input{
-    margin-bottom: 10px;
-    padding:10px 10px 10px 0px;
-    width:100%;
-    border:1px solid grey;
-}
 
 textarea {
-    height:200px;
-    width:400px;
+    height: 200px;
+    width: 400px;
     resize: none;
-    padding: 5px;
     border: 1px solid lightgrey;
     transition:all 0.5s ease-in-out;
+    padding: 0.5em;
+    outline: none;
 }
 
 form {
@@ -730,10 +776,4 @@ textarea:focus {
     margin-left: 25vw;
     font-size: 0.5em;
     /*background:green;*/
-}
-
-
-
-.formal input, label{
-    /*border: 1px solid red;*/
 }

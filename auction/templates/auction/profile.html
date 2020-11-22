@@ -11,26 +11,21 @@
 <p>Username: {{ user.username }}</p>
 <p>User.id: {{ user.id }}</p>
 <p>User email: {{ user.email }}</p>
-<p>Location: {{ user.location }}</p>
 <p>Phone: {{ user.phone }}</p>
+<p>Location: {{ user.location }}</p>
 {% if user.is_authenticated %}
-    <form action="{% url 'auction:profile' %}" method="POST" enctype="multipart/form-data">
+    <form action="{% url 'auction:profile' %}" method="POST" enctype="multipart/form-data" class="form-style">
         {% csrf_token %}
-        <label for="location">Location: </label>
+        <label for="location">Change Location: </label>
         <input type="text" name="location" placeholder="Your location">
-        <input type="submit" name="location_change" value="Change location">
-        <br>
         <label for="email">Change email: </label>
         <input type="email" name="email" placeholder="hello@hello.com">
-        <input type="submit" name="email_change" value="Change email">
-        <br>
+        <label for="email">Change Phone Number: </label>
+        <input type="number" name="phone" placeholder="530000321">
         <label for="user_password">Change password:</label>
-        <br>
-        <br>
         <input type="password" name="user_password1" placeholder="Password">
         <input type="password" name="user_password2" placeholder="Confirm password">
-        <br>
-        <input type="submit" name="password_change" value="Update password">
+        <input type="submit" class="form-button" name="password_change" value="Update Profile">
     </form>
 {% endif %}
 

@@ -12,41 +12,28 @@
     {% endif %}
 </div>
 
-<form action="{% url 'auction:create' %}" method="POST" enctype="multipart/form-data" class="formal">
+<form action="{% url 'auction:create' %}" method="POST" enctype="multipart/form-data" class="form-style">
     <!-- {% if error_message %}<p class="error"><strong>{{ error_message }}</strong></p>{% endif %} -->
     {% csrf_token %}
     <label for="title">Product:</label>
     <input type="text" name="title" placeholder="ie. laptop, shoes.." maxlength="100">
-    <br>
     <label for="description">Descripton of the auction:</label>
-    <br>
-    <textarea name="description" placeholder="Pane oma deskription" maxlength="500"></textarea>
-    <br>
-    Total auction duration:
+    <textarea name="description" placeholder="Describe item you are selling..." maxlength="500"></textarea>
+    <label for="duration">Total auction duration:</label>
     <input type="range" name="duration" id="duration" value="50" min="1" max="1440" oninput="durationOut.value = duration.value">
     <output name="durationOut" id="durationOut">50</output> Minutes<br>
-    <!-- original timer
-    <label for="duration">Total auction duration</label>
-    <br>
-    <input type="number" name="duration" id="" max="100">
-    -->
-    <br>
     <label for="min_value">Starting value of the bidding</label>
-    <br>
     <input type="number" name="min_value" placeholder="Min. 1€" min="1">
-    <br>
-    <label for="buy_now">Set buy now?</label><input type="checkbox">
-    <br>
-    <input type="number" name="buy_now" placeholder="0€">
-    <br>
+    <label for="buy_now">Set buy now?</label>
+    <input type="number" name="buy_now" placeholder="If 0€, then there will be no buy now">
 
-    <div class="mmm">
-
-        <input type="button" name="add_image" id="add_image" value="Add Image">
-
-        <div id="images"></div>
-        <input type="submit" class="submit_button" name="submit_button" value="Create">
+    <div id="image-add">
+        <input type="button" name="add_image" id="add_image" class="form-button" value="Add Image">
+        <div id="images">
+        </div>
+        <input type="submit" name="submit_button" class="form-button" value="Create">
     </div>
+    <input type="submit" name="submit_button" class="form-button" value="Create">
 </form>
 
 <script>
@@ -54,7 +41,7 @@
         let image = document.getElementById("images");
         let newInput = document.createElement("input");
         newInput.type = "file";
-        newInput.name = "file[]";
+        newInput.name = "file-upload";
         image.appendChild(newInput)
     }
 </script>
