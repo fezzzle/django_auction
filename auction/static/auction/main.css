@@ -761,14 +761,35 @@ textarea {
     height: 200px;
     width: 400px;
     resize: none;
+
     border: 1px solid lightgrey;
     transition:all 0.5s ease-in-out;
     padding: 0.5em;
     outline: none;
 }
 
-form {
-    /*border: 1px solid green;*/
+.create-div {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 430px;
+    height: 700px;
+    padding: 35px;
+    border-radius: 40px;
+    box-shadow: 13px 13px 20px #cbced1,
+                -13px -13px 20px #ffffff;
+}
+
+.create-input {
+    border: 5px solid red;
+    border-radius: 25px;
+    /*box-shadow: 8px 8px 8px #cbced1,
+                -8px -8px -8px #ffffff;*/
+}
+
+
+.field-input {
+
 }
 
 textarea:focus {
@@ -779,4 +800,18 @@ textarea:focus {
     margin-left: 7vw;
     font-size: 0.8em;
     /*background:green;*/
+}
+
+.formal {
+    width:100%;
+    padding: 5px;
+}
+
+.formal input{
+    border: none;
+    outline: none;
+    background: none;
+    color: #555;
+    padding: 20px 10px 20px 5px;
+    /*border: 1px solid red;*/
 }
