@@ -17,7 +17,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
     location = models.CharField(max_length=30)
     phone = models.CharField(max_length=15)
-    
+
     def get_absolute_url(self):
         """Returns the url to access a particular instance of the model."""
         return reverse('auction:profile', args=[str(self.username)])
@@ -59,7 +59,7 @@ class Auction(models.Model):
                     self.final_value = highest_bid.amount
                 self.is_active = False
                 self.save()
-            if self.active_bid_value and self.buy_now is not 0:
+            if self.active_bid_value and self.buy_now != 0:
                 if self.active_bid_value >= self.buy_now:
                     self.active_bid_value = highest_bid.amount
                     self.winner = highest_bid.bidder
@@ -74,8 +74,7 @@ class Auction(models.Model):
         logger.info(f"AUCTION END IS: {auction_end}")
         if now > auction_end:
             return True
-        else:
-            return False
+        return False
     
     @property
     def seconds_remaining(self):
@@ -93,8 +92,7 @@ class Auction(models.Model):
 
     @property
     def highest_auction_bid(self):
-        if self.active_bid_value:
-            return self.active_bid_value
+        return self.active_bid_value
 
     def __str__(self):
         return self.title
@@ -108,8 +106,7 @@ class Bid(models.Model):
 
     @property
     def highest_user_bid(self):
-        if self.amount:
-            return self.amount
+        return self.amount
 
     def __str__(self):
         return str(self.amount)
