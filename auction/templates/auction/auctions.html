@@ -17,14 +17,12 @@
                     <li>Auction duration {{auction.total_auction_duration}}</li>
                 {% if auction.is_active %}
                     <li>{% widthratio auction.seconds_remaining 60 1 %} minutes left</li>
-                    <!-- <li>Time remaining {{auction.seconds_remaining|floatformat:"0"}}</li> -->
                 {% else %}
                     <p>Auction has ended!</p>
                 {% endif %}
                 </div>
             </a>
             </div>
-<!--        <br>-->
         {% endfor %}
         </div>
     {% else %}

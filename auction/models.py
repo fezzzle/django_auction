@@ -20,7 +20,10 @@ class CustomUser(AbstractUser):
     
     def get_absolute_url(self):
         """Returns the url to access a particular instance of the model."""
-        return reverse('auction:profile', args=[str(self.id)])
+        return reverse('auction:profile', args=[str(self.username)])
+
+    def __str__(self):
+        return self.username
 
 
 class Auction(models.Model):
@@ -37,6 +40,12 @@ class Auction(models.Model):
                               related_name="auction_winner",
                               related_query_name="auction_winner")
     final_value = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        ordering = ['date_added']
+
+    def get_absolute_url(self):
+        return reverse('auction:detail', args=[str(self.id)])
 
     def get_first_image(self):
         return self.auctionimage_set.first()
