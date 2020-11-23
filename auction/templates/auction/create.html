@@ -1,30 +1,31 @@
 {% extends "auction/base.html" %}
 
 {% block content %}
-<h1>Create an auction</h1>
-<div class="error-box">
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li class="{{ message.tags }}">{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-</div>
 
 <form action="{% url 'auction:create' %}" method="POST" enctype="multipart/form-data" class="form-style">
+    <h1>Create an auction</h1>
+    <div class="error-box">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+
     <!-- {% if error_message %}<p class="error"><strong>{{ error_message }}</strong></p>{% endif %} -->
     {% csrf_token %}
-    <label for="title">Product:</label>
-    <input type="text" name="title" placeholder="ie. laptop, shoes.." maxlength="100">
-    <label for="description">Descripton of the auction:</label>
+<!--    <label for="title">Product:</label>-->
+    <input type="text" name="title" placeholder="Product ie. laptop, shoes.." maxlength="100">
+<!--    <label for="description">Descripton of the auction:</label>-->
     <textarea name="description" placeholder="Describe item you are selling..." maxlength="500"></textarea>
     <label for="duration">Total auction duration:</label>
-    <input type="range" name="duration" id="duration" value="50" min="1" max="1440" oninput="durationOut.value = duration.value">
-    <output name="durationOut" id="durationOut">50</output> Minutes<br>
-    <label for="min_value">Starting value of the bidding</label>
-    <input type="number" name="min_value" placeholder="Min. 1€" min="1">
-    <label for="buy_now">Set buy now?</label>
+    <input type="range" name="duration" id="duration" value="720" min="1" max="1440" oninput="durationOut.value = duration.value">
+    <output name="durationOut" id="durationOut">720</output> Minutes<br>
+<!--    <label for="min_value">Starting value of the bidding</label>-->
+    <input type="number" name="min_value" placeholder="Starting value of the bidding. Default 1€" min="1">
+<!--    <label for="buy_now">Set buy now?</label>-->
     <input type="number" name="buy_now" placeholder="If 0€, then there will be no buy now">
 
     <div id="image-add">
