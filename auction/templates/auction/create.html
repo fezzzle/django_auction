@@ -21,8 +21,8 @@
 <!--    <label for="description">Descripton of the auction:</label>-->
     <textarea name="description" placeholder="Describe item you are selling..." maxlength="500"></textarea>
     <label for="duration">Total auction duration:</label>
-    <input type="range" name="duration" id="duration" value="720" min="1" max="1440" oninput="durationOut.value = duration.value">
-    <output name="durationOut" id="durationOut">720</output> Minutes<br>
+    <input type="range" class="slider" name="duration" id="duration" value="720" min="1" max="1440" oninput="durationOut.value = duration.value">
+    <output name="durationOut" id="durationOut">720</output> <p>Minutes</p><br>
 <!--    <label for="min_value">Starting value of the bidding</label>-->
     <input type="number" name="min_value" placeholder="Starting value of the bidding. Default 1€" min="1">
 <!--    <label for="buy_now">Set buy now?</label>-->
