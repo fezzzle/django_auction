@@ -571,7 +571,7 @@ footer {
 	position:absolute;
 	color: white;
 	z-index:2;
-	top: 50%;
+	top: 5%;
 	left: 10px;
 	/*transform: translate(-50%, -50%);*/
 	text-align: left;
