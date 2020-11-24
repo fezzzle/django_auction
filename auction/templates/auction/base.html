@@ -58,7 +58,8 @@
 				but hey, it's pure CSS magic.
 				-->
 				<ul id="menu">
-                    USER: <u style="text-transform:capitalize;">{{ user }}</u>
+                    <li><u>MENU</u></li>
+                    <small><style="text-transform:capitalize;">User:{{ user}}</small>
                     <a href="{% url 'auction:create' %}"><li>Create</li></a>
                     <a href="{% url 'auction:my_auctions' %}"><li>My auctions</li></a>
                     <a href="{% url 'auction:my_bids' %}"><li>My bids</li></a>
@@ -67,6 +68,7 @@
 				    <a href="#"><li>Info</li></a>
 				    <a href="#"><li>Contact</li></a>
                     <a href="{% url 'logout' %}"><li>Logout</li></a>
+
 				</ul>
 			</div>
           {% else %}

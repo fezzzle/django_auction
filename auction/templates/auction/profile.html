@@ -1,20 +1,23 @@
 {% extends "auction/base.html" %}
 {% block content %} 
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li class="{{ message.tags }}">{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
 
-<p>Username: {{ user.username }}</p>
-<p>User.id: {{ user.id }}</p>
-<p>User email: {{ user.email }}</p>
-<p>Phone: {{ user.phone }}</p>
-<p>Location: {{ user.location }}</p>
+
 {% if user.is_authenticated %}
     <form action="{% url 'auction:profile' %}" method="POST" enctype="multipart/form-data" class="form-style">
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <p>Username: {{ user.username }}</p>
+        <p>User.id: {{ user.id }}</p>
+        <p>User email: {{ user.email }}</p>
+        <p>Phone: {{ user.phone }}</p>
+        <p>Location: {{ user.location }}</p>
         {% csrf_token %}
         <label for="location">Change Location: </label>
         <input type="text" name="location" placeholder="Your location">
