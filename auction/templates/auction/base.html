@@ -9,14 +9,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'auction/normalize.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'auction/main.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'auction/burger.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'auction/sliders.css' %}">
   </head>
   <body>
   <div class="container">
 
     <div class="navbar">
       <div class="index-drop">
-  <!--      <div class="link-wrapper"><img src="https://www.pikpng.com/pngl/m/65-654126_banana-nanica-png-clipart-picture-of-banana-transparent.png" height="115" width="115"></div>-->
         <div class="">
           <a href="{% url 'auction:index' %}"><div class="logo"></div></a>
         </div>
@@ -97,8 +96,8 @@
                     <a href="#"><li>About</li></a>
 				    <a href="#"><li>Info</li></a>
 				    <a href="#"><li>Contact</li></a>
-                    <a class="logout" href="{% url 'register' %}"><li>Register</li></a>
-                    <a class="logout" href="{% url 'login' %}"><li>Login</li></a>
+                    <a href="{% url 'register' %}"><li>Register</li></a>
+                    <a href="{% url 'login' %}"><li>Login</li></a>
 				</ul>
 			</div>
 

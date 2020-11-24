@@ -2,28 +2,46 @@
     margin: 0;
     padding: 0;
 }
-/*
-::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px lightgrey;
-    border-radius: 10px;
-}
-*/
 
-::-webkit-scrollbar-thumb {
-  background: lightgrey;
-  border-radius: 10px;
-  box-shadow: inset -7px -7px 4px rgb(180, 180, 180, 0.3),
-              inset 7px 7px 4px rgb(255, 255, 255, 0.3),
-              2px 2px 4px rgb(180, 180, 180, 0.5);
-}
-::-webkit-scrollbar {
-  width: 20px;
-}
+
 /* For smooooooth experience ;D */
 html {
     scroll-behavior: smooth;
 }
 
+.make-user {
+    position: fixed;
+    height: 50px;
+    width: 200px;
+    color: #ecf0f3;
+    font-weight: 600;
+    background-color: tomato;
+    z-index: 10;
+    bottom: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left:50%;
+    transform: translateX(-50%);
+    border-radius: 25px;
+    /* ei toimi veel */
+    animation-name: example;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    transition: 0.3s;
+}
+
+.make-user:hover {
+    transform: translateX(-50%) scale(1.02);
+}
+/*
+@keyframes bounce {
+    0% {transform: translateX(0px);}
+    50% {transform: translateX(10px);}
+    100% {transform: translateX(0px);}
+}
+*/
 .auction-list-items ul, a {
     list-style-type: none;
     color: inherit;
@@ -135,7 +153,8 @@ body {
 }
 
 .index-drop {
-    display: flex;
+    /*display: flex;*/
+
 }
 
 .index-drop a, a:hover, a:visited {
@@ -144,7 +163,7 @@ body {
 }
 
 .logo {
-    z-index:20;
+
 }
 
 .logo-text {
@@ -159,7 +178,6 @@ body {
     top: 0px;
     justify-content: space-between;
     z-index: 999;
-    overflow: visible;
     background: #ecf0f3;
     /*background: none;*/
     opacity: 0.98;
@@ -174,12 +192,12 @@ body {
 .searchbar {
     display: flex;
     align-items: center;
-    /*border: 1px solid red;*/
+   /* border: 1px solid red;*/
 }
 
 .formaalsuskuubis {
     background: lightgrey;
-    border-radius: 10px;
+    border-radius: 25px;
     /*position:relative;*/
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19),
                 0 -4px 8px 0 rgba(255, 255, 255, 0.2), 0 -6px 20px 0 rgba(255, 255, 255, 0.19);
@@ -270,6 +288,7 @@ body {
 
 .form-style > input:focus {
     transform: scale(1.02);
+    background: #f0f3f5;
     box-shadow: inset 0 0 0 rgb(180, 180, 180, 0.3),
                     inset 0 0 0 rgb(255, 255, 255, 0.3),
                     8px 8px 8px rgb(180, 180, 180, 0.3),
@@ -299,12 +318,8 @@ body {
                 inset 0 0 0 rgb(255, 255, 255, 0.3),
                 8px 8px 8px rgb(180, 180, 180, 0.3),
                 -8px -8px 8px rgb(255, 255, 255, 0.3);
-    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
     transform: scale(1.02);
-    /*font-size: 0.8em;
-    border-radius: 25px;*/
-    /*margin-left: 7vw;*/
-    /*background:green;*/
+    background: #f0f3f5;
 }
 
 .form-style > output {
