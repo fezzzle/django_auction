@@ -245,28 +245,72 @@ def searchbar(request):
 def profile(request, **username):
     if len(username) > 0:
         if username['username'] == str(request.user):
-            return render(request, "auction/profile.html", {"user": request.user})
+            return render(
+                request,
+                "auction/profile.html",
+                {
+                    "user": request.user
+                })
         else:
             user = CustomUser.objects.get(username=username['username'])
-            user_auctions = Auction.objects.filter(author=user.id).order_by("-date_added")
+            user_auctions = Auction.objects.filter(
+                author=user.id
+                ).order_by("-date_added")
             user = get_object_or_404(CustomUser, username=username['username'])
-            return render(request, "auction/user.html", {"user": user, "user_auctions": user_auctions})
+            return render(
+                request,
+                "auction/user.html",
+                {
+                    "user": user,
+                    "user_auctions": user_auctions
+                })
 
     user = get_object_or_404(CustomUser, pk=request.user.id)
-    if request.method == 'POST' and 'email_change' in request.POST:
+    logger.info(f"REQUEST.POST: {request.POST}")
+    if request.method == 'POST' and request.POST.get('email'):
         try:
-            email = request.POST['email']
+            email = request.POST.get('email')
             validate_email(email)
         except ValidationError as e:
             messages.warning(request, 'Please enter a valid email!')
         else:
-            messages.success(request, "Email successfully changed!")
             user.email = email
             user.save()
-    if request.method == 'POST' and 'password_change' in request.POST:
+            messages.success(request, "Email successfully changed!")
+    if request.method == 'POST' and request.POST.get('first-name'):
         try:
-            password1 = request.POST['user_password1']
-            password2 = request.POST['user_password2']
+            first_name = request.POST.get('first-name')
+        except Exception as e:
+            messages.warning(request, e)
+        else:
+            user.first_name = first_name
+            user.save()
+            messages.success(request, "First name set!")
+
+    if request.method == 'POST' and request.POST.get('last-name'):
+        try:
+            last_name = request.POST.get('last-name')
+        except Exception as e:
+            messages.warning(request, e)
+        else:
+            user.last_name = last_name
+            user.save()
+            messages.success(request, "Last name set!")
+
+    if request.method == 'POST' and request.POST.get('phone'):
+        try:
+            phone = request.POST.get('phone')
+        except Exception as e:
+            messages.warning(request, e)
+        else:
+            user.phone = phone
+            user.save()
+            messages.success(request, "Phone number set!")
+
+    if request.method == 'POST' and request.POST.get('password_change'):
+        try:
+            password1 = request.POST.get('user_password1')
+            password2 = request.POST.get('user_password2')
             if password1 and password2 and password1 != password2:
                 raise ValidationError('Password did not match')
             password_validation.validate_password(password1)
@@ -280,15 +324,19 @@ def profile(request, **username):
             user.set_password(password1)
             user.save()
             messages.success(request, "Successfully changed password!")
-    if request.method == 'POST' and 'location_change' in request.POST:
+
+    if request.method == 'POST' and request.POST.get('location'):
         try:
-            location = request.POST['location']
+            location = request.POST.get('location')
         except Exception as e:
-            messages.warning(request, 'Something went wrong when changing location')
+            messages.warning(
+                request,
+                'Something went wrong when changing location'
+            )
         else:
-            messages.success(request, "Location successfully changed!")
             user.location = location
             user.save()
+            messages.success(request, "Location successfully changed!")
     return render(request, "auction/profile.html", {"user": user})
 
 
