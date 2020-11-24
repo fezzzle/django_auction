@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content%}
-{% if not user.is_authenticated %}
+{% if not user.authenticated %}
     <a href="{% url 'register' %}"><div class="join-now">Join now!</div></a>
 {% endif %}
 
@@ -37,66 +37,84 @@
 
             </div>
         </div>
-        <!-- hardcoded -->
-        <div class="news-container">
 
-            <div class="new-container">
-                <h2>Last added:</h2>
-                <div class="new">
-                    <div class="box">
-                        <a href="#">
-                            <img src="https://picsum.photos/200">
-                            <div class="box-overlay">
-                                <div class="box-text">
-                                    <p>Title</p>
-                                    <p>ID</p>
-                                    <p>Author</p>
+        <div class="auction-container">
+            <h2>Discover:</h2>
+            <div class="auction-grid">
+                {% for auction in all_auctions %}
+                    <a href="{% url 'auction:detail' auction.id %}">
+                        <div class="img-container-background" style="background-image:url('{% static auction.get_first_image.image %}')">
+                            <div class="img-overlay">
+                                <div class="img-text">
+                                    <p>Product: {{auction.title}}</p>
+                                    <p>ID: {{auction.id}}</p>
+                                    <p>price: {{auction.min_value}}€</p>
+                                    {% if auction.is_active %}
+                                        <p>{% widthratio auction.seconds_remaining 60 1 %} minutes left</p>
+                                        <!--Time remaining {{auction.seconds_remaining|floatformat:"0"}}-->
+                                    {% else %}
+                                        <p>Auction has ended!</p>
+                                    {% endif %}
+                                    <p>Seller: {{auction.author}}</p>
                                 </div>
                             </div>
-                        </a>
-                    </div>
-                </div>
+                        </div>
+                    </a>
+                {% endfor %}
             </div>
-            <div class="new-container">
+            </div>
+
+
+        <div class="auction-container">
+            <h2>Last added:</h2>
+            <div class="auction-grid">
+                {% for auction in last_added %}
+                    <a href="{% url 'auction:detail' auction.id %}">
+                        <div class="img-container-background" style="background-image:url('{% static auction.get_first_image.image %}')">
+                            <div class="img-overlay">
+                                <div class="img-text">
+                                    <p>Product: {{auction.title}}</p>
+                                    <p>ID: {{auction.id}}</p>
+                                    <p>price: {{auction.min_value}}€</p>
+                                    {% if auction.is_active %}
+                                        <p>{% widthratio auction.seconds_remaining 60 1 %} minutes left</p>
+                                    {% else %}
+                                        <p>Auction has ended!</p>
+                                    {% endif %}
+                                    <p>Seller: {{auction.author}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+            </div>
+
+            <div class="auction-container">
                 <h2>Ending soon:</h2>
-                <!-- grid "new" -->
-                <div class="new">
-                    <div class="box">
-                        <a href="#">
-                            <img src="https://picsum.photos/200">
-                            <div class="box-overlay" >
-                                <div class="box-text">
-                                    <p>Title</p>
-                                    <p>ID</p>
-                                    <p>Author</p>
+                <div class="auction-grid">
+                    {% for auction in ending_soon %}
+                        <a href="{% url 'auction:detail' auction.id %}">
+                            <div class="img-container-background" style="background-image:url('{% static auction.get_first_image.image %}')">
+                                <div class="img-overlay">
+                                    <div class="img-text">
+                                        <p>Product: {{auction.title}}</p>
+                                        <p>ID: {{auction.id}}</p>
+                                        <p>price: {{auction.min_value}}€</p>
+                                        {% if auction.is_active %}
+                                            <p>{% widthratio auction.seconds_remaining 60 1 %} minutes left</p>
+                                            <!--Time remaining {{auction.seconds_remaining|floatformat:"0"}}-->
+                                        {% else %}
+                                            <p>Auction has ended!</p>
+                                        {% endif %}
+                                        <p>Seller: {{auction.author}}</p>
+                                    </div>
                                 </div>
                             </div>
                         </a>
-                    </div><div class="box">
-                        <a href="#">
-                            <img src="https://picsum.photos/200">
-                            <div class="box-overlay" >
-                                <div class="box-text">
-                                    <p>Title</p>
-                                    <p>ID</p>
-                                    <p>Author</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div><div class="box">
-                        <a href="#">
-                            <img src="https://picsum.photos/200">
-                            <div class="box-overlay" >
-                                <div class="box-text">
-                                    <p>Title</p>
-                                    <p>ID</p>
-                                    <p>Author</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+                    {% endfor %}
                 </div>
-            </div>
+                </div>
 
         <!--<div class="new">
 
@@ -113,37 +131,5 @@
                 {% endfor %}
             </div> -->
         </div>
-    </div>
-
-<!-- TEST AUCTIONS! -->
-
-    <div class="auction-container">
-    <h2>Discover:</h2>
-    <div class="auction-grid">
-        {% for auction in auctions_list %}
-                                                      <!-- pic on placeholder! -->
-            <!-- <div class="img-container" style="background-image:url('{{ pic }}');"> -->
-<!--            <div class="img-container">-->
-                <a href="{% url 'auction:detail' auction.id %}">
-                    <div class="img-container-background" style="background-image:url('{% static auction.get_first_image.image %}')">
-                        <div class="img-overlay">
-                            <div class="img-text">
-                                <p>Product: {{auction.title}}</p>
-                                <p>ID: {{auction.id}}</p>
-                                <p>price: {{auction.min_value}}€</p>
-                                {% if auction.is_active %}
-                                    <p>{% widthratio auction.seconds_remaining 60 1 %} minutes left</p>
-                                    <!--Time remaining {{auction.seconds_remaining|floatformat:"0"}}-->
-                                {% else %}
-                                    <p>Auction has ended!</p>
-                                {% endif %}
-                                <p>Seller: {{auction.author}}</p>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-<!--            </div>-->
-        {% endfor %}
-    </div>
     </div>
 {% endblock content %}

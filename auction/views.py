@@ -21,13 +21,16 @@ logger = logging.getLogger("mylogger")
 
 
 def index(request):
-    auctions_list = Auction.objects.all()
-    for a in auctions_list:
+    all_auctions = Auction.objects.all()
+    last_added = Auction.objects.all().order_by('-date_added')[:5]
+    ending_soon = Auction.objects.all().order_by('total_auction_duration')[:5]
+    # last_five_in_ascending_order = reversed(last_added)
+    for a in all_auctions:
         a.resolve()
     current_user = request.user
     logger.info(f"CURRENT USER IS: {current_user}")
     logger.info(f"CURRENT USER IS: {dir(current_user)}")
-    return render(request, 'auction/index.html', {"auctions_list": auctions_list, "user": current_user})
+    return render(request, 'auction/index.html', {"all_auctions": all_auctions, "user": current_user, "last_added": last_added, "ending_soon": ending_soon})
 
 
 def detail(request, auction_id):
