@@ -16,10 +16,10 @@ logger = logging.getLogger("mylogger")
 
 class CustomUser(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
-    location = models.CharField(max_length=30)
-    phone = models.CharField(max_length=15)
-    first_name = models.CharField(max_length=15)
-    last_name = models.CharField(max_length=15)
+    location = models.CharField(max_length=30, blank=True, null=True)
+    phone = models.CharField(max_length=15, blank=True, null=True)
+    first_name = models.CharField(max_length=15, blank=True, null=True)
+    last_name = models.CharField(max_length=15, blank=True, null=True)
 
     def get_absolute_url(self):
         """Returns the url to access a particular instance of the model."""
