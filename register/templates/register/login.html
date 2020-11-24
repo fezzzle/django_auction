@@ -10,10 +10,16 @@
 {% endif %}
 {% if user.is_anonymous %}
     <h2>Log In</h2>
-    <form method="post">
+    <form method="post" class="form-style">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Log In</button>
+        {{ form.non_field_errors }}
+        <label for="{{ form.username.id_for_label }}">Username:</label>
+        {{ form.username }}
+        {{ form.username.errors }}
+        <label for="{{ form.password.id_for_label }}">Password:</label>
+        {{ form.password }}
+        {{ form.password.errors }}
+        <button class="form-button" type="submit">Login</button>
     </form>
 {% else %}
     <a href="{% url 'auction:index'%}"><p>Go back to index</p></a>
@@ -21,3 +27,6 @@
 
 <small>Don't have an user? <strong><a href="{% url 'register' %}">Register here!</a></strong></small>
 {% endblock content %}
+
+
+

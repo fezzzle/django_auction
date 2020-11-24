@@ -25,6 +25,8 @@ def index(request):
     for a in auctions_list:
         a.resolve()
     current_user = request.user
+    logger.info(f"CURRENT USER IS: {current_user}")
+    logger.info(f"CURRENT USER IS: {dir(current_user)}")
     return render(request, 'auction/index.html', {"auctions_list": auctions_list, "user": current_user})
 
 

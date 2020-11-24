@@ -97,7 +97,7 @@
                 {% if auction.is_active %}
                     <form action="{% url 'auction:detail' auction.id %}" method="POST">
                         {% csrf_token %}
-                        <input type="submit" name="cancel_auction" value="Cancel">
+                        <button class="form-button" name="cancel_auction">Cancel</button>
                     </form>
                     <h1>AUCTION IS ACTIVE</h1>
                 {% else %}

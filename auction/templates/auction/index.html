@@ -2,7 +2,10 @@
 {% load static %}
 
 {% block content%}
-<a href="{% url 'register' %}"><div class="make-user">Join now!</div></a>
+{% if not user.is_authenticated %}
+    <a href="{% url 'register' %}"><div class="join-now">Join now!</div></a>
+{% endif %}
+
 
 <div class="">
         <div class="category">
