@@ -55,7 +55,8 @@ body {
 
 .error-box {
     display: flex;
-    /*justify-content: center;*/
+    justify-content: start;
+    /* align-items: stretch; */
     grid-column: 1/3;
     border: 1px solid black;
 
@@ -68,7 +69,7 @@ body {
 /* views rida 146 */
 .warning {
     margin: 5px 0px;
-    width: auto;
+    width: 100%;
     color: #cc0033;
     font-size: 0.8em;
     font-weight: bold;
@@ -85,7 +86,7 @@ body {
 
 .success {
     margin: 5px 0px;
-    width: auto;
+    width: 100%;
     color: green;
     font-size: 0.8em;
     font-weight: bold;
@@ -246,6 +247,10 @@ body {
 .category {
     /*border: 1px solid black;*/
 }
+
+li::marker {
+    content: none;
+  }
 
 .form-style {
     /* border: 10px blue solid; */

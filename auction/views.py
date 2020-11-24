@@ -36,7 +36,6 @@ def detail(request, auction_id):
     num_visits = request.session.get('num_visits', 0)
     request.session['num_visits'] = num_visits + 1
 
-
     auction = get_object_or_404(Auction, pk=auction_id)
     bid = Bid.objects.filter(auction=auction)
     images = AuctionImage.objects.filter(auction=auction)
@@ -122,6 +121,7 @@ def delete_auctions(request):
 @login_required
 def my_auctions(request):
     my_auctions = Auction.objects.filter(author=request.user).order_by("-date_added")
+    logger.info(f"REQ.USER: {request.user}")
     for a in my_auctions:
         a.resolve()
     return render(request, "auction/my_auctions.html", {'my_auctions': my_auctions})
@@ -205,8 +205,11 @@ def profile(request, **username):
         if username['username'] == str(request.user):
             return render(request, "auction/profile.html", {"user": request.user})
         else:
+            user = CustomUser.objects.get(username=username['username'])
+            user_auctions = Auction.objects.filter(author=user.id).order_by("-date_added")
+            logger.info(user_auctions)
             user = get_object_or_404(CustomUser, username=username['username'])
-            return render(request, "auction/user.html", {"user": user})
+            return render(request, "auction/user.html", {"user": user, "user_auctions": user_auctions})
 
     user = get_object_or_404(CustomUser, pk=request.user.id)
     if request.method == 'POST' and 'email_change' in request.POST:
