@@ -72,9 +72,7 @@ class Auction(models.Model):
 
     def has_expired(self):
         now = timezone.now()
-        logger.info(f"TIME IS NOW: {now}")
         auction_end = self.date_added + timedelta(minutes=self.total_auction_duration)
-        logger.info(f"AUCTION END IS: {auction_end}")
         if now > auction_end:
             return True
         return False

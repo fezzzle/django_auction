@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content%}
-{% if not user.authenticated %}
+{% if not user.is_authenticated %}
     <a href="{% url 'register' %}"><div class="join-now">Join now!</div></a>
 {% endif %}
 
