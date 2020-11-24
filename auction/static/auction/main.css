@@ -36,6 +36,10 @@
     100% {transform: translateX(0px);}
 }
 */
+
+auction-list-items {
+    
+}
 .auction-list-items ul, a {
     list-style-type: none;
     color: inherit;
