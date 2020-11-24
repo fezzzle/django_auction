@@ -7,13 +7,19 @@
         {{ error_message }}
         </p>
     {% endif %}
-    <form method="POST">
+
+    <form action="" method="POST" class="form-style">
         {% csrf_token %}
-        {{form.as_p}}
-        <br>
-        <button class="submit_button" type="submit">Sign Up</button>
+        {% for field in form %}
+            {{ field.errors }}
+            {{ field.label_tag }} {{ field }}
+        {% endfor %}
+        <button class="form-button" type="submit">Register</button>
     </form>
-    <small>already have an account? <a href="/login" target="blank"><strong>login here!</strong></a></small>
+    
+    
+    
+    <small>Already have an account? <a href="/login" target="blank"><strong>Login here!</strong></a></small>
 </div>
 
 {% endblock %}

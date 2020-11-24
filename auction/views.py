@@ -25,6 +25,8 @@ def index(request):
     for a in auctions_list:
         a.resolve()
     current_user = request.user
+    logger.info(f"CURRENT USER IS: {current_user}")
+    logger.info(f"CURRENT USER IS: {dir(current_user)}")
     return render(request, 'auction/index.html', {"auctions_list": auctions_list, "user": current_user})
 
 
@@ -33,7 +35,6 @@ def detail(request, auction_id):
     # Buy using get method, we pass in default value and then set every time user visits detail view, request.session['num_visits'] = num_visits + 1
     num_visits = request.session.get('num_visits', 0)
     request.session['num_visits'] = num_visits + 1
-
 
     auction = get_object_or_404(Auction, pk=auction_id)
     bid = Bid.objects.filter(auction=auction)
@@ -120,6 +121,7 @@ def delete_auctions(request):
 @login_required
 def my_auctions(request):
     my_auctions = Auction.objects.filter(author=request.user).order_by("-date_added")
+    logger.info(f"REQ.USER: {request.user}")
     for a in my_auctions:
         a.resolve()
     return render(request, "auction/my_auctions.html", {'my_auctions': my_auctions})
@@ -203,8 +205,11 @@ def profile(request, **username):
         if username['username'] == str(request.user):
             return render(request, "auction/profile.html", {"user": request.user})
         else:
+            user = CustomUser.objects.get(username=username['username'])
+            user_auctions = Auction.objects.filter(author=user.id).order_by("-date_added")
+            logger.info(user_auctions)
             user = get_object_or_404(CustomUser, username=username['username'])
-            return render(request, "auction/user.html", {"user": user})
+            return render(request, "auction/user.html", {"user": user, "user_auctions": user_auctions})
 
     user = get_object_or_404(CustomUser, pk=request.user.id)
     if request.method == 'POST' and 'email_change' in request.POST:

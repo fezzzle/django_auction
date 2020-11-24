@@ -13,22 +13,25 @@
         </ul>
         {% endif %}
 
+        <p>User email: {{ user.email }}</p>
         <p>Username: {{ user.username }}</p>
         <p>User.id: {{ user.id }}</p>
-        <p>User email: {{ user.email }}</p>
+        <p>Fullname: {{ user.first_name }} {{ user.last_name }}</p>
         <p>Phone: {{ user.phone }}</p>
         <p>Location: {{ user.location }}</p>
+        <p>Date joined: {{ user.date_joined|date }}</p>
+        <p>Last login: {{ user.last_login|date:"d.m.Y H:i:s" }} UTC </p>
         {% csrf_token %}
-        <label for="location">Change Location: </label>
-        <input type="text" name="location" placeholder="Your location">
-        <label for="email">Change email: </label>
-        <input type="email" name="email" placeholder="hello@hello.com">
-        <label for="email">Change Phone Number: </label>
-        <input type="number" name="phone" placeholder="530000321">
         <label for="user_password">Change password:</label>
         <input type="password" name="user_password1" placeholder="Password">
-        <input type="password" name="user_password2" placeholder="Confirm password">
-        <input type="submit" class="form-button" name="password_change" value="Update Profile">
+        <input type="password" name="user_password2" placeholder="Confirm Password">
+        <label for="email">Change email: </label>
+        <input type="email" name="email" placeholder="hello@hello.com">
+        <label for="location">Change Location: </label>
+        <input type="text" name="location" placeholder="New location">
+        <label for="email">Change Phone Number: </label>
+        <input type="number" name="phone" placeholder="530000321">
+        <button type="submit" class="form-button" name="password_change">Update Profile</button>
     </form>
 {% endif %}
 

@@ -16,6 +16,7 @@ class CustomUserAdmin(BaseUserAdmin):
         ),
     )
 
+
 admin.site.register(CustomUser, BaseUserAdmin)
 admin.site.register(Auction)
 admin.site.register(Bid)
