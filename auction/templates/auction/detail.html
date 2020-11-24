@@ -61,10 +61,10 @@
         {{ json_ctx|json_script:"json_ctx" }}
 
         {% if not own_auction %}
-            {% if bid %}
-                <p>Your bid: {{ bid }}</p>
-            {% endif %}
             {% if auction.is_active %}
+            {% if bid %}
+            <p>Your bid: {{ bid }}</p>
+            {% endif %}
             <form action="{% url 'auction:bid' auction.id %}" method="POST">
             {% csrf_token %}
             {% if error_message %}<p>{{ error_message }}</p>{% endif %}
