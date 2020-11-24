@@ -36,10 +36,12 @@
     <div class="detail-info-container">
 
         <h2>Product: {{ auction.title }}</h2>
-        <small>Expire date: {{ auction.expire }}</small>
+        <p><small>Time added: {{ auction.date_added }}</small></p>
+        <p><small>Expire date: {{ auction.expire }}</small></p>
 
+        <p>Auction ID: {{ auction.id }}</p>
         <p>Description: {{ auction.description }}</p>
-        <p><a href="{% url 'auction:profile' auction.author %}">Seller: {{ auction.author }} <small>click here to see their profile</small></a></p>
+        <p><a href="{% url 'auction:profile' auction.author %}">Seller: {{ auction.author }} <small> *click here to see their profile*</small></a></p>
         <p>Starting price: {{ auction.min_value }} €</p>
 
         {% if auction.buy_now %}
@@ -47,13 +49,12 @@
         {% endif %}
 
         {% if auction.final_value %}
-            <p>Winning value: {{ auction.final_value }}</p>
+            <p>Winning value: {{ auction.final_value }}€</p>
             <p>Auction winner: {{ auction.winner }}</p>
         {% endif %}
-
-        <p>Highest total bid: {{ auction.active_bid_value}} €</p>
-
+        
         {% if auction.is_active %}
+            <p>Highest bid: {{ auction.active_bid_value}}€</p>
             <p>Time remaining: <span id="clock"></span></p>
         {% endif %}
 
@@ -61,31 +62,31 @@
         {{ json_ctx|json_script:"json_ctx" }}
 
         {% if not own_auction %}
-            {% if bid %}
-                <p>Your bid: {{ bid }}</p>
-            {% endif %}
             {% if auction.is_active %}
+            {% if bid %}
+            <p>Your bid: {{ bid }}</p>
+            {% endif %}
             <form action="{% url 'auction:bid' auction.id %}" method="POST">
             {% csrf_token %}
             {% if error_message %}<p>{{ error_message }}</p>{% endif %}
             {% if not auction.min_value == auction.buy_now %}
                 {% if auction.buy_now %}
                     {% if auction.active_bid_value %}
-                        <input type="number" name="amount" id="bid_amount" value="{{ auction.active_bid_value|add:'1' }}" required>
-                        <input type="submit" name="submit_bid" value="Submit Bid">
-                        <input type="submit" name="buy_now" value="Buy now!">
+                        <input type="number" class="form-button" name="amount" id="bid_amount" value="{{ auction.active_bid_value|add:'1' }}" required>
+                        <input type="submit" class="form-button" name="submit_bid" value="Submit Bid">
+                        <input type="submit" class="form-button" name="buy_now" value="Buy now!">
                     {% else %}
-                        <input type="number" name="amount" id="bid_amount" value="{{ auction.min_value|add:'1' }}" required>
-                        <input type="submit" name="submit_bid" value="Submit Bid">
-                        <input type="submit" name="buy_now" value="Buy now!">
+                        <input type="number" class="form-button" name="amount" id="bid_amount" value="{{ auction.min_value|add:'1' }}" required>
+                        <input type="submit" class="form-button" name="submit_bid" value="Submit Bid">
+                        <input type="submit" class="form-button" name="buy_now" value="Buy now!">
                     {% endif %}
                 {% else %}
-                    <input type="number" name="amount" id="bid_amount" value="{{ auction.active_bid_value|add:'1' }}" required>
-                    <input type="submit" name="submit_bid" value="Submit Bid">
+                    <input type="number" class="form-button" name="amount" id="bid_amount" value="{{ auction.active_bid_value|add:'1' }}" required>
+                    <input type="submit" class="form-button" name="submit_bid" value="Submit Bid">
                 {% endif %}
             {% else %}
-                <input type="hidden" name="amount" value="{{ auction.buy_now }}" required>
-                <input type="submit" name="buy_now" value="Buy now!">
+                <input type="hidden" class="form-button" name="amount" value="{{ auction.buy_now }}" required>
+                <input type="submit" class="form-button" name="buy_now" value="Buy now!">
             {% endif %}
             </form>
         {% else %}
@@ -97,7 +98,7 @@
                 {% if auction.is_active %}
                     <form action="{% url 'auction:detail' auction.id %}" method="POST">
                         {% csrf_token %}
-                        <input type="submit" name="cancel_auction" value="Cancel">
+                        <input type="submit" class="form-button" name="cancel_auction" value="Cancel">
                     </form>
                     <h1>AUCTION IS ACTIVE</h1>
                 {% else %}

@@ -9,15 +9,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'auction/normalize.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'auction/main.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'auction/burger.css' %}">
-<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" />-->
+    <link rel="stylesheet" type="text/css" href="{% static 'auction/sliders.css' %}">
   </head>
   <body>
   <div class="container">
 
     <div class="navbar">
       <div class="index-drop">
-  <!--      <div class="link-wrapper"><img src="https://www.pikpng.com/pngl/m/65-654126_banana-nanica-png-clipart-picture-of-banana-transparent.png" height="115" width="115"></div>-->
         <div class="">
           <a href="{% url 'auction:index' %}"><div class="logo"></div></a>
         </div>
@@ -59,7 +57,8 @@
 				but hey, it's pure CSS magic.
 				-->
 				<ul id="menu">
-                    USER: <u style="text-transform:capitalize;">{{ user }}</u>
+                    <li><u>MENU</u></li>
+                    <small><style="text-transform:capitalize;">User:{{ user}}</small>
                     <a href="{% url 'auction:create' %}"><li>Create</li></a>
                     <a href="{% url 'auction:my_auctions' %}"><li>My auctions</li></a>
                     <a href="{% url 'auction:my_bids' %}"><li>My bids</li></a>
@@ -68,6 +67,7 @@
 				    <a href="#"><li>Info</li></a>
 				    <a href="#"><li>Contact</li></a>
                     <a href="{% url 'logout' %}"><li>Logout</li></a>
+
 				</ul>
 			</div>
           {% else %}
@@ -96,8 +96,8 @@
                     <a href="#"><li>About</li></a>
 				    <a href="#"><li>Info</li></a>
 				    <a href="#"><li>Contact</li></a>
-                    <a class="logout" href="{% url 'register' %}"><li>Register</li></a>
-                    <a class="logout" href="{% url 'login' %}"><li>Login</li></a>
+                    <a href="{% url 'register' %}"><li>Register</li></a>
+                    <a href="{% url 'login' %}"><li>Login</li></a>
 				</ul>
 			</div>
 
@@ -121,7 +121,15 @@
     <hr>
     <div class="footer-box">
     <p>Project by:</p>
-    <p>Martin P. & Rauno K.</p>
+    <p>Martin 
+      <a href="https://www.github.com/fezzzle">
+        <i class="fab fa-github"></i>
+      </a> 
+      & Rauno 
+      <a href="https://www.github.com/Krauno">
+        <i class="fab fa-github"></i>
+      </a>
+      </p>
     </div>
   </footer>
 </html>

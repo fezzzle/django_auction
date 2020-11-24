@@ -1,23 +1,22 @@
 .burger {
-display: inline-block;
-cursor: pointer;
-/*border: 1px solid black;*/
+    display: inline-block;
+    cursor: pointer;
 }
 
 .bar1 {
-width: 35px;
-height: 8px;
-background-color: #333;
-margin: 6px 0;
-transition: 0.4s;
-border-radius: 4px;
+    width: 35px;
+    height: 8px;
+    background-color: #333;
+    margin: 6px 0;
+    transition: 0.4s;
+    border-radius: 4px;
 }
 
 .logo {
-background-image: url("logo.png");
-background-repeat: no-repeat;
-background-size: cover;
-background-position: center;
-height: 50px;
-width: 50px;
+    background-image: url("logo.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 50px;
+    width: 50px;
 }
