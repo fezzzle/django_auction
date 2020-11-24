@@ -3,6 +3,7 @@ from django.utils import timezone
 from datetime import datetime, timedelta
 
 from django.urls import reverse
+from django_resized import ResizedImageField
 
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
@@ -71,9 +72,7 @@ class Auction(models.Model):
 
     def has_expired(self):
         now = timezone.now()
-        logger.info(f"TIME IS NOW: {now}")
         auction_end = self.date_added + timedelta(minutes=self.total_auction_duration)
-        logger.info(f"AUCTION END IS: {auction_end}")
         if now > auction_end:
             return True
         return False
@@ -116,5 +115,5 @@ class Bid(models.Model):
 
 class AuctionImage(models.Model):
     auction = models.ForeignKey(Auction, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to=path_and_rename, max_length=255, null=True, blank=True)
+    image = ResizedImageField(upload_to=path_and_rename)
 

@@ -55,6 +55,7 @@ LOGGING = {
 
 
 INSTALLED_APPS = [
+    'django_resized',
     'django_extensions',
     'auction.apps.AuctionConfig',
     'register.apps.RegisterConfig',
@@ -161,3 +162,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 AUTH_USER_MODEL = 'auction.CustomUser'
 AUTHENTICATION_BACKENDS = ['auction.backends.EmailBackend']
+
+DJANGORESIZED_DEFAULT_SIZE = [1024, 768]
+DJANGORESIZED_DEFAULT_QUALITY = 75
+DJANGORESIZED_DEFAULT_KEEP_META = True
+DJANGORESIZED_DEFAULT_FORCE_FORMAT = 'png'
+DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {'png': ".png"}
+DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = True
