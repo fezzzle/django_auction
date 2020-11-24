@@ -24,12 +24,9 @@ def index(request):
     all_auctions = Auction.objects.all()
     last_added = Auction.objects.all().order_by('-date_added')[:5]
     ending_soon = Auction.objects.all().order_by('total_auction_duration')[:5]
-    # last_five_in_ascending_order = reversed(last_added)
     for a in all_auctions:
         a.resolve()
     current_user = request.user
-    logger.info(f"CURRENT USER IS: {current_user}")
-    logger.info(f"CURRENT USER IS: {dir(current_user)}")
     return render(request, 'auction/index.html', {"all_auctions": all_auctions, "user": current_user, "last_added": last_added, "ending_soon": ending_soon})
 
 
@@ -73,7 +70,6 @@ def create(request):
             else:
                 if buy_now == "":
                     buy_now = 0
-                    logger.info(f"BUY NOW IS inside else: {buy_now}")
                 elif int(min_value) > int(buy_now):
                     raise ValueError
         except KeyError as e:
@@ -112,19 +108,8 @@ def auctions(request):
 
 
 @login_required
-def delete_auctions(request):
-    if request.user.is_superuser:
-        auctions = Auction.objects.all().delete()
-        logger.info(f"All auctions deleted")
-    else:
-        logger.info("You need to be a superuser")
-    return render(request, "auction/deleted.html")
-
-
-@login_required
 def my_auctions(request):
     my_auctions = Auction.objects.filter(author=request.user).order_by("-date_added")
-    logger.info(f"REQ.USER: {request.user}")
     for a in my_auctions:
         a.resolve()
     return render(request, "auction/my_auctions.html", {'my_auctions': my_auctions})
@@ -210,7 +195,6 @@ def profile(request, **username):
         else:
             user = CustomUser.objects.get(username=username['username'])
             user_auctions = Auction.objects.filter(author=user.id).order_by("-date_added")
-            logger.info(user_auctions)
             user = get_object_or_404(CustomUser, username=username['username'])
             return render(request, "auction/user.html", {"user": user, "user_auctions": user_auctions})
 
