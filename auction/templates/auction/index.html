@@ -17,7 +17,7 @@
                 <div class="category-container">
                     {% for category in categories %}
                     <div class="boxx">
-                        <a href="#" class="category-link">{{ category }}</a>
+                        <a href="{% url 'auction:category' category|lower %}" class="category-link">{{ category }}</a>
                     </div>
                     {% endfor %}
                 </div>

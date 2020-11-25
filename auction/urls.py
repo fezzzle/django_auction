@@ -14,4 +14,5 @@ urlpatterns = [
     path('auctions/my_bids', views.my_bids, name='my_bids'),
     path('profile/<username>', views.profile, name='profile'),
     path('profile/', views.profile, name='profile'),
+    path('auctions/<category>', views.category, name='category')
     ]

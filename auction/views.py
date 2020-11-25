@@ -15,6 +15,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import password_validation
 from django.forms import fields
+from django.shortcuts import HttpResponse
 
 import logging
 
@@ -350,6 +351,11 @@ def profile(request, **username):
             user.save()
             messages.success(request, "Location successfully changed!")
     return render(request, "auction/profile.html", {"user": user})
+
+
+@login_required
+def category(request, category):
+    return HttpResponse(f'<h1>{category}</h1>')
 
 
 def handler404(request, err):
