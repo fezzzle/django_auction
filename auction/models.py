@@ -60,6 +60,7 @@ class Auction(models.Model):
     min_value = models.IntegerField()
     buy_now = models.IntegerField(blank=True, null=True)
     date_added = models.DateTimeField(datetime.now, blank=True, help_text='date added')
+    date_ended = models.DateTimeField(blank=True, null=True, help_text='date added')
     active_bid_value = models.IntegerField(blank=True, null=True, default=0)
     is_active = models.BooleanField(default=True)
     total_auction_duration = models.IntegerField()
@@ -84,6 +85,7 @@ class Auction(models.Model):
                 if highest_bid:
                     self.winner = highest_bid.bidder
                     self.final_value = highest_bid.amount
+                    self.date_ended = datetime.now()
                 self.is_active = False
                 self.save()
             if self.active_bid_value and self.buy_now != 0:
@@ -92,6 +94,7 @@ class Auction(models.Model):
                     self.winner = highest_bid.bidder
                     self.final_value = highest_bid.amount
                     self.is_active = False
+                    self.date_ended = datetime.now()
                     self.save()
 
     def has_expired(self):

@@ -112,7 +112,7 @@
                 <div class="auction-container">
                     <h2>Auctions ended:</h2>
                     <div class="auction-grid">
-                        {% for auction in ending_soon %}
+                        {% for auction in ended %}
                             {% if not auction.is_active %}
                                 <a href="{% url 'auction:detail' auction.id %}">
                                     <div class="img-container-background" style="background-image:url('{% static auction.get_first_image.image %}')">

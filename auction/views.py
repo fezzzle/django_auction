@@ -27,6 +27,7 @@ def index(request):
     all_auctions = Auction.objects.all()
     last_added = Auction.objects.all().order_by('-date_added')[:5]
     ending_soon = Auction.objects.all().order_by('total_auction_duration')[:5]
+    ended = Auction.objects.all().order_by('-date_ended')[:5]
     for a in all_auctions:
         a.resolve()
     current_user = request.user
@@ -38,7 +39,8 @@ def index(request):
             "user": current_user,
             "last_added": last_added,
             "ending_soon": ending_soon,
-            "categories": categories
+            "categories": categories,
+            "ended": ended
         })
 
 
