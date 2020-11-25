@@ -264,9 +264,7 @@ def profile(request, **username):
                     "user": user,
                     "user_auctions": user_auctions
                 })
-
     user = get_object_or_404(CustomUser, pk=request.user.id)
-    logger.info(f"REQUEST.POST: {request.POST}")
     if request.method == 'POST' and request.POST.get('email'):
         try:
             email = request.POST.get('email')
