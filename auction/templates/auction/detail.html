@@ -60,7 +60,7 @@
 
         <div class="not-active">
         {{ json_ctx|json_script:"json_ctx" }}
-        {% if user.is_authenticated%}
+        {% if user.is_authenticated %}
             {% if not own_auction %}
                 {% if auction.is_active %}
                 {% if bid %}
@@ -112,7 +112,6 @@
                     {% endif %}
                 {% endif %}
             {% endif %}
-
         {% endif %}
         </div>
     </div>

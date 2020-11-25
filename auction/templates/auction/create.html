@@ -53,12 +53,19 @@
     </div>
 
 <script>
+    fileInputCounter = 0
     document.getElementById("add_image").onclick = function(e) {
         let image = document.getElementById("images");
         let newInput = document.createElement("input");
         newInput.type = "file";
         newInput.name = "file_upload";
+        newInput.className = "fileupload";
         image.appendChild(newInput)
+        fileInputCounter += 1
+
+        getFileUpLoadList = document.getElementsByClassName("fileupload")
+
     }
+    
 </script>
 {% endblock content %}

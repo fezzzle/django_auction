@@ -58,41 +58,46 @@ def detail(request, auction_id):
     cancel_auction_button = request.POST.get('cancel_auction')
     if bid:
         bid = bid.first().amount
-    if request.user == auction.author or not request.user.is_authenticated:
-        own_auction = True
-        if cancel_auction_button:
-            try:
-                auction.is_active = False
-                auction.save()
-                return render(
-                    request,
-                    "auction/detail.html",
-                    {
-                        "auction": auction,
-                        "own_auction": own_auction,
-                        "images": images
-                    })
-            except Exception as e:
-                logger.info(e)
+    if request.user.is_authenticated:
+        logger.info("USER IS AUTHENTICATED")
+        if request.user == auction.author:
+            own_auction = True
+            if cancel_auction_button:
+                try:
+                    auction.is_active = False
+                    auction.save()
+                    return render(
+                        request,
+                        "auction/detail.html",
+                        {
+                            "auction": auction,
+                            "own_auction": own_auction,
+                            "images": images
+                        })
+                except Exception as e:
+                    logger.info(e)
+            logger.info("INSIDE request.user == auction.author")
+            return render(
+                request, 
+                "auction/detail.html", 
+                {
+                    "auction": auction,
+                    "own_auction": own_auction,
+                    "bid": bid,
+                    "json_ctx": json_ctx,
+                    "images": images
+                })
         return render(
             request, 
-            "auction/detail.html", 
+            "auction/detail.html",
             {
                 "auction": auction,
-                "own_auction": own_auction,
-                "bid": bid,
+                'bid': bid,
                 "json_ctx": json_ctx,
                 "images": images
             })
-    return render(
-        request, 
-        "auction/detail.html",
-        {
-            "auction": auction,
-            'bid': bid,
-            "json_ctx": json_ctx,
-            "images": images
-        })
+    logger.info("USER IS NOT AUTHENTICATED")
+    return render(request, "auction/detail.html", {"auction": auction, 'bid': bid, "json_ctx": json_ctx, "images": images})
 
 
 @login_required
@@ -100,15 +105,7 @@ def create(request):
     categories = Category.objects.all()
     if request.method == 'POST':
         try:
-            # cat = Category.objects
-            logger.info(list(request.POST.dict().items()))
             _, title, description, select, duration, min_value, buy_now, _ = list(request.POST.dict().values())
-            logger.info(title)
-            logger.info(description)
-            logger.info(duration)
-            logger.info(select)
-            logger.info(min_value)
-            logger.info(buy_now)
             images = request.FILES.getlist("file_upload")
             if not title or not description or not min_value or not images or not select:
                 raise KeyError
@@ -122,11 +119,11 @@ def create(request):
         except KeyError as e:
             messages.warning(request, e)
             messages.warning(request, 'Please fill all the fields!')
-            return render(request, "auction/create.html")
+            return render(request, "auction/create.html", {"categories": categories})
         except ValueError as e:
             messages.warning(request, e)
             messages.warning(request, 'Buy now needs to be bigger than minimum bid or input was wrong!')
-            return render(request, "auction/create.html")
+            return render(request, "auction/create.html", {"categories": categories})
         else:
             auction = Auction()
             cat = Category.objects.get(name__exact=select)
@@ -197,13 +194,6 @@ def bid(request, auction_id):
             auction.resolve()
         #When user bids instead of buynow
         elif request.method == 'POST' and 'amount' in request.POST:
-            # messages.warning(request, f"bid.amoiunt: {bid.amount}")
-            # messages.warning(request, f"bid.amoiunt: {type(bid.amount)}")
-            # messages.warning(request, f"bid_amount: {bid_amount}")
-            # messages.warning(request, f"bid_amount: {type(bid_amount)}")
-
-            # 25.09 17:45
-            # if bid_amount <= bid.amount or auction.buy_now < bid_amount:
             if bid_amount <= bid.amount and auction.buy_now == 0:
                 messages.warning(request, 'Entered bid is not correct!')
                 return render(

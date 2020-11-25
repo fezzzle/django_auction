@@ -14,20 +14,6 @@ import logging
 logger = logging.getLogger("mylogger")
 
 
-CATEGORY = [
-    ('Electronics', (
-        ('phone', 'Phones'),
-        ('laptop', 'Laptops'),
-        )
-    ),
-    ('Tools', (
-        ('axe', 'Axes'),
-        ('drill', 'Drill'),
-        )
-    )
-]
-
-
 class CustomUser(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
     location = models.CharField(max_length=30, blank=True, null=True)
@@ -46,7 +32,7 @@ class CustomUser(AbstractUser):
 class Category(models.Model):
     description = models.TextField(null=True, blank=True)
     name = models.CharField(max_length=25, primary_key=True)
-    logo = models.ImageField(upload_to='media/logos', blank=True)
+    logo = ResizedImageField(upload_to='media/logos', blank=True)
 
     def __str__(self):
         return self.name
@@ -55,7 +41,7 @@ class Category(models.Model):
 class Auction(models.Model):
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
-    item_category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, null=True, blank=True)
+    item_category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     description = models.TextField(max_length=500)
     min_value = models.IntegerField()
     buy_now = models.IntegerField(blank=True, null=True)
