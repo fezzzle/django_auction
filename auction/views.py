@@ -110,7 +110,7 @@ def create(request):
             images = request.FILES.getlist("file_upload")
             if not title or not description or not min_value or not images or not select:
                 raise KeyError
-            if int(min_value) < 0 or int(duration) < 10:
+            if int(min_value) < 0 or int(duration) < 1:
                 raise ValueError
             else:
                 if buy_now == "":
@@ -195,7 +195,14 @@ def bid(request, auction_id):
             auction.resolve()
         #When user bids instead of buynow
         elif request.method == 'POST' and 'amount' in request.POST:
-            if bid_amount <= bid.amount or auction.buy_now < bid_amount:
+            # messages.warning(request, f"bid.amoiunt: {bid.amount}")
+            # messages.warning(request, f"bid.amoiunt: {type(bid.amount)}")
+            # messages.warning(request, f"bid_amount: {bid_amount}")
+            # messages.warning(request, f"bid_amount: {type(bid_amount)}")
+
+            # 25.09 17:45
+            # if bid_amount <= bid.amount or auction.buy_now < bid_amount:
+            if bid_amount <= bid.amount and auction.buy_now == 0:
                 messages.warning(request, 'Entered bid is not correct!')
                 return render(
                     request, 
@@ -356,7 +363,7 @@ def profile(request, **username):
 @login_required
 def category(request, category):
     categories = Category.objects.all()
-    route = Auction.objects.filter(item_category=category.capitalize())
+    route = Auction.objects.filter(item_category=category)
     return render(request, "auction/category.html", {"route": route, "categories": categories})
 
 
