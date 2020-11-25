@@ -58,31 +58,7 @@
             <h2>Last added:</h2>
             <div class="auction-grid">
                 {% for auction in last_added %}
-                    <a href="{% url 'auction:detail' auction.id %}">
-                        <div class="img-container-background" style="background-image:url('{% static auction.get_first_image.image %}')">
-                            <div class="img-overlay">
-                                <div class="img-text">
-                                    <p>Product: {{auction.title}}</p>
-                                    <p>ID: {{auction.id}}</p>
-                                    <p>price: {{auction.min_value}}€</p>
-                                    {% if auction.is_active %}
-                                        <p>{% widthratio auction.seconds_remaining 60 1 %} minutes left</p>
-                                    {% else %}
-                                        <p>Auction has ended!</p>
-                                    {% endif %}
-                                    <p>Seller: {{auction.author}}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                {% endfor %}
-            </div>
-            </div>
-
-            <div class="auction-container">
-                <h2>Ending soon:</h2>
-                <div class="auction-grid">
-                    {% for auction in ending_soon %}
+                    {% if auction.is_active %}
                         <a href="{% url 'auction:detail' auction.id %}">
                             <div class="img-container-background" style="background-image:url('{% static auction.get_first_image.image %}')">
                                 <div class="img-overlay">
@@ -92,7 +68,6 @@
                                         <p>price: {{auction.min_value}}€</p>
                                         {% if auction.is_active %}
                                             <p>{% widthratio auction.seconds_remaining 60 1 %} minutes left</p>
-                                            <!--Time remaining {{auction.seconds_remaining|floatformat:"0"}}-->
                                         {% else %}
                                             <p>Auction has ended!</p>
                                         {% endif %}
@@ -101,6 +76,35 @@
                                 </div>
                             </div>
                         </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            </div>
+
+            <div class="auction-container">
+                <h2>Ending soon:</h2>
+                <div class="auction-grid">
+                    {% for auction in ending_soon %}
+                        {% if auction.is_active %}
+                            <a href="{% url 'auction:detail' auction.id %}">
+                                <div class="img-container-background" style="background-image:url('{% static auction.get_first_image.image %}')">
+                                    <div class="img-overlay">
+                                        <div class="img-text">
+                                            <p>Product: {{auction.title}}</p>
+                                            <p>ID: {{auction.id}}</p>
+                                            <p>price: {{auction.min_value}}€</p>
+                                            {% if auction.is_active %}
+                                                <p>{% widthratio auction.seconds_remaining 60 1 %} minutes left</p>
+                                                <!--Time remaining {{auction.seconds_remaining|floatformat:"0"}}-->
+                                            {% else %}
+                                                <p>Auction has ended!</p>
+                                            {% endif %}
+                                            <p>Seller: {{auction.author}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        {% endif %}
                     {% endfor %}
                 </div>
                 </div>

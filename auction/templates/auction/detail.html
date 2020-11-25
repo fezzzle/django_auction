@@ -80,9 +80,15 @@
                         <input type="submit" class="form-button" name="submit_bid" value="Submit Bid">
                         <input type="submit" class="form-button" name="buy_now" value="Buy now!">
                     {% endif %}
+                    
                 {% else %}
-                    <input type="number" class="form-button" name="amount" id="bid_amount" value="{{ auction.active_bid_value|add:'1' }}" required>
-                    <input type="submit" class="form-button" name="submit_bid" value="Submit Bid">
+                    {% if auction.active_bid_value %}
+                        <input type="number" class="form-button" name="amount" id="bid_amount" value="{{ auction.active_bid_value|add:'1' }}" required>
+                        <input type="submit" class="form-button" name="submit_bid" value="Submit Bid">
+                        {% else %}
+                        <input type="number" class="form-button" name="amount" id="bid_amount" value="{{ auction.min_value|add:'1' }}" required>
+                        <input type="submit" class="form-button" name="submit_bid" value="Submit Bid">
+                    {% endif %}
                 {% endif %}
             {% else %}
                 <input type="hidden" class="form-button" name="amount" value="{{ auction.buy_now }}" required>
