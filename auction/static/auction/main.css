@@ -381,8 +381,6 @@ li::marker {
     cursor: pointer;
 }
 
-
-
 .toggle:checked ~ div {
     display: block;
 }
