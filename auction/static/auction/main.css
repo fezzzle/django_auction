@@ -18,12 +18,20 @@
     left:50%;
     transform: translateX(-50%);
     border-radius: 25px;
-    /* ei toimi veel */
-    animation-name: example;
-    animation-delay: 10s;
-    animation-fill-mode: forwards;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    transition: 0.3s;
+    /* ei toimi veel */
+    /*animation-name: joinme;
+    animation-delay: 5s;
+    animation-duration: 1.5s;
+    animation-fill-mode: forwards;
+    transition: opacity 0.3s forwards 5sec;*/
+    animation: joinme 3s ease-in forwards infinite;
+}
+
+@keyframe joinme {
+    0% { opacity: 0; }
+    50% { opacity: 1;}
+    100% { opacity: 0; }
 }
 
 .make-user:hover {
@@ -862,12 +870,6 @@ footer {
 }
 
 
-.field-input {
-
-}
-
-
-
 .formal {
     width:100%;
     padding: 5px;
@@ -880,4 +882,10 @@ footer {
     color: #555;
     padding: 20px 10px 20px 5px;
     /*border: 1px solid red;*/
+}
+
+/* REGISTER */
+
+.register-wrapper > small {
+    border: 1px solid red;
 }
