@@ -18,11 +18,13 @@
     <input type="text" name="title" placeholder="Product ie. laptop, shoes.." maxlength="50">
     <textarea name="description" placeholder="Describe item you are selling..." maxlength="500"></textarea>
     <label for="select">Please select category for your item:</label>
-    <select name="select" id="category-select">
+
+    <select name="select">
         {% for category in categories %}
         <option name="category" value="{{ category }}">{{ category }}</option>
         {% endfor %}
     </select>
+
     <label for="duration">Total auction duration:</label>
     <input type="range" class="slider" name="duration" id="duration" value="720" min="1" max="1440" oninput="durationOut.value = duration.value">
     <output name="durationOut" id="durationOut">720</output> <p>Minutes</p><br>

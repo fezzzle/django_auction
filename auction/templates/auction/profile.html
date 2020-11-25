@@ -3,9 +3,9 @@
 
 
 {% if user.is_authenticated %}
-{% csrf_token %}
-    <form action="{% url 'auction:profile' %}" method="POST" enctype="multipart/form-data" class="form-style">
 
+    <form action="{% url 'auction:profile' %}" method="POST" enctype="multipart/form-data" class="form-style">
+        {% csrf_token %}
         {% if messages %}
         <ul class="messages">
            {% for message in messages %}
@@ -58,21 +58,32 @@
         </div>
 
         <div class="">
-            <input type="checkbox" class="toggle" id="user_password">
-            <label for="user_password" class="toggle-label">Change password</label>
+            <input type="checkbox" class="toggle" id="user_password" onclick="test()">
+            <label for="user_password" class="toggle-label" >Change password</label>
             <div class="toggle-input">
                 <input type="password" name="user_password1" placeholder="Password">
                 <input type="password" name="user_password2" placeholder="Confirm Password">
             </div>
         </div>
 
-        <div class="">
-            <div class="toggle-input">
-                <button type="submit" class="form-button" name="password_change">Update Profile</button>
-            </div>
-        </div>
+
+<!--        <div id="update-nupp" style="display:none">-->
+            <button type="submit" class="form-button" name="password_change" id="update-nupp" style="display:none">Update Profile</button>
+<!--        </div>-->
     </form>
 {% endif %}
 
+    <script>
+        function test() {
+            var checkBox = document.getElementById("user_password");
+            var content = document.getElementById("update-nupp");
+            if (checkBox.checked == true) {
+                content.style.display = "block";
+            }
+            else {
+                content.style.display = "none";
+            }
+        }
+    </script>
 
 {% endblock content %}
