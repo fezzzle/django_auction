@@ -27,7 +27,16 @@
     <input type="range" class="slider" name="duration" id="duration" value="720" min="1" max="1440" oninput="durationOut.value = duration.value">
     <output name="durationOut" id="durationOut">720</output> <p>Minutes</p><br>
     <input type="number" name="min_value" placeholder="Starting value of the bidding. Default 1€" min="1">
-    <input type="number" name="buy_now" placeholder="If 0€, then there will be no buy now">
+
+    <input type="checkbox" id="toggle" class="toggle" />
+    <label for="toggle" class="toggle-label">
+        <span>Set buy now?</span>
+    </label>
+    <div class="toggle-input">
+        <input type="number" name="buy_now" placeholder="If 0€, then there will be no buy now">
+    </div>
+
+    <!-- ADD IMAGE -->
     <div id="image-add">
         <input type="button" name="add_image" id="add_image" class="form-button" value="Add Image">
         <div id="images">
@@ -35,6 +44,11 @@
         <button class="form-button" name="submit_button">Create</button>
     </div>
 </form>
+
+    <input type="checkbox" class="toggle">
+    <div class="toggle-input">
+        <input type="text" id="buy-now" placeholder="TEST">
+    </div>
 
 <script>
     document.getElementById("add_image").onclick = function(e) {
