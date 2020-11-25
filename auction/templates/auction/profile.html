@@ -22,8 +22,8 @@
 
         <div class="">
             <p>User email: {{ user.email }}</p>
-            <input type="checkbox" class="toggle" id="toggle">
-            <label for="toggle" class="toggle-label"><small>Change email</small></label>
+            <input type="checkbox" class="toggle" id="email" onclick="test()">
+            <label for="email" class="toggle-label"><small>Change email</small></label>
             <div class="toggle-input">
                 <input type="email" name="email" placeholder="hello@hello.com">
             </div>
@@ -31,7 +31,7 @@
 
         <div class="">
             <p>Fullname: {{ user.first_name }} {{ user.last_name }}</p>
-            <input type="checkbox" class="toggle" id="name">
+            <input type="checkbox" class="toggle" id="name" onclick="test()">
             <label for="name" class="toggle-label"><small>Change your name</small></label>
             <div class="toggle-input">
                 <input type="text" name="first-name" placeholder="First name">
@@ -41,7 +41,7 @@
 
         <div class="">
             <p>Location: {{ user.location }}</p>
-            <input type="checkbox" class="toggle" id="location">
+            <input type="checkbox" class="toggle" id="location" onclick="test()">
             <label for="location" class="toggle-label"><small>Change Location</small></label>
             <div class="toggle-input">
                 <input type="text" name="location" placeholder="New location">
@@ -50,8 +50,8 @@
 
         <div class="">
             <p>Phone: {{ user.phone }}</p>
-            <input type="checkbox" class="toggle" id="email">
-            <label for="email" class="toggle-label"><small>Change Phone Number</small></label>
+            <input type="checkbox" class="toggle" id="phone" onclick="test()">
+            <label for="phone" class="toggle-label"><small>Change Phone Number</small></label>
             <div class="toggle-input">
                 <input type="number" name="phone" placeholder="+372-530000321">
             </div>
@@ -75,13 +75,17 @@
 
     <script>
         function test() {
-            var checkBox = document.getElementById("user_password");
             var content = document.getElementById("update-nupp");
-            if (checkBox.checked == true) {
-                content.style.display = "block";
-            }
-            else {
-                content.style.display = "none";
+            let toggleFields = document.getElementsByClassName('toggle')
+            console.log(toggleFields)
+            for (let i = 0; i < toggleFields.length; i++) {
+                if (toggleFields[i].checked == true) {
+                    content.style.display = "block";
+                    break;
+                }
+                else {
+                    content.style.display = "none";
+                }
             }
         }
     </script>
