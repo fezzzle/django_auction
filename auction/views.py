@@ -2,7 +2,7 @@ import json
 from time import time
 
 from django.shortcuts import render
-from .models import Auction, Bid, CustomUser, AuctionImage
+from .models import Auction, Bid, CustomUser, AuctionImage, Category
 from datetime import datetime, timezone
 from django.utils import timezone
 from django.http import HttpResponseRedirect
@@ -14,6 +14,8 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import password_validation
+from django.forms import fields
+from django.shortcuts import HttpResponse
 
 import logging
 
@@ -21,6 +23,7 @@ logger = logging.getLogger("mylogger")
 
 
 def index(request):
+    categories = Category.objects.all()
     all_auctions = Auction.objects.all()
     last_added = Auction.objects.all().order_by('-date_added')[:5]
     ending_soon = Auction.objects.all().order_by('total_auction_duration')[:5]
@@ -34,7 +37,8 @@ def index(request):
             "all_auctions": all_auctions,
             "user": current_user,
             "last_added": last_added,
-            "ending_soon": ending_soon
+            "ending_soon": ending_soon,
+            "categories": categories
         })
 
 
@@ -91,11 +95,20 @@ def detail(request, auction_id):
 
 @login_required
 def create(request):
+    categories = Category.objects.all()
     if request.method == 'POST':
         try:
-            _, title, description, duration, min_value, buy_now, _ = list(request.POST.dict().values())
+            # cat = Category.objects
+            logger.info(list(request.POST.dict().items()))
+            _, title, description, select, duration, min_value, buy_now, _ = list(request.POST.dict().values())
+            logger.info(title)
+            logger.info(description)
+            logger.info(duration)
+            logger.info(select)
+            logger.info(min_value)
+            logger.info(buy_now)
             images = request.FILES.getlist("file_upload")
-            if not title or not description or not min_value or not images:
+            if not title or not description or not min_value or not images or not select:
                 raise KeyError
             if int(min_value) < 0 or int(duration) < 10:
                 raise ValueError
@@ -114,9 +127,11 @@ def create(request):
             return render(request, "auction/create.html")
         else:
             auction = Auction()
+            cat_model = Category.objects.get(name__exact=select)
             auction.author = request.user
             auction.title = title
             auction.description = description
+            auction.category = cat_model
             auction.min_value = int(min_value)
             auction.date_added = timezone.now()
             auction.total_auction_duration = int(duration)
@@ -129,7 +144,7 @@ def create(request):
             messages.success(request, 'Your listing has been created!')
             return HttpResponseRedirect(reverse('auction:detail', args=(auction.id,)))
     else:
-        return render(request, "auction/create.html")
+        return render(request, "auction/create.html", {"categories": categories})
 
 
 def auctions(request):
@@ -336,6 +351,11 @@ def profile(request, **username):
             user.save()
             messages.success(request, "Location successfully changed!")
     return render(request, "auction/profile.html", {"user": user})
+
+
+@login_required
+def category(request, category):
+    return HttpResponse(f'<h1>{category}</h1>')
 
 
 def handler404(request, err):
