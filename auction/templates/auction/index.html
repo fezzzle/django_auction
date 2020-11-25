@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content%}
-{% if not user.authenticated %}
+{% if not user.is_authenticated %}
     <a href="{% url 'register' %}"><div class="join-now">Join now!</div></a>
 {% endif %}
 
@@ -15,24 +15,11 @@
                     <h2>WE NEED YOUR GOLD!</h2>
                 </div>
                 <div class="category-container">
+                    {% for category in categories %}
                     <div class="boxx">
-                        <a href="#" class="category-link">Kitchen</a>
+                        <a href="{% url 'auction:category' category|lower %}" class="category-link">{{ category }}</a>
                     </div>
-                    <div class="boxx">
-                        <a href="#" class="category-link">Cars</a>
-                    </div>
-                    <div class="boxx">
-                        <a href="#" class="category-link">Electronics</a>
-                    </div>
-                    <div class="boxx">
-                        <a href="#" class="category-link">Women</a>
-                    </div>
-                    <div class="boxx">
-                        <a href="#" class="category-link">Men</a>
-                    </div>
-                    <div class="boxx" >
-                        <a href="#" class="category-link">Kids</a>
-                    </div>
+                    {% endfor %}
                 </div>
 
             </div>
@@ -42,58 +29,7 @@
             <h2>Discover:</h2>
             <div class="auction-grid">
                 {% for auction in all_auctions %}
-                    <a href="{% url 'auction:detail' auction.id %}">
-                        <div class="img-container-background" style="background-image:url('{% static auction.get_first_image.image %}')">
-                            <div class="img-overlay">
-                                <div class="img-text">
-                                    <p>Product: {{auction.title}}</p>
-                                    <p>ID: {{auction.id}}</p>
-                                    <p>price: {{auction.min_value}}€</p>
-                                    {% if auction.is_active %}
-                                        <p>{% widthratio auction.seconds_remaining 60 1 %} minutes left</p>
-                                        <!--Time remaining {{auction.seconds_remaining|floatformat:"0"}}-->
-                                    {% else %}
-                                        <p>Auction has ended!</p>
-                                    {% endif %}
-                                    <p>Seller: {{auction.author}}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                {% endfor %}
-            </div>
-            </div>
-
-
-        <div class="auction-container">
-            <h2>Last added:</h2>
-            <div class="auction-grid">
-                {% for auction in last_added %}
-                    <a href="{% url 'auction:detail' auction.id %}">
-                        <div class="img-container-background" style="background-image:url('{% static auction.get_first_image.image %}')">
-                            <div class="img-overlay">
-                                <div class="img-text">
-                                    <p>Product: {{auction.title}}</p>
-                                    <p>ID: {{auction.id}}</p>
-                                    <p>price: {{auction.min_value}}€</p>
-                                    {% if auction.is_active %}
-                                        <p>{% widthratio auction.seconds_remaining 60 1 %} minutes left</p>
-                                    {% else %}
-                                        <p>Auction has ended!</p>
-                                    {% endif %}
-                                    <p>Seller: {{auction.author}}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                {% endfor %}
-            </div>
-            </div>
-
-            <div class="auction-container">
-                <h2>Ending soon:</h2>
-                <div class="auction-grid">
-                    {% for auction in ending_soon %}
+                    {% if auction.is_active %}
                         <a href="{% url 'auction:detail' auction.id %}">
                             <div class="img-container-background" style="background-image:url('{% static auction.get_first_image.image %}')">
                                 <div class="img-overlay">
@@ -112,9 +48,94 @@
                                 </div>
                             </div>
                         </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            </div>
+
+
+        <div class="auction-container">
+            <h2>Last added:</h2>
+            <div class="auction-grid">
+                {% for auction in last_added %}
+                    {% if auction.is_active %}
+                        <a href="{% url 'auction:detail' auction.id %}">
+                            <div class="img-container-background" style="background-image:url('{% static auction.get_first_image.image %}')">
+                                <div class="img-overlay">
+                                    <div class="img-text">
+                                        <p>Product: {{auction.title}}</p>
+                                        <p>ID: {{auction.id}}</p>
+                                        <p>price: {{auction.min_value}}€</p>
+                                        {% if auction.is_active %}
+                                            <p>{% widthratio auction.seconds_remaining 60 1 %} minutes left</p>
+                                        {% else %}
+                                            <p>Auction has ended!</p>
+                                        {% endif %}
+                                        <p>Seller: {{auction.author}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            </div>
+
+            <div class="auction-container">
+                <h2>Ending soon:</h2>
+                <div class="auction-grid">
+                    {% for auction in ending_soon %}
+                        {% if auction.is_active %}
+                            <a href="{% url 'auction:detail' auction.id %}">
+                                <div class="img-container-background" style="background-image:url('{% static auction.get_first_image.image %}')">
+                                    <div class="img-overlay">
+                                        <div class="img-text">
+                                            <p>Product: {{auction.title}}</p>
+                                            <p>ID: {{auction.id}}</p>
+                                            <p>price: {{auction.min_value}}€</p>
+                                            {% if auction.is_active %}
+                                                <p>{% widthratio auction.seconds_remaining 60 1 %} minutes left</p>
+                                                <!--Time remaining {{auction.seconds_remaining|floatformat:"0"}}-->
+                                            {% else %}
+                                                <p>Auction has ended!</p>
+                                            {% endif %}
+                                            <p>Seller: {{auction.author}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        {% endif %}
                     {% endfor %}
                 </div>
                 </div>
+
+                <div class="auction-container">
+                    <h2>Auctions ended:</h2>
+                    <div class="auction-grid">
+                        {% for auction in ended %}
+                            {% if not auction.is_active %}
+                                <a href="{% url 'auction:detail' auction.id %}">
+                                    <div class="img-container-background" style="background-image:url('{% static auction.get_first_image.image %}')">
+                                        <div class="img-overlay">
+                                            <div class="img-text">
+                                                <p>Product: {{auction.title}}</p>
+                                                <p>ID: {{auction.id}}</p>
+                                                <p>price: {{auction.min_value}}€</p>
+                                                {% if auction.is_active %}
+                                                    <p>{% widthratio auction.seconds_remaining 60 1 %} minutes left</p>
+                                                    <!--Time remaining {{auction.seconds_remaining|floatformat:"0"}}-->
+                                                {% else %}
+                                                    <p>Auction has ended!</p>
+                                                {% endif %}
+                                                <p>Seller: {{auction.author}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    </div>
 
         <!--<div class="new">
 

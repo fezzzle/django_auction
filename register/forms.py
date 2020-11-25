@@ -7,10 +7,10 @@ from django.utils.translation import ugettext_lazy as _
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(max_length=30)
     username = forms.CharField(max_length=15)
-    first_name = forms.CharField(max_length=30)
-    last_name = forms.CharField(max_length=30)
-    location = forms.CharField(max_length=30)
-    phone = forms.CharField(max_length=15)
+    first_name = forms.CharField(max_length=30, required=False)
+    last_name = forms.CharField(max_length=30, required=False)
+    location = forms.CharField(max_length=30, required=False)
+    phone = forms.CharField(max_length=15, required=False)
 
     class Meta:
         model = get_user_model()

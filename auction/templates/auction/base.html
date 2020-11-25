@@ -58,7 +58,7 @@
 				-->
 				<ul id="menu">
                     <li><u>MENU</u></li>
-                    <small><style="text-transform:capitalize;">User:{{ user}}</small>
+                    <small><style="text-transform:capitalize;">You are logged in as: {{ user }}</small>
                     <a href="{% url 'auction:create' %}"><li>Create</li></a>
                     <a href="{% url 'auction:my_auctions' %}"><li>My auctions</li></a>
                     <a href="{% url 'auction:my_bids' %}"><li>My bids</li></a>
