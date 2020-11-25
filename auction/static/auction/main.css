@@ -367,26 +367,25 @@ li::marker {
     outline: none;
 }
 
-/* input[type="file"] {
-    display: none;
-} */
 
-/* .content {
-    border: 1px blue solid;
-    display: flex;
-    flex-wrap: wrap;
-    text-align: center;
-    font-weight: bold;
+.toggle {
+    display: none;
 }
-#left, #right {
-    flex: 1 50vw;
-    min-width: 0vw;
-    background: #f55;
-    padding: 15px 0;
+
+.toggle-input {
+    display: none;
 }
-#right {
-    background: #57f;
-} */
+
+
+.toggle-label {
+    cursor: pointer;
+}
+
+
+
+.toggle:checked div, .toggle:checked #toggle-button {
+    display: block;
+}
 
 footer {
     padding-top: 50px;
@@ -639,7 +638,7 @@ footer {
 
 #menuToggle a:hover {
     color: tomato;
-    transform: translateY(5px);
+    /*transform: translateY(5px);*/
 }
 
 #menuToggle input {
