@@ -20,7 +20,7 @@
     border-radius: 25px;
     /* ei toimi veel */
     animation-name: example;
-    animation-duration: 2s;
+    animation-delay: 10s;
     animation-fill-mode: forwards;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     transition: 0.3s;
