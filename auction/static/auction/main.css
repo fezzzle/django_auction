@@ -381,8 +381,6 @@ li::marker {
     cursor: pointer;
 }
 
-
-
 .toggle:checked ~ div {
     display: block;
 }
@@ -778,6 +776,17 @@ footer {
     overflow-x: auto;
     overflow-y: hidden;
     padding: 10px;
+}
+
+#detail-your-bid {
+    color: red;
+    font-size: 1.5em
+}
+
+#detail-highest-bid {
+    color: red;
+    text-emphasis: bold;
+    font-size: 2em;
 }
 
 .left-to-right {

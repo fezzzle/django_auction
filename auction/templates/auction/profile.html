@@ -13,11 +13,11 @@
            {% endfor %}
         </ul>
         {% endif %}
-        <div>
-        <p>Username: {{ user.username }}</p>
 
-        <small>Date joined: {{ user.date_joined|date }}</small>
-        <small>Last login: {{ user.last_login|date:"d.m.Y H:i:s" }} UTC </small>
+        <div class="">
+            <p>Username:{{ user.username }}</p>
+            <small>Date joined: {{ user.date_joined|date }}</small></br>
+            <small>Last login: {{ user.last_login|date:"d.m.Y H:i:s" }} UTC </small>
         </div>
 
         <div class="">

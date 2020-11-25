@@ -51,53 +51,25 @@ def detail(request, auction_id):
     request.session['num_visits'] = num_visits + 1
 
     auction = get_object_or_404(Auction, pk=auction_id)
-    bid = Bid.objects.filter(auction=auction)
+    bid = Bid.objects.filter(auction=auction, bidder=request.user.id)
     images = AuctionImage.objects.filter(auction=auction)
-    auction.save()
     json_ctx = json.dumps({"auction_end_stamp": int(auction.expire.timestamp() * 1000)})
     cancel_auction_button = request.POST.get('cancel_auction')
-    if bid:
-        bid = bid.first().amount
     if request.user.is_authenticated:
-        logger.info("USER IS AUTHENTICATED")
+        if bid:
+            bid = bid.first().amount
         if request.user == auction.author:
             own_auction = True
             if cancel_auction_button:
                 try:
                     auction.is_active = False
                     auction.save()
-                    return render(
-                        request,
-                        "auction/detail.html",
-                        {
-                            "auction": auction,
-                            "own_auction": own_auction,
-                            "images": images
-                        })
+                    return render(request, "auction/detail.html", {"auction": auction, "own_auction": own_auction, "images": images})
                 except Exception as e:
                     logger.info(e)
-            logger.info("INSIDE request.user == auction.author")
-            return render(
-                request, 
-                "auction/detail.html", 
-                {
-                    "auction": auction,
-                    "own_auction": own_auction,
-                    "bid": bid,
-                    "json_ctx": json_ctx,
-                    "images": images
-                })
-        return render(
-            request, 
-            "auction/detail.html",
-            {
-                "auction": auction,
-                'bid': bid,
-                "json_ctx": json_ctx,
-                "images": images
-            })
-    logger.info("USER IS NOT AUTHENTICATED")
-    return render(request, "auction/detail.html", {"auction": auction, 'bid': bid, "json_ctx": json_ctx, "images": images})
+            return render(request, "auction/detail.html", {"auction": auction, "own_auction": own_auction, "bid": bid, "json_ctx": json_ctx, "images": images})
+        return render(request, "auction/detail.html", {"auction": auction, 'bid': bid, "json_ctx": json_ctx, "images": images})
+    return render(request, "auction/detail.html", {"auction": auction, "json_ctx": json_ctx, "images": images})
 
 
 @login_required
