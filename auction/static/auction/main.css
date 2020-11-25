@@ -383,7 +383,7 @@ li::marker {
 
 
 
-.toggle:checked div, .toggle:checked #toggle-button {
+.toggle:checked ~ div {
     display: block;
 }
 
