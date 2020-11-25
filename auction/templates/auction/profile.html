@@ -23,7 +23,7 @@
         <div class="">
             <p>User email: {{ user.email }}</p>
             <input type="checkbox" class="toggle" id="toggle">
-            <label for="toggle" class="toggle-label"><small>Change email:</small></label>
+            <label for="toggle" class="toggle-label"><small>Change email</small></label>
             <div class="toggle-input">
                 <input type="email" name="email" placeholder="hello@hello.com">
             </div>
@@ -42,22 +42,22 @@
         <div class="">
             <p>Location: {{ user.location }}</p>
             <input type="checkbox" class="toggle" id="location">
-            <label for="location" class="toggle-label"><small>Change Location:</small></label>
+            <label for="location" class="toggle-label"><small>Change Location</small></label>
             <div class="toggle-input">
                 <input type="text" name="location" placeholder="New location">
             </div>
         </div>
 
-        <div>
+        <div class="">
             <p>Phone: {{ user.phone }}</p>
             <input type="checkbox" class="toggle" id="email">
-            <label for="email" class="toggle-label"><small>Change Phone Number:</small></label>
+            <label for="email" class="toggle-label"><small>Change Phone Number</small></label>
             <div class="toggle-input">
                 <input type="number" name="phone" placeholder="+372-530000321">
             </div>
         </div>
 
-        <div>
+        <div class="">
             <input type="checkbox" class="toggle" id="user_password">
             <label for="user_password" class="toggle-label">Change password</label>
             <div class="toggle-input">
@@ -66,8 +66,10 @@
             </div>
         </div>
 
-        <div class="toggle-input">
-            <button type="submit" class="form-button" name="password_change">Update Profile</button>
+        <div class="">
+            <div class="toggle-input">
+                <button type="submit" class="form-button" name="password_change">Update Profile</button>
+            </div>
         </div>
     </form>
 {% endif %}
