@@ -15,24 +15,11 @@
                     <h2>WE NEED YOUR GOLD!</h2>
                 </div>
                 <div class="category-container">
+                    {% for category in categories %}
                     <div class="boxx">
-                        <a href="#" class="category-link">Kitchen</a>
+                        <a href="#" class="category-link">{{ category }}</a>
                     </div>
-                    <div class="boxx">
-                        <a href="#" class="category-link">Cars</a>
-                    </div>
-                    <div class="boxx">
-                        <a href="#" class="category-link">Electronics</a>
-                    </div>
-                    <div class="boxx">
-                        <a href="#" class="category-link">Women</a>
-                    </div>
-                    <div class="boxx">
-                        <a href="#" class="category-link">Men</a>
-                    </div>
-                    <div class="boxx" >
-                        <a href="#" class="category-link">Kids</a>
-                    </div>
+                    {% endfor %}
                 </div>
 
             </div>

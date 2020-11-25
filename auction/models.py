@@ -14,6 +14,20 @@ import logging
 logger = logging.getLogger("mylogger")
 
 
+CATEGORY = [
+    ('Electronics', (
+        ('phone', 'Phones'),
+        ('laptop', 'Laptops'),
+        )
+    ),
+    ('Tools', (
+        ('axe', 'Axes'),
+        ('drill', 'Drill'),
+        )
+    )
+]
+
+
 class CustomUser(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
     location = models.CharField(max_length=30, blank=True, null=True)
@@ -29,20 +43,30 @@ class CustomUser(AbstractUser):
         return self.username
 
 
+class Category(models.Model):
+    description = models.TextField(null=True, blank=True)
+    name = models.CharField(max_length=25)
+    logo = models.ImageField(upload_to='media/logos', blank=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Auction(models.Model):
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    title = models.CharField(max_length=100)
-    description = models.CharField(max_length=100)
+    title = models.CharField(max_length=50)
+    category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, null=True, blank=True)
+    description = models.TextField(max_length=500)
     min_value = models.IntegerField()
     buy_now = models.IntegerField(blank=True, null=True)
-    date_added = models.DateTimeField(datetime.now, blank=True)
+    date_added = models.DateTimeField(datetime.now, blank=True, help_text='date added')
     active_bid_value = models.IntegerField(blank=True, null=True, default=0)
     is_active = models.BooleanField(default=True)
     total_auction_duration = models.IntegerField()
-    winner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True, 
-                              related_name="auction_winner",
-                              related_query_name="auction_winner")
     final_value = models.IntegerField(blank=True, null=True)
+    winner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True, 
+                               related_name="auction_winner",
+                               related_query_name="auction_winner")
 
     class Meta:
         ordering = ['date_added']
@@ -76,7 +100,7 @@ class Auction(models.Model):
         if now > auction_end:
             return True
         return False
-    
+
     @property
     def seconds_remaining(self):
         if self.is_active:

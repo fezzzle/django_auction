@@ -14,20 +14,20 @@
         {% endif %}
     </div>
 
-    <!-- {% if error_message %}<p class="error"><strong>{{ error_message }}</strong></p>{% endif %} -->
     {% csrf_token %}
-<!--    <label for="title">Product:</label>-->
     <input type="text" name="title" placeholder="Product ie. laptop, shoes.." maxlength="50">
-<!--    <label for="description">Descripton of the auction:</label>-->
     <textarea name="description" placeholder="Describe item you are selling..." maxlength="500"></textarea>
+    <label for="select">Please select category for your item:</label>
+    <select name="select" id="category-select">
+        {% for category in categories %}
+        <option name="category" value="{{ category }}">{{ category }}</option>
+        {% endfor %}
+    </select>
     <label for="duration">Total auction duration:</label>
     <input type="range" class="slider" name="duration" id="duration" value="720" min="1" max="1440" oninput="durationOut.value = duration.value">
     <output name="durationOut" id="durationOut">720</output> <p>Minutes</p><br>
-<!--    <label for="min_value">Starting value of the bidding</label>-->
     <input type="number" name="min_value" placeholder="Starting value of the bidding. Default 1€" min="1">
-<!--    <label for="buy_now">Set buy now?</label>-->
     <input type="number" name="buy_now" placeholder="If 0€, then there will be no buy now">
-
     <div id="image-add">
         <input type="button" name="add_image" id="add_image" class="form-button" value="Add Image">
         <div id="images">
