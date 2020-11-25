@@ -45,7 +45,7 @@ class CustomUser(AbstractUser):
 
 class Category(models.Model):
     description = models.TextField(null=True, blank=True)
-    name = models.CharField(max_length=25)
+    name = models.CharField(max_length=25, primary_key=True)
     logo = models.ImageField(upload_to='media/logos', blank=True)
 
     def __str__(self):
@@ -55,7 +55,7 @@ class Category(models.Model):
 class Auction(models.Model):
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
-    category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, null=True, blank=True)
+    item_category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, null=True, blank=True)
     description = models.TextField(max_length=500)
     min_value = models.IntegerField()
     buy_now = models.IntegerField(blank=True, null=True)

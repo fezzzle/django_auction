@@ -127,11 +127,11 @@ def create(request):
             return render(request, "auction/create.html")
         else:
             auction = Auction()
-            cat_model = Category.objects.get(name__exact=select)
+            cat = Category.objects.get(name__exact=select)
             auction.author = request.user
             auction.title = title
             auction.description = description
-            auction.category = cat_model
+            auction.item_category = cat
             auction.min_value = int(min_value)
             auction.date_added = timezone.now()
             auction.total_auction_duration = int(duration)
@@ -148,7 +148,7 @@ def create(request):
 
 
 def auctions(request):
-    auction_list = Auction.objects.all().order_by('-date_added')
+    auction_list = Auction.objects.order_by('-date_added')
     for a in auction_list:
         a.resolve()
     return render(request, "auction/auctions.html", {"auction_list": auction_list})
@@ -164,7 +164,7 @@ def my_auctions(request):
 
 @login_required
 def my_bids(request):
-    my_bids = Bid.objects.all().filter(bidder_id=request.user.id).order_by('-time_added')
+    my_bids = Bid.objects.filter(bidder_id=request.user.id).order_by('-time_added')
     return render(request, "auction/my_bids.html", {'my_bids': my_bids})
 
 
@@ -355,7 +355,9 @@ def profile(request, **username):
 
 @login_required
 def category(request, category):
-    return HttpResponse(f'<h1>{category}</h1>')
+    categories = Category.objects.all()
+    route = Auction.objects.filter(item_category=category.capitalize())
+    return render(request, "auction/category.html", {"route": route, "categories": categories})
 
 
 def handler404(request, err):
