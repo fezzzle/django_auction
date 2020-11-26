@@ -58,11 +58,11 @@ body {
 }
 
 .error-box {
-    display: flex;
+    /* display: flex; */
     justify-content: start;
     /* align-items: stretch; */
     grid-column: 1/3;
-    border: 1px solid black;
+    /* border: 1px solid black; */
 
 }
 
@@ -73,7 +73,6 @@ body {
 /* views rida 146 */
 .warning {
     margin: 5px 0px;
-    width: 100%;
     color: #cc0033;
     font-size: 0.8em;
     font-weight: bold;
@@ -90,7 +89,6 @@ body {
 
 .success {
     margin: 5px 0px;
-    width: 100%;
     color: green;
     font-size: 0.8em;
     font-weight: bold;

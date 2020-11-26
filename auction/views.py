@@ -69,7 +69,7 @@ def detail(request, auction_id):
                     logger.info(e)
             return render(request, "auction/detail.html", {"auction": auction, "own_auction": own_auction, "bid": bid, "json_ctx": json_ctx, "images": images})
         return render(request, "auction/detail.html", {"auction": auction, 'bid': bid, "json_ctx": json_ctx, "images": images})
-    return render(request, "auction/detail.html", {"auction": auction, "json_ctx": json_ctx, "images": images})
+    return render(request, "auction/detail.html", {"auction": auction, "bid": bid, "json_ctx": json_ctx, "images": images})
 
 
 @login_required
@@ -149,7 +149,7 @@ def bid(request, auction_id):
     bid = Bid.objects.filter(bidder=request.user).filter(auction=auction).first()
     if not auction.is_active:
         messages.warning(request, 'Auction is not active!')
-        return render(request, "auction/detail.html", {'auction': auction})
+        return render(request, "auction/detail.html", {"auction": auction, "images": images})
     if not bid:
         bid = Bid()
         bid.auction = auction
@@ -166,44 +166,25 @@ def bid(request, auction_id):
             auction.resolve()
         #When user bids instead of buynow
         elif request.method == 'POST' and 'amount' in request.POST:
+            if auction.buy_now:
+                if bid_amount > auction.buy_now:
+                    messages.warning(request, 'Your bid can not be bigger than buy now!')
+                    raise ValueError()
+            if bid_amount < auction.min_value:
+                messages.warning(request, 'Your bid needs to be bigger than min value!')
+                raise ValueError()
             if bid_amount <= bid.amount and auction.buy_now == 0:
                 messages.warning(request, 'Entered bid is not correct!')
-                return render(
-                    request, 
-                    "auction/detail.html",
-                    {
-                        "auction": auction,
-                        "bid": bid.highest_user_bid,
-                        "images": images,
-                        "json_ctx": json_ctx
-                    })
+                raise ValueError()
             bid.amount = bid_amount
             bid.save()
+            # Handiling a case when multiple users are bidding on the same auction
             if bid.amount <= auction.active_bid_value:
-                messages.warning(request, 'You need to enter a bigger bid than the previous amount!')
-                return render(
-                    request,
-                    "auction/detail.html",
-                    {
-                        "auction": auction,
-                        "bid": bid.highest_user_bid,
-                        "images": images,
-                        "json_ctx": json_ctx
-                    })
-            if auction.buy_now:
-                if bid_amount < auction.min_value or bid_amount > auction.buy_now:
-                    raise ValueError
+                messages.warning(request, 'Another user already bid a larger value!')
+                raise ValueError()
             auction.active_bid_value = bid.amount
-    except ValueError as e:
-        messages.warning(request, e)
-        messages.warning(request, 'You have entered invalid input or less than min value')
-        return render(
-            request,
-            "auction/detail.html",
-            {
-                "auction": auction,
-                "user_bid": bid.highest_user_bid,
-                "images": images, "json_ctx": json_ctx})
+    except ValueError:
+        return render(request, "auction/detail.html", {"auction": auction, "bid": bid.highest_user_bid, "images": images, "json_ctx": json_ctx})
     else:
         if not auction.is_active:
             auction.active_bid_value = bid.amount
