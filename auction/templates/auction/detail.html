@@ -42,29 +42,29 @@
         <p>Auction ID: {{ auction.id }}</p>
         <p>Description: {{ auction.description|linebreaks }}</p>
         <p><a href="{% url 'auction:profile' auction.author %}">Seller: {{ auction.author }} <small> *click here to see their profile*</small></a></p>
-        <p>Starting price: {{ auction.min_value }} €</p>
+        <p>Starting price: {{ auction.min_value }}€</p>
 
         {% if auction.buy_now %}
-            <p>Buy now: {{ auction.buy_now }} €</p>
+            <p>Buy now: {{ auction.buy_now }}€</p>
         {% endif %}
 
         {% if auction.final_value %}
-            <p>Winning value: {{ auction.final_value }}€</p>
+            <p>Winning value: {{ auction.final_value }} €</p>
             <p>Auction winner: {{ auction.winner }}</p>
         {% endif %}
         
         {% if auction.is_active %}
-            <p>Highest bid: {{ auction.active_bid_value}}€</p>
             <p>Time remaining: <span id="clock"></span></p>
+            <p id="detail-highest-bid">Highest bid: {{ auction.highest_auction_bid}}€</p>
         {% endif %}
 
         <div class="not-active">
         {{ json_ctx|json_script:"json_ctx" }}
-        {% if user.is_authenticated%}
+        {% if user.is_authenticated %}
             {% if not own_auction %}
                 {% if auction.is_active %}
                 {% if bid %}
-                <p>Your bid: {{ bid }}</p>
+                    <p id="detail-your-bid">Your bid: {{ bid }}€</p>
                 {% endif %}
                 <form action="{% url 'auction:bid' auction.id %}" method="POST">
                 {% csrf_token %}
@@ -112,7 +112,6 @@
                     {% endif %}
                 {% endif %}
             {% endif %}
-
         {% endif %}
         </div>
     </div>
