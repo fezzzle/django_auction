@@ -95,21 +95,22 @@
                     <input type="submit" class="form-button" name="buy_now" value="Buy now!">
                 {% endif %}
                 </form>
+                {% else %}
+                    <h1>AUCTION IS NOT ACTIVE</h1>
+                {% endif %}
             {% else %}
-                <h1>AUCTION IS NOT ACTIVE</h1>
-            {% endif %}
-
-            {% else %}
-                {% if not bid %}
-                    {% if auction.is_active %}
+                {% if auction.is_active %}
+                    {% if auction.active_bid_value %}
+                        <h1>AUCTION IS ACTIVE</h1>
+                    {% else %}
                         <form action="{% url 'auction:detail' auction.id %}" method="POST">
                             {% csrf_token %}
                             <input type="submit" class="form-button" name="cancel_auction" value="Cancel">
                         </form>
                         <h1>AUCTION IS ACTIVE</h1>
-                    {% else %}
-                        <h1>AUCTION IS NOT ACTIVE</h1>
                     {% endif %}
+                {% else %}
+                        <h1>AUCTION IS NOT ACTIVE</h1>
                 {% endif %}
             {% endif %}
         {% endif %}
