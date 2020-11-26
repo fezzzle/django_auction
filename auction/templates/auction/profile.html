@@ -4,16 +4,18 @@
 
 {% if user.is_authenticated %}
 
+<div class="error-box">
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+
     <form action="{% url 'auction:profile' %}" method="POST" enctype="multipart/form-data" class="form-style">
         {% csrf_token %}
-        {% if messages %}
-        <ul class="messages">
-           {% for message in messages %}
-           <li class="{{ message.tags }}">{{ message }}</li>
-           {% endfor %}
-        </ul>
-        {% endif %}
-
         <div class="">
             <p>Username:{{ user.username }}</p>
             <small>Date joined: {{ user.date_joined|date }}</small></br>
