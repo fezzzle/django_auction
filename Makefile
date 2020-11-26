@@ -74,9 +74,8 @@ endif
 
 # Performs the full development environment setup
 .PHONY: setup
-setup: clean_pipenv dependencies
-	pipenv run python manage.py makemigrations auction && pipenv run python manage.py migrate auction && pipenv run python manage.py migrate
-
+setup: clean_pipenv dependencies db_and_env_setup createsuperuser
+	pipenv shell
 
 # Clean the documentation folder
 .PHONY: clean_docs
@@ -110,6 +109,15 @@ validate:
 test:
 	pipenv run pytest --cov
 
+# Migrate and create superuser
+.PHONY: migrate
+migrate:
+	pipenv run python.py makemigrations auction && pipenv run python.py migrate.py auction && pipenv run python.py migrate
+
+# Create super user
+.PHONY: createsuperuser
+createsuperuser:
+	DJANGO_SUPERUSER_PASSWORD=testing321  python manage.py createsuperuser --username DJANGO_SUPERUSER_USERNAME --email mp@mp.com --noinput
 
 # Run the Django development server
 .PHONY: run
