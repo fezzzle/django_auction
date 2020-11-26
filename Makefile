@@ -67,9 +67,7 @@ endif
 # Sets up the database and the environment files for the first time
 .PHONY: db_and_env_setup
 db_and_env_setup:
-ifeq (${OS}, Darwin)
 	pipenv run python manage.py makemigrations auction && pipenv run python manage.py migrate auction && pipenv run python manage.py migrate
-endif
 
 
 # Performs the full development environment setup
@@ -112,12 +110,12 @@ test:
 # Migrate and create superuser
 .PHONY: migrate
 migrate:
-	pipenv run python.py makemigrations auction && pipenv run python.py migrate.py auction && pipenv run python.py migrate
+	pipenv run python3 manage.py makemigrations auction && pipenv run python3 manage.py migrate.py auction && pipenv run python3 manage.py migrate
 
 # Create super user
 .PHONY: createsuperuser
 createsuperuser:
-	DJANGO_SUPERUSER_PASSWORD=testing321  python manage.py createsuperuser --username DJANGO_SUPERUSER_USERNAME --email mp@mp.com --noinput
+	pipenv run python manage.py shell -c "from auction.models import CustomUser; CustomUser.objects.create_superuser('mp', 'mp@mp.com', 'testing321')"
 
 # Run the Django development server
 .PHONY: run
