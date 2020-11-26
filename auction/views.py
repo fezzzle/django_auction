@@ -25,9 +25,10 @@ logger = logging.getLogger("mylogger")
 def index(request):
     categories = Category.objects.all()
     all_auctions = Auction.objects.all()
-    last_added = Auction.objects.all().order_by('-date_added')[:5]
-    ending_soon = Auction.objects.all().order_by('total_auction_duration')[:5]
-    ended = Auction.objects.all().order_by('-date_ended')[:5]
+    active_auctions = Auction.objects.filter(is_active=1)
+    last_added = Auction.objects.filter(is_active=1).order_by('-date_added')[:5]
+    ending_soon = Auction.objects.filter(is_active=1).order_by('total_auction_duration')[:5]
+    ended = Auction.objects.order_by('-date_ended')[:10]
     for a in all_auctions:
         a.resolve()
     current_user = request.user
@@ -35,7 +36,7 @@ def index(request):
         request,
         'auction/index.html',
         {
-            "all_auctions": all_auctions,
+            "active_auctions": active_auctions,
             "user": current_user,
             "last_added": last_added,
             "ending_soon": ending_soon,
@@ -45,13 +46,8 @@ def index(request):
 
 
 def detail(request, auction_id):
-
-    # Buy using get method, we pass in default value and then set every time user visits detail view, request.session['num_visits'] = num_visits + 1
-    num_visits = request.session.get('num_visits', 0)
-    request.session['num_visits'] = num_visits + 1
-
     auction = get_object_or_404(Auction, pk=auction_id)
-    bid = Bid.objects.filter(auction=auction, bidder=request.user.id)
+    bid = Bid.objects.filter(auction=auction, bidder=request.user)
     images = AuctionImage.objects.filter(auction=auction)
     json_ctx = json.dumps({"auction_end_stamp": int(auction.expire.timestamp() * 1000)})
     cancel_auction_button = request.POST.get('cancel_auction')
@@ -68,7 +64,6 @@ def detail(request, auction_id):
                 except Exception as e:
                     logger.info(e)
             return render(request, "auction/detail.html", {"auction": auction, "own_auction": own_auction, "bid": bid, "json_ctx": json_ctx, "images": images})
-        return render(request, "auction/detail.html", {"auction": auction, 'bid': bid, "json_ctx": json_ctx, "images": images})
     return render(request, "auction/detail.html", {"auction": auction, "bid": bid, "json_ctx": json_ctx, "images": images})
 
 
@@ -192,6 +187,8 @@ def bid(request, auction_id):
         bid.save()
         auction.save()
         messages.success(request, f"You successfully bidded {bid.amount} eur!")
+        if auction.winner:
+            messages.success(request, f"You won the auction for {auction.final_value} eur!")
         return render(request, "auction/detail.html", {'auction': auction, 'bid': bid.highest_user_bid, "images": images, "json_ctx": json_ctx})
 
 
@@ -308,8 +305,13 @@ def profile(request, **username):
 @login_required
 def category(request, category):
     categories = Category.objects.all()
+    all_auctions = Auction.objects.all()
+    active_auctions = Auction.objects.filter(item_category=category).filter(is_active=1)
+    last_added = Auction.objects.filter(item_category=category).filter(is_active=1).order_by('-date_added')[:5]
+    ending_soon = Auction.objects.filter(item_category=category).filter(is_active=1).order_by('total_auction_duration')[:5]
+    ended = Auction.objects.filter(item_category=category).order_by('-date_ended')[:10]
     route = Auction.objects.filter(item_category=category)
-    return render(request, "auction/category.html", {"route": route, "categories": categories})
+    return render(request, "auction/category.html", {"route": route, "categories": categories, "ended": ended, "ending_soon": ending_soon, "last_added": last_added})
 
 
 def handler404(request, err):

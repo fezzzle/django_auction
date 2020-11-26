@@ -8,13 +8,12 @@
 
 ## Technologies
 Project is created with:
-* Python 3.8
+* Python 3.9
 * Django
-* Bulma
 
 ## Setup
 1. Clone the repo
-2. ```python manage.py makemigrations auction``` && ```python manage.py migrate```
+2. ```python manage.py makemigrations auction``` && ```python manage.py migrate auction```
 3. ```python manage.py runserver```
 
 *** IN DEVELOPMENT ***

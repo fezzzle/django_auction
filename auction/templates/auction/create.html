@@ -19,7 +19,7 @@
     <textarea name="description" placeholder="Describe item you are selling..." maxlength="500"></textarea>
     <label for="select">Please select category for your item:</label>
 
-    <select name="select">
+    <select name="select" class="select-style">
         {% for category in categories %}
         <option name="category" value="{{ category }}">{{ category }}</option>
         {% endfor %}

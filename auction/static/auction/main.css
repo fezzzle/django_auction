@@ -261,6 +261,26 @@ li::marker {
     content: none;
   }
 
+.select-style {
+    width: 70%;
+    transition: 0.3s ease-in-out;
+    height: 3rem;
+    margin-bottom: 1.5rem;
+    padding: 0.5em 1.5em;
+    background-color: #ecf0f3;
+    outline: none;
+    border: none;
+    border-radius: 25px;
+    box-shadow: inset 8px 8px 8px rgb(180, 180, 180, 0.3),
+                    inset -8px -8px 8px rgb(255, 255, 255, 0.3),
+                    0px 0px 0px rgb(180, 180, 180, 0.3),
+                    0px 0px 0px rgb(255, 255, 255, 0.3);
+}
+
+.select-style > option {
+    width: 70%;
+}
+
 .form-style {
     /* border: 10px blue solid; */
     margin-top:15vh;
