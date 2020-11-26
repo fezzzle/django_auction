@@ -22,6 +22,7 @@
                                 <p>Product: {{auction.title}}</p>
                                 <p>ID: {{auction.id}}</p>
                                 <p>price: {{auction.min_value}}€</p>
+                                <p>Category: {{auction.item_category}}</p>
                                 {% if auction.is_active %}
                                     <p>{% widthratio auction.seconds_remaining 60 1 %} minutes left</p>
                                 {% else %}

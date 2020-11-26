@@ -27,6 +27,7 @@ def index(request):
     all_auctions = Auction.objects.all()
     last_added = Auction.objects.all().order_by('-date_added')[:5]
     ending_soon = Auction.objects.all().order_by('total_auction_duration')[:5]
+    ended = Auction.objects.all().order_by('-date_ended')[:5]
     for a in all_auctions:
         a.resolve()
     current_user = request.user
@@ -38,7 +39,8 @@ def index(request):
             "user": current_user,
             "last_added": last_added,
             "ending_soon": ending_soon,
-            "categories": categories
+            "categories": categories,
+            "ended": ended
         })
 
 
@@ -49,48 +51,25 @@ def detail(request, auction_id):
     request.session['num_visits'] = num_visits + 1
 
     auction = get_object_or_404(Auction, pk=auction_id)
-    bid = Bid.objects.filter(auction=auction)
+    bid = Bid.objects.filter(auction=auction, bidder=request.user.id)
     images = AuctionImage.objects.filter(auction=auction)
-    auction.save()
     json_ctx = json.dumps({"auction_end_stamp": int(auction.expire.timestamp() * 1000)})
     cancel_auction_button = request.POST.get('cancel_auction')
-    if bid:
-        bid = bid.first().amount
-    if request.user == auction.author or not request.user.is_authenticated:
-        own_auction = True
-        if cancel_auction_button:
-            try:
-                auction.is_active = False
-                auction.save()
-                return render(
-                    request,
-                    "auction/detail.html",
-                    {
-                        "auction": auction,
-                        "own_auction": own_auction,
-                        "images": images
-                    })
-            except Exception as e:
-                logger.info(e)
-        return render(
-            request, 
-            "auction/detail.html", 
-            {
-                "auction": auction,
-                "own_auction": own_auction,
-                "bid": bid,
-                "json_ctx": json_ctx,
-                "images": images
-            })
-    return render(
-        request, 
-        "auction/detail.html",
-        {
-            "auction": auction,
-            'bid': bid,
-            "json_ctx": json_ctx,
-            "images": images
-        })
+    if request.user.is_authenticated:
+        if bid:
+            bid = bid.first().amount
+        if request.user == auction.author:
+            own_auction = True
+            if cancel_auction_button:
+                try:
+                    auction.is_active = False
+                    auction.save()
+                    return render(request, "auction/detail.html", {"auction": auction, "own_auction": own_auction, "images": images})
+                except Exception as e:
+                    logger.info(e)
+            return render(request, "auction/detail.html", {"auction": auction, "own_auction": own_auction, "bid": bid, "json_ctx": json_ctx, "images": images})
+        return render(request, "auction/detail.html", {"auction": auction, 'bid': bid, "json_ctx": json_ctx, "images": images})
+    return render(request, "auction/detail.html", {"auction": auction, "bid": bid, "json_ctx": json_ctx, "images": images})
 
 
 @login_required
@@ -98,15 +77,7 @@ def create(request):
     categories = Category.objects.all()
     if request.method == 'POST':
         try:
-            # cat = Category.objects
-            logger.info(list(request.POST.dict().items()))
             _, title, description, select, duration, min_value, buy_now, _ = list(request.POST.dict().values())
-            logger.info(title)
-            logger.info(description)
-            logger.info(duration)
-            logger.info(select)
-            logger.info(min_value)
-            logger.info(buy_now)
             images = request.FILES.getlist("file_upload")
             if not title or not description or not min_value or not images or not select:
                 raise KeyError
@@ -120,11 +91,11 @@ def create(request):
         except KeyError as e:
             messages.warning(request, e)
             messages.warning(request, 'Please fill all the fields!')
-            return render(request, "auction/create.html")
+            return render(request, "auction/create.html", {"categories": categories})
         except ValueError as e:
             messages.warning(request, e)
             messages.warning(request, 'Buy now needs to be bigger than minimum bid or input was wrong!')
-            return render(request, "auction/create.html")
+            return render(request, "auction/create.html", {"categories": categories})
         else:
             auction = Auction()
             cat = Category.objects.get(name__exact=select)
@@ -178,7 +149,7 @@ def bid(request, auction_id):
     bid = Bid.objects.filter(bidder=request.user).filter(auction=auction).first()
     if not auction.is_active:
         messages.warning(request, 'Auction is not active!')
-        return render(request, "auction/detail.html", {'auction': auction})
+        return render(request, "auction/detail.html", {"auction": auction, "images": images})
     if not bid:
         bid = Bid()
         bid.auction = auction
@@ -195,51 +166,25 @@ def bid(request, auction_id):
             auction.resolve()
         #When user bids instead of buynow
         elif request.method == 'POST' and 'amount' in request.POST:
-            # messages.warning(request, f"bid.amoiunt: {bid.amount}")
-            # messages.warning(request, f"bid.amoiunt: {type(bid.amount)}")
-            # messages.warning(request, f"bid_amount: {bid_amount}")
-            # messages.warning(request, f"bid_amount: {type(bid_amount)}")
-
-            # 25.09 17:45
-            # if bid_amount <= bid.amount or auction.buy_now < bid_amount:
+            if auction.buy_now:
+                if bid_amount > auction.buy_now:
+                    messages.warning(request, 'Your bid can not be bigger than buy now!')
+                    raise ValueError()
+            if bid_amount < auction.min_value:
+                messages.warning(request, 'Your bid needs to be bigger than min value!')
+                raise ValueError()
             if bid_amount <= bid.amount and auction.buy_now == 0:
                 messages.warning(request, 'Entered bid is not correct!')
-                return render(
-                    request, 
-                    "auction/detail.html",
-                    {
-                        "auction": auction,
-                        "bid": bid.highest_user_bid,
-                        "images": images,
-                        "json_ctx": json_ctx
-                    })
+                raise ValueError()
             bid.amount = bid_amount
             bid.save()
+            # Handiling a case when multiple users are bidding on the same auction
             if bid.amount <= auction.active_bid_value:
-                messages.warning(request, 'You need to enter a bigger bid than the previous amount!')
-                return render(
-                    request,
-                    "auction/detail.html",
-                    {
-                        "auction": auction,
-                        "bid": bid.highest_user_bid,
-                        "images": images,
-                        "json_ctx": json_ctx
-                    })
-            if auction.buy_now:
-                if bid_amount < auction.min_value or bid_amount > auction.buy_now:
-                    raise ValueError
+                messages.warning(request, 'Another user already bid a larger value!')
+                raise ValueError()
             auction.active_bid_value = bid.amount
-    except ValueError as e:
-        messages.warning(request, e)
-        messages.warning(request, 'You have entered invalid input or less than min value')
-        return render(
-            request,
-            "auction/detail.html",
-            {
-                "auction": auction,
-                "user_bid": bid.highest_user_bid,
-                "images": images, "json_ctx": json_ctx})
+    except ValueError:
+        return render(request, "auction/detail.html", {"auction": auction, "bid": bid.highest_user_bid, "images": images, "json_ctx": json_ctx})
     else:
         if not auction.is_active:
             auction.active_bid_value = bid.amount

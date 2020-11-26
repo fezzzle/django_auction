@@ -14,20 +14,6 @@ import logging
 logger = logging.getLogger("mylogger")
 
 
-CATEGORY = [
-    ('Electronics', (
-        ('phone', 'Phones'),
-        ('laptop', 'Laptops'),
-        )
-    ),
-    ('Tools', (
-        ('axe', 'Axes'),
-        ('drill', 'Drill'),
-        )
-    )
-]
-
-
 class CustomUser(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
     location = models.CharField(max_length=30, blank=True, null=True)
@@ -46,7 +32,7 @@ class CustomUser(AbstractUser):
 class Category(models.Model):
     description = models.TextField(null=True, blank=True)
     name = models.CharField(max_length=25, primary_key=True)
-    logo = models.ImageField(upload_to='media/logos', blank=True)
+    logo = ResizedImageField(upload_to='media/logos', blank=True)
 
     def __str__(self):
         return self.name
@@ -55,11 +41,12 @@ class Category(models.Model):
 class Auction(models.Model):
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
-    item_category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, null=True, blank=True)
+    item_category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     description = models.TextField(max_length=500)
     min_value = models.IntegerField()
     buy_now = models.IntegerField(blank=True, null=True)
     date_added = models.DateTimeField(datetime.now, blank=True, help_text='date added')
+    date_ended = models.DateTimeField(blank=True, null=True, help_text='date added')
     active_bid_value = models.IntegerField(blank=True, null=True, default=0)
     is_active = models.BooleanField(default=True)
     total_auction_duration = models.IntegerField()
@@ -84,6 +71,7 @@ class Auction(models.Model):
                 if highest_bid:
                     self.winner = highest_bid.bidder
                     self.final_value = highest_bid.amount
+                    self.date_ended = datetime.now()
                 self.is_active = False
                 self.save()
             if self.active_bid_value and self.buy_now != 0:
@@ -92,6 +80,7 @@ class Auction(models.Model):
                     self.winner = highest_bid.bidder
                     self.final_value = highest_bid.amount
                     self.is_active = False
+                    self.date_ended = datetime.now()
                     self.save()
 
     def has_expired(self):

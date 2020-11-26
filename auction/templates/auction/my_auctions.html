@@ -7,6 +7,7 @@
         <a href="{% url 'auction:detail' auction.id %}">
             <h2><li>{{ auction.title }}</li></h2>
             <p><li>{{ auction.description }}</li></p>
+            <li><p>{{auction.item_category}}</p></li>
             {% if auction.is_active %}
             <p><li>{% widthratio auction.seconds_remaining 60 1 %} minutes left</li></p>
             {% else %}
