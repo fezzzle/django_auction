@@ -128,5 +128,5 @@ class Bid(models.Model):
 
 class AuctionImage(models.Model):
     auction = models.ForeignKey(Auction, on_delete=models.CASCADE)
-    image = ResizedImageField(upload_to=path_and_rename)
+    image = models.ImageField(upload_to=path_and_rename)
 

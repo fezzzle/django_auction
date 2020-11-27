@@ -1,4 +1,4 @@
-# Makefile for meme_creator
+# Makefile for Django_auction
 #
 # This Makefile has the following targets:
 #
@@ -71,11 +71,22 @@ populate_db:
 	 Category(description='Sell your tools here!', name='tools'), \
 	 Category(description='Sell your phones here!', name='phones'), \
 	 Category(description='Sell your kids toys here!', name='toys')])"; \
-	 pipenv run python manage.py shell -c "from auction.models import Auction; from datetime import datetime; Auction.objects.bulk_create([ \
-	 Auction(title='Laptop #3', description='Laptop #3 description', min_value=900, buy_now=1000, date_added=datetime.now(), is_active=1, total_auction_duration=1440, author_id=1), \
-	 Auction(title='Laptop #4', description='Laptop #4 description', min_value=100, buy_now=1000, date_added=datetime.now(), is_active=1, total_auction_duration=340, author_id=1), \
-	 Auction(title='Laptop #2', description='Laptop #2 description', min_value=800, buy_now=1100, date_added=datetime.now(), is_active=1, total_auction_duration=40, author_id=1), \
-	 Auction(title='Laptop #5', description='Laptop #5 description', min_value=400, buy_now=1250, date_added=datetime.now(), is_active=1, total_auction_duration=240, author_id=1)])"
+	 pipenv run python manage.py shell -c "from auction.models import Auction, Category; from datetime import datetime; Auction.objects.bulk_create([ \
+	 Auction(title='Laptop #3', item_category=Category(name='laptops'), description='Laptop #3 description', min_value=900, buy_now=1000, date_added=datetime.now(), is_active=1, total_auction_duration=1440, author_id=1), \
+	 Auction(title='Laptop #4', item_category=Category(name='laptops'), description='Laptop #4 description', min_value=100, buy_now=1000, date_added=datetime.now(), is_active=1, total_auction_duration=340, author_id=2), \
+	 Auction(title='Laptop #2', item_category=Category(name='laptops'), description='Laptop #2 description', min_value=800, buy_now=1100, date_added=datetime.now(), is_active=1, total_auction_duration=40, author_id=2), \
+	 Auction(title='Phone #1', item_category=Category(name='phones'), description='Phone #1 description', min_value=400, buy_now=1250, date_added=datetime.now(), is_active=1, total_auction_duration=240, author_id=1)])";
+
+
+	#  pipenv run python manage.py shell -c "from auction.models import Auction, AuctionImage; AuctionImage.objects.bulk_create([ \
+	#  AuctionImage(auction=Auction(id=1), image='images/f2c1127f39a84a42be2483610655197e.png'), \
+	#  AuctionImage(auction=Auction(id=2), image='images/f2c1127f39a84a42be2483610655197e.png'), \
+	#  AuctionImage(auction=Auction(id=3), image='images/f2c1127f39a84a42be2483610655197e.png'), \
+	#  AuctionImage(auction=Auction(id=4), image='images/f2c1127f39a84a42be2483610655197e.png')])"
+
+
+"from auction.models import Auction, AuctionImage; from django.core.files import File; AuctionImage.objects.bulk_create([ \
+	 AuctionImage(auction=Auction(id=1), image=File(open('images/f2c1127f39a84a42be2483610655197e.png', 'r')))])"
 
 
 # Sets up the database and the environment files for the first time
@@ -129,20 +140,14 @@ migrate:
 # Create super user
 .PHONY: createsuperuser
 createsuperuser:
-	pipenv run python manage.py shell -c "from auction.models import CustomUser; CustomUser.objects.create_superuser('mp', 'mp@mp.com', 'testing321')"
+	pipenv run python manage.py shell -c "from auction.models import CustomUser; \
+	CustomUser.objects.create_superuser('mp', 'mp@mp.com', 'testing321'); \
+	CustomUser.objects.create_superuser('mp1', 'mp1@mp.com', 'testing321')" 
 
 # Run the Django development server
 .PHONY: run
 run:
 	pipenv run python manage.py runserver
-
-
-# Drop the database
-.PHONY: drop_db
-drop_db:
-	psql postgres -c "DROP USER ${MODULE_NAME};" || true
-	psql postgres -c "DROP DATABASE ${MODULE_NAME};" || true
-
 
 # Cleans the pip virtualenv
 .PHONY: clean_pipenv
