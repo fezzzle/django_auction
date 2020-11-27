@@ -3,7 +3,6 @@ from time import time
 
 from django.shortcuts import render
 from .models import Auction, Bid, CustomUser, AuctionImage, Category
-from datetime import datetime, timezone
 from django.utils import timezone
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -57,7 +56,7 @@ def detail(request, auction_id):
             if cancel_auction_button:
                 try:
                     auction.is_active = False
-                    auction.date_ended = datetime.now()
+                    auction.date_ended = timezone.now()
                     auction.save()
                 except Exception as e:
                     messages.warning(request, e)
@@ -89,16 +88,17 @@ def create(request):
             messages.warning(request, 'Buy now needs to be bigger than minimum bid or input was wrong!')
             return render(request, "auction/create.html", {"categories": categories})
         else:
-            auction = Auction()
             cat = Category.objects.get(name__exact=select)
-            auction.author = request.user
-            auction.title = title
-            auction.description = description
-            auction.item_category = cat
-            auction.min_value = int(min_value)
-            auction.date_added = timezone.now()
-            auction.total_auction_duration = int(duration)
-            auction.buy_now = int(buy_now)
+            auction = Auction(
+                author=request.user,
+                title=title,
+                description=description,
+                item_category=cat,
+                min_value=int(min_value),
+                date_added=timezone.now(),
+                total_auction_duration=int(duration),
+                buy_now=int(buy_now)
+            )
             auction.save()
             for img in images:
                 auction_img = AuctionImage(auction=auction, image=img)
@@ -145,11 +145,11 @@ def bid(request, auction_id):
         bid = Bid()
         bid.auction = auction
         bid.bidder = request.user
-        bid.time_added = datetime.now(timezone.utc)
+        bid.time_added = timezone.now()
     try:
         # When user clicks buy now
         if request.method == 'POST' and 'buy_now' in request.POST:
-            auction.total_auction_duration = 0
+            auction.date_ended = timezone.now()
             bid.bidder = request.user
             bid.amount = auction.buy_now
             auction.active_bid_value = bid.amount
