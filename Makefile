@@ -83,10 +83,6 @@ populate_db:
 	 AuctionImage(auction=Auction(id=4), image='images/bear.png')])"
 
 
-# "from auction.models import Auction, AuctionImage; from django.core.files import File; AuctionImage.objects.bulk_create([ \
-# 	 AuctionImage(auction=Auction(id=1), image=File(open('images/f2c1127f39a84a42be2483610655197e.png', 'r')))])"
-
-
 # Sets up the database and the environment files for the first time
 .PHONY: db_and_env_setup
 db_and_env_setup:

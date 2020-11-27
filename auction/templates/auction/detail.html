@@ -54,8 +54,10 @@
         {% endif %}
         
         {% if auction.is_active %}
-            <p>Time remaining: <span id="clock"></span></p>
-            <p id="detail-highest-bid">Highest bid: {{ auction.highest_auction_bid}}€</p>
+            <p>Time remaining: <span id="clock"></span>
+                <h3 style=text-decoration:underline #ff0; >Bidding step is 1€</h3>
+            </p>
+            <p id="detail-highest-bid">Highest bid: {{ auction.highest_auction_bid }}€</p>
         {% endif %}
 
         <div class="not-active">
