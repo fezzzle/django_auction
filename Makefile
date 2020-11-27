@@ -1,4 +1,4 @@
-# Makefile for meme_creator
+# Makefile for Django_auction
 #
 # This Makefile has the following targets:
 #
@@ -62,19 +62,36 @@ ifeq (${OS}, Darwin)
 endif
 	pipenv sync --dev
 	pipenv check
+	
+
+.PHONY: populate_db
+populate_db:
+	 pipenv run python manage.py shell -c "from auction.models import Category; Category.objects.bulk_create([ \
+	 Category(description='Sell your laptops here!', name='laptops'), \
+	 Category(description='Sell your tools here!', name='tools'), \
+	 Category(description='Sell your phones here!', name='phones'), \
+	 Category(description='Sell your kids toys here!', name='toys')])"; \
+	 pipenv run python manage.py shell -c "from auction.models import Auction, Category; from datetime import datetime; Auction.objects.bulk_create([ \
+	 Auction(title='Makita drill', item_category=Category(name='tools'), description='Makita Drill description', min_value=90, buy_now=100, date_added=datetime.now(), is_active=1, total_auction_duration=1440, author_id=1), \
+	 Auction(title='Laptop #1', item_category=Category(name='laptops'), description='Laptop #1 description', min_value=100, buy_now=1000, date_added=datetime.now(), is_active=1, total_auction_duration=340, author_id=2), \
+	 Auction(title='Phone #1', item_category=Category(name='phones'), description='Phone #1 description', min_value=800, buy_now=1100, date_added=datetime.now(), is_active=1, total_auction_duration=40, author_id=2), \
+	 Auction(title='Teddy Bear #1', item_category=Category(name='toys'), description='Phone #1 description', min_value=20, buy_now=25, date_added=datetime.now(), is_active=1, total_auction_duration=240, author_id=1)])";
+	 pipenv run python manage.py shell -c "from auction.models import Auction, AuctionImage; AuctionImage.objects.bulk_create([ \
+	 AuctionImage(auction=Auction(id=1), image='images/drill.png'), \
+	 AuctionImage(auction=Auction(id=2), image='images/laptop.jpg'), \
+	 AuctionImage(auction=Auction(id=3), image='images/phone.jpg'), \
+	 AuctionImage(auction=Auction(id=4), image='images/bear.png')])"
 
 
 # Sets up the database and the environment files for the first time
 .PHONY: db_and_env_setup
 db_and_env_setup:
-ifeq (${OS}, Darwin)
 	pipenv run python manage.py makemigrations auction && pipenv run python manage.py migrate auction && pipenv run python manage.py migrate
-endif
 
 
 # Performs the full development environment setup
 .PHONY: setup
-setup: clean_pipenv dependencies db_and_env_setup createsuperuser
+setup: clean_pipenv dependencies db_and_env_setup createsuperuser populate_db
 	pipenv shell
 
 # Clean the documentation folder
@@ -112,25 +129,19 @@ test:
 # Migrate and create superuser
 .PHONY: migrate
 migrate:
-	pipenv run python.py makemigrations auction && pipenv run python.py migrate.py auction && pipenv run python.py migrate
+	pipenv run python3 manage.py makemigrations auction && pipenv run python3 manage.py migrate.py auction && pipenv run python3 manage.py migrate
 
 # Create super user
 .PHONY: createsuperuser
 createsuperuser:
-	DJANGO_SUPERUSER_PASSWORD=testing321  python manage.py createsuperuser --username DJANGO_SUPERUSER_USERNAME --email mp@mp.com --noinput
+	pipenv run python manage.py shell -c "from auction.models import CustomUser; \
+	CustomUser.objects.create_superuser('mp', 'mp@mp.com', 'testing321'); \
+	CustomUser.objects.create_superuser('mp1', 'mp1@mp.com', 'testing321')" 
 
 # Run the Django development server
 .PHONY: run
 run:
 	pipenv run python manage.py runserver
-
-
-# Drop the database
-.PHONY: drop_db
-drop_db:
-	psql postgres -c "DROP USER ${MODULE_NAME};" || true
-	psql postgres -c "DROP DATABASE ${MODULE_NAME};" || true
-
 
 # Cleans the pip virtualenv
 .PHONY: clean_pipenv
