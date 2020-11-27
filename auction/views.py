@@ -47,10 +47,12 @@ def index(request):
 
 def detail(request, auction_id):
     auction = get_object_or_404(Auction, pk=auction_id)
-    bid = Bid.objects.filter(auction=auction, bidder=request.user)
     images = AuctionImage.objects.filter(auction=auction)
     json_ctx = json.dumps({"auction_end_stamp": int(auction.expire.timestamp() * 1000)})
     cancel_auction_button = request.POST.get('cancel_auction')
+    bid = Bid.objects.filter(auction=auction)
+    if request.user == "AnonymousUser":
+        bid = Bid.objects.filter(auction=auction, bidder=request.user)
     if request.user.is_authenticated:
         if bid:
             bid = bid.first().amount
