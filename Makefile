@@ -76,13 +76,11 @@ populate_db:
 	 Auction(title='Laptop #4', item_category=Category(name='laptops'), description='Laptop #4 description', min_value=100, buy_now=1000, date_added=datetime.now(), is_active=1, total_auction_duration=340, author_id=2), \
 	 Auction(title='Laptop #2', item_category=Category(name='laptops'), description='Laptop #2 description', min_value=800, buy_now=1100, date_added=datetime.now(), is_active=1, total_auction_duration=40, author_id=2), \
 	 Auction(title='Phone #1', item_category=Category(name='phones'), description='Phone #1 description', min_value=400, buy_now=1250, date_added=datetime.now(), is_active=1, total_auction_duration=240, author_id=1)])";
-
-
-	#  pipenv run python manage.py shell -c "from auction.models import Auction, AuctionImage; AuctionImage.objects.bulk_create([ \
-	#  AuctionImage(auction=Auction(id=1), image='images/f2c1127f39a84a42be2483610655197e.png'), \
-	#  AuctionImage(auction=Auction(id=2), image='images/f2c1127f39a84a42be2483610655197e.png'), \
-	#  AuctionImage(auction=Auction(id=3), image='images/f2c1127f39a84a42be2483610655197e.png'), \
-	#  AuctionImage(auction=Auction(id=4), image='images/f2c1127f39a84a42be2483610655197e.png')])"
+	 pipenv run python manage.py shell -c "from auction.models import Auction, AuctionImage; AuctionImage.objects.bulk_create([ \
+	 AuctionImage(auction=Auction(id=4), image='images/41a554dd7e6e424e9f8ec31bb8954b03.jpg'), \
+	 AuctionImage(auction=Auction(id=2), image='images/41a554dd7e6e424e9f8ec31bb8954b03.jpg'), \
+	 AuctionImage(auction=Auction(id=3), image='images/41a554dd7e6e424e9f8ec31bb8954b03.jpg'), \
+	 AuctionImage(auction=Auction(id=1), image='images/41a554dd7e6e424e9f8ec31bb8954b03.jpg')])"
 
 
 "from auction.models import Auction, AuctionImage; from django.core.files import File; AuctionImage.objects.bulk_create([ \
