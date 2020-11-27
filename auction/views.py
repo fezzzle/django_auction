@@ -51,21 +51,16 @@ def detail(request, auction_id):
     json_ctx = json.dumps({"auction_end_stamp": int(auction.expire.timestamp() * 1000)})
     cancel_auction_button = request.POST.get('cancel_auction')
     bid = Bid.objects.filter(auction=auction)
-    if request.user == "AnonymousUser":
-        bid = Bid.objects.filter(auction=auction, bidder=request.user)
     if request.user.is_authenticated:
-        if bid:
-            bid = bid.first().amount
+        bid = bid.filter(bidder=request.user.id)
         if request.user == auction.author:
-            own_auction = True
             if cancel_auction_button:
                 try:
                     auction.is_active = False
+                    auction.date_ended = datetime.now()
                     auction.save()
-                    return render(request, "auction/detail.html", {"auction": auction, "own_auction": own_auction, "images": images})
                 except Exception as e:
-                    logger.info(e)
-            return render(request, "auction/detail.html", {"auction": auction, "own_auction": own_auction, "bid": bid, "json_ctx": json_ctx, "images": images})
+                    messages.warning(request, e)
     return render(request, "auction/detail.html", {"auction": auction, "bid": bid, "json_ctx": json_ctx, "images": images})
 
 
@@ -143,10 +138,9 @@ def bid(request, auction_id):
     images = AuctionImage.objects.filter(auction=auction)
     json_ctx = json.dumps({"auction_end_stamp": int(auction.expire.timestamp() * 1000)})
     auction.resolve()
-    bid = Bid.objects.filter(bidder=request.user).filter(auction=auction).first()
+    bid = Bid.objects.filter(auction=auction, bidder=request.user).first()
     if not auction.is_active:
         messages.warning(request, 'Auction is not active!')
-        return render(request, "auction/detail.html", {"auction": auction, "images": images})
     if not bid:
         bid = Bid()
         bid.auction = auction
@@ -181,7 +175,7 @@ def bid(request, auction_id):
                 raise ValueError()
             auction.active_bid_value = bid.amount
     except ValueError:
-        return render(request, "auction/detail.html", {"auction": auction, "bid": bid.highest_user_bid, "images": images, "json_ctx": json_ctx})
+        return HttpResponseRedirect(reverse('auction:detail', args=(auction.id,)))
     else:
         if not auction.is_active:
             auction.active_bid_value = bid.amount
@@ -202,9 +196,7 @@ def searchbar(request):
             Q(title__startswith=search) |
             Q(title__contains=search)
         )
-        return render(request, 'auction/search_result.html', {'auction_list': auction_list})
-    else:
-        return render(request, 'auction/search_result.html', {'auction_list': auction_list})
+    return render(request, 'auction/search_result.html', {'auction_list': auction_list})
 
 
 @login_required

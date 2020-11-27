@@ -63,7 +63,7 @@
         <div class="not-active">
         {{ json_ctx|json_script:"json_ctx" }}
         {% if user.is_authenticated %}
-            {% if not own_auction %}
+            {% if not request.user == auction.author %}
                 {% if auction.is_active %}
                 {% if bid %}
                     <p id="detail-your-bid">Your bid: {{ bid }}€</p>
@@ -75,22 +75,18 @@
                     {% if auction.buy_now %}
                         {% if auction.active_bid_value %}
                             <input type="number" class="form-button" name="amount" id="bid_amount" value="{{ auction.active_bid_value|add:'1' }}" required>
-                            <input type="submit" class="form-button" name="submit_bid" value="Submit Bid">
-                            <input type="submit" class="form-button" name="buy_now" value="Buy now!">
                         {% else %}
                             <input type="number" class="form-button" name="amount" id="bid_amount" value="{{ auction.min_value|add:'1' }}" required>
-                            <input type="submit" class="form-button" name="submit_bid" value="Submit Bid">
-                            <input type="submit" class="form-button" name="buy_now" value="Buy now!">
                         {% endif %}
-                        
+                        <input type="submit" class="form-button" name="submit_bid" value="Submit Bid">
+                        <input type="submit" class="form-button" name="buy_now" value="Buy now!">
                     {% else %}
                         {% if auction.active_bid_value %}
                             <input type="number" class="form-button" name="amount" id="bid_amount" value="{{ auction.active_bid_value|add:'1' }}" required>
-                            <input type="submit" class="form-button" name="submit_bid" value="Submit Bid">
-                            {% else %}
+                        {% else %}
                             <input type="number" class="form-button" name="amount" id="bid_amount" value="{{ auction.min_value|add:'1' }}" required>
-                            <input type="submit" class="form-button" name="submit_bid" value="Submit Bid">
                         {% endif %}
+                        <input type="submit" class="form-button" name="submit_bid" value="Submit Bid">
                     {% endif %}
                 {% else %}
                     <input type="hidden" class="form-button" name="amount" value="{{ auction.buy_now }}" required>
