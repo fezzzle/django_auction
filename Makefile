@@ -62,6 +62,20 @@ ifeq (${OS}, Darwin)
 endif
 	pipenv sync --dev
 	pipenv check
+	
+
+.PHONY: populate_db
+populate_db:
+	 pipenv run python manage.py shell -c "from auction.models import Category; Category.objects.bulk_create([ \
+	 Category(description='Sell your laptops here!', name='laptops'), \
+	 Category(description='Sell your tools here!', name='tools'), \
+	 Category(description='Sell your phones here!', name='phones'), \
+	 Category(description='Sell your kids toys here!', name='toys')])"; \
+	 pipenv run python manage.py shell -c "from auction.models import Auction; from datetime import datetime; Auction.objects.bulk_create([ \
+	 Auction(title='Laptop #3', description='Laptop #3 description', min_value=900, buy_now=1000, date_added=datetime.now(), is_active=1, total_auction_duration=1440, author_id=1), \
+	 Auction(title='Laptop #4', description='Laptop #4 description', min_value=100, buy_now=1000, date_added=datetime.now(), is_active=1, total_auction_duration=340, author_id=1), \
+	 Auction(title='Laptop #2', description='Laptop #2 description', min_value=800, buy_now=1100, date_added=datetime.now(), is_active=1, total_auction_duration=40, author_id=1), \
+	 Auction(title='Laptop #5', description='Laptop #5 description', min_value=400, buy_now=1250, date_added=datetime.now(), is_active=1, total_auction_duration=240, author_id=1)])"
 
 
 # Sets up the database and the environment files for the first time
@@ -72,7 +86,7 @@ db_and_env_setup:
 
 # Performs the full development environment setup
 .PHONY: setup
-setup: clean_pipenv dependencies db_and_env_setup createsuperuser
+setup: clean_pipenv dependencies db_and_env_setup createsuperuser populate_db
 	pipenv shell
 
 # Clean the documentation folder
