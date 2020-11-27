@@ -2,31 +2,34 @@
 
 {% block content %} 
 {% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li class="{{ message.tags }}">{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-{% if user.is_anonymous %}
-    <h2>Log In</h2>
-    <form method="post" class="form-style">
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-        <!-- Needs email for login -->
-        <label for="{{ form.username.id_for_label }}">Email:</label>
-        {{ form.username }}
-        {{ form.username.errors }}
-        <label for="{{ form.password.id_for_label }}">Password:</label>
-        {{ form.password }}
-        {{ form.password.errors }}
-        <button class="form-button" type="submit">Login</button>
-    </form>
-{% else %}
-    <a href="{% url 'auction:index'%}"><p>Go back to index</p></a>
-{% endif %}
-
-<small>Don't have an user? <strong><a href="{% url 'register' %}">Register here!</a></strong></small>
+<div class="register-wrapper">
+    <ul class="messages">
+        {% for message in messages %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% if user.is_anonymous %}
+        <form method="post" class="form-style">
+            <h2>Log In</h2>
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <!-- Needs email for login -->
+            <label for="{{ form.username.id_for_label }}">Email:</label>
+            {{ form.username }}
+            {{ form.username.errors }}
+            <label for="{{ form.password.id_for_label }}">Password:</label>
+            {{ form.password }}
+            {{ form.password.errors }}
+            <button class="form-button" type="submit">Login</button>
+        </form>
+    {% else %}
+        <a href="{% url 'auction:index'%}"><p>Go back to index</p></a>
+    {% endif %}
+    <div class="register-class">
+        <small>Don't have an user? <a href="{% url 'register' %}"><strong>Register here!</strong></a></small>
+    </div>
+</div>
 {% endblock content %}
 
 

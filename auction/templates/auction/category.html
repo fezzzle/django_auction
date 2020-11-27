@@ -2,15 +2,20 @@
 {% load static %}
 
 {% block content%}
-    <div class="category-container">
-        {% for category in categories %}
-        <div class="boxx">
-            <a href="{% url 'auction:category' category|lower %}" class="category-link">{{ category }}</a>
-        </div>
-        {% endfor %}
+<div class="auction-container">
+        <div class="category">
+            <div class="category-container">
+                {% for category in categories %}
+                <div>
+                <a href="{% url 'auction:category' category|lower %}" class="category-link">
+                    <div class="boxx">{{ category }}</div>
+                </a>
+                </div>
+                {% endfor %}
+            </div>
     </div>
 
-    <div class="auction-container">
+    <div class="placeholder">
         <h2>Discover:</h2>
         <div class="auction-grid">
             {% for auction in active_auctions %}
@@ -42,10 +47,8 @@
                 <p>There are currently no auctions!</p>
             {% endfor %}
         </div>
-    </div>
 
 
-    <div class="auction-container">
         <h2>Last added:</h2>
         <div class="auction-grid">
             {% for auction in last_added %}
@@ -76,9 +79,8 @@
                 <p>There are currently no auctions!</p>
             {% endfor %}
         </div>
-    </div>
 
-    <div class="auction-container">
+
         <h2>Ending soon:</h2>
         <div class="auction-grid">
             {% for auction in ending_soon %}
@@ -110,9 +112,8 @@
                 <p>There are currently no auctions!</p>
             {% endfor %}
         </div>
-    </div>
 
-    <div class="auction-container">
+
         <h2>Auctions ended:</h2>
         <div class="auction-grid">
             {% for auction in ended %}
@@ -140,4 +141,5 @@
             {% endfor %}
         </div>
     </div>
+</div>
 {% endblock content %}

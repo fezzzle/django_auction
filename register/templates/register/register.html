@@ -10,12 +10,14 @@
 
     <form action="" method="POST" class="form-style">
         {% csrf_token %}
+        <h2>Register</h2>
         {% for field in form %}
             {{ field.errors }}
             {{ field.label_tag }} {{ field }}
         {% endfor %}
         <button class="form-button" type="submit">Register</button>
     </form>
+
     <small>Already have an account? <a href="/login"><strong>Login here!</strong></a></small>
 </div>
 

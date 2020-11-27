@@ -58,11 +58,15 @@ auction-list-items {
 body {
     font-family: 'Montserrat', sans-serif;
     /*background: #333138;*/
-    background: #ecf0f3;
+    background: linear-gradient(0.45turn, #f0f3f5, #ecf0f3);
     /*color: #555;*/
     animation-name: example;
     animation-duration: 1s;
     animation-fill-mode: forwards;
+}
+
+.content {
+    /*border: 11px solid red;*/
 }
 
 .error-box {
@@ -120,7 +124,7 @@ body {
 
 .banner {
     position: relative;
-    /*background-image: url("https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80");*/
+    background-image: url("https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80");
     background-color: #ecf0f3;
     width: 100%;
     height: 500px;
@@ -128,6 +132,8 @@ body {
     display:flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 50px;
+    background-attachment: fixed;
     /*border: 1px solid green;*/
 }
 
@@ -148,12 +154,12 @@ body {
     height: 100%;
     background: #ecf0f3;
     /*background: white;*/
-    font-size: 15vw;
+    font-size: 20vw;
     text-align: center;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
     color: #000;
     line-height: 25vh;
-    letter-spacing: -3.7rem;
+    letter-spacing: -2rem;
     mix-blend-mode: lighten;
 }
 
@@ -183,7 +189,7 @@ body {
     justify-content: space-between;
     z-index: 999;
     background: #ecf0f3;
-    /*background: none;*/
+    background: none;
     opacity: 0.98;
     /*border-bottom: 1px solid black;*/
 }
@@ -361,21 +367,21 @@ li::marker {
 .form-button {
     display: inline-block;
     padding: 0.35em 1.2em;
-    border: 0.1px solid #000;
-    outline: none;
-    border-radius: 0.12em;
-    margin: 0.8em 0.8em 0.8em 0;
-    text-decoration: none;
-    box-sizing: border-box;
-    font-weight: 300;
-    font-family:'Roboto',sans-serif;
-    color: black;
+    border: none;
+    border-radius: 25px;
+    margin: 0.8em;
+    /*text-decoration: none;*/
+    /*box-sizing: border-box;*/
+    font-weight: 600;
+    /*font-family:'Roboto',sans-serif;*/
+    color: white;
     text-align: center;
+    background-color: tomato;
     transition: all 0.2s;
-    width: 10em;
-    height: 2em;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+    width: 50%;
+    height: 3em;
+    /*-webkit-appearance: none;
+    -moz-appearance: none;*/
 }
 
 .form-button:hover {
@@ -386,7 +392,7 @@ li::marker {
 .form-button:active {
     background-color:#FFFFFF;
     outline: none;
-    transform: translateY(1px);
+    /*transform: translateY(1px);*/
 }
 
 .form-button:focus {
@@ -427,16 +433,30 @@ footer {
     /*display: grid;
     grid-template-columns: repeat(6, 1fr)*/
     display: flex;
-    justify-content: space-between;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
+    justify-content: space-around;
+    /*border-top: 1px solid black;
+    border-bottom: 1px solid black;*/
     /*border: 1px solid red;*/
 }
 
 .boxx {
-    padding-top: 20px;
-    padding-bottom: 20px;
+    font-weight: 100px;
+    margin: 20px 0px;
+    border-radius: 10px;
+    padding: 15px;
+    /*box-shadow: inset 0px 0px 0px rgb(180, 180, 180, 0.3),
+                inset 0px 0px 0px rgb(255, 255, 255, 0.3),
+                8px 8px 8px rgb(180, 180, 180, 0.3),
+                -8px -8px 8px rgb(255, 255, 255, 0.3);*/
+    transition: 0.3s ease-in-out;
     /*border: 1px solid green;*/
+}
+
+.boxx:hover {
+    box-shadow: inset -3px -3px 8px rgb(180, 180, 180, 0.3),
+                inset 3px 3px 8px rgb(255, 255, 255, 0.3),
+                3px 3px 8px rgb(180, 180, 180, 0.3),
+                -3px -3px 8px rgb(255, 255, 255, 0.3);
 }
 
 .category-link:active, .category-link:link, .category-link:visited, .category-link:hover {
@@ -525,6 +545,20 @@ footer {
 
 /* auction.html */
 
+.auction-container {
+    border-radius: 35px;
+    padding: 0px 20px 20px 20px;
+    box-shadow: 13px 13px 20px rgb(180, 180, 180, 0.5),
+                -13px -13px 20px rgb(255, 255, 255, 0.5);
+}
+
+.placeholder {
+    padding: 20px;
+    border-radius: 25px;
+    box-shadow: inset 8px 8px 8px rgb(180, 180, 180, 0.5),
+                inset -8px -8px 8px rgb(255, 255, 255, 0.5);
+}
+
 /* GRID work in progress */
 .auction-grid {
     display: grid;
@@ -546,7 +580,7 @@ footer {
 }
 
 */
-/*.auction-container*/ h2 {
+h2 {
     font-size: calc(0.8rem + 1vw);
     margin: 10px 10px 10px 0px;
 }
@@ -610,7 +644,8 @@ footer {
 
 /*.img-container:hover*/ .img-container-background:hover{
 	transform: scale(1.1);
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+	            0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 /* input CSS */
@@ -644,8 +679,8 @@ footer {
 #menuToggle {
     display: block;
     position: relative;
-    /*top: 50px;*/
-    /*left: 50px;*/
+    /*top: 50px;
+    left: 50px;*/
 
     z-index: 1;
 
@@ -693,7 +728,7 @@ footer {
 
     /*background: #cdcdcd;*/
     background: #232323;
-    border-radius: 3px;
+    border-radius: 5px;
 
     z-index: 1;
 
@@ -743,8 +778,8 @@ footer {
  */
 #menu {
     position: absolute;
-    /*width: 300px;*/
     width: 300px;
+    /*margin: 165px 0 0 38px;*/
     margin: -165px 0 0 38px;
     /*padding: 50px;*/
     padding: calc(1rem + 1vw);
@@ -758,7 +793,7 @@ footer {
     /* to stop flickering of text in safari */
 
     transform-origin: 0% 0%;
-    transform: translate(100%, 0);
+    transform: translate(100%, 0%);
 
     transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
 }
@@ -913,8 +948,10 @@ footer {
     /*border: 1px solid red;*/
 }
 
-/* REGISTER */
+/* REGISTER/LOGIN */
 
 .register-wrapper > small {
+    display: flex;
+    justify-content: center;
     border: 1px solid red;
 }
