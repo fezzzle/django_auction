@@ -8,19 +8,23 @@
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'auction/normalize.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'auction/mainn.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'auction/main.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'auction/sliders.css' %}">
   </head>
 
 
   <body>
 
-<div class="navbar">
-       <div class="index-drop">
-        <div class="">
-          <a href="{% url 'auction:index' %}"><div class="logo"></div></a>
-        </div>
-       <!-- <a href="{% url 'auction:index' %}"><div class="logo-text">AuctionHAUSS</div></a> -->
+    <div class="navbar">
+       <div class="logo-wrapper">
+           <a href="{% url 'auction:index' %}">
+           <div class="">
+               <div class="logo"></div>
+           </div>
+               <div class="logo-text">
+                   AuctionHAUSS
+               </div>
+           </a>
       </div>
 
       <div class="searchbar">
@@ -36,15 +40,15 @@
       <div class="link">
         <nav role="navigation">
           {% if user.is_authenticated %}
-            <div id="menuToggle">
-
+            <div class="menuToggle">
+                <!-- BURGER -->
 				<input type="checkbox" />
 
 				<span></span>
 				<span></span>
 				<span></span>
 
-				<ul id="menu">
+				<ul class="menu">
                     <li><u>MENU</u></li>
                     <small><style="text-transform:capitalize;">You are logged in as: {{ user }}</small>
                     <a href="{% url 'auction:create' %}"><li>Create</li></a>
@@ -59,7 +63,7 @@
 				</ul>
 			</div>
           {% else %}
-            <div id="menuToggle">
+            <div class="menuToggle">
 				<input type="checkbox" />
 
 				<span></span>
@@ -81,15 +85,12 @@
         </div>
     </div>
 
-  <div class="container">
-
     <!-- content -->
     <div class="content">
       {% block content %}
       {% endblock content %}
     </div>
 
-  </div>
   </body>
 
   <footer>
