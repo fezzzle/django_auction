@@ -53,34 +53,50 @@
     </div>
 
 <script>
-    fileInputCounter = 0
+    let childrenFileCounter = 0
+    let image = document.getElementById("images");
 
-    // getFileUpLoadList = document.getElementById("images")
+    function getChildElementCount() {
+        return image.childElementCount
+    }
 
-    document.getElementById("add_image").onclick = function(e) {
-        let image = document.getElementById("images");
+    function createFileElement() {
         let newInput = document.createElement("input");
         newInput.type = "file";
         newInput.name = "file_upload";
         newInput.className = "fileupload";
-        image.appendChild(newInput)
-        fileInputCounter += 1
-
-        // getFileUpLoadList = document.getElementsByClassName("file_upload")
-
-        // Array.from(getFileUpLoadList).forEach(function(item) {
-        // console.log(item.files);
-        // });
-        // getFileUpLoadList = document.getElementsById("images")
-        console.log("image.children", image.children)
+        return newInput
     }
 
-    document.getElementById("submit").onclick = function(e) {
-    if (document.getElementById("file").value == "") {
-        e.preventDefault();
-        alert("Please select a file.");
+    function createFileInput(childElementCount, e) {
+        for (let i = 0; i < childElementCount; i++) {
+            if (childrenFileCounter > 3) {
+                break;
+            } else {
+                if (image.children[childrenFileCounter].files.length === 1) {
+                    childrenFileCounter += 1;
+                    image.appendChild(createFileElement())
+                } 
+            }
         }
     }
+    document.getElementById("add_image").onclick = function(e) {
+        if (getChildElementCount() === 0) {
+            image.appendChild(createFileElement())
+        } 
+        createFileInput(getChildElementCount(), e)
+
+        // getFileUpLoadList = document.getElementsByClassName("file_upload")
+        // console.log("image.children", image.children)
+        // console.log("image.childElementCount", image.childElementCount)
+    }
+
+    // document.getElementById("submit").onclick = function(e) {
+    // if (document.getElementById("file").value == "") {
+    //     e.preventDefault();
+    //     alert("Please select a file.");
+    //     }
+    // }
     
 </script>
 {% endblock content %}
