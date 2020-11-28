@@ -1,6 +1,7 @@
 {% extends "auction/base.html" %}
     
 {% block content %}
+<div class="container-bids">
     <ul class="auction-list-items">
     {% if my_bids %}
         {% for bid in my_bids %}
@@ -25,4 +26,5 @@
         <h1>You have not made any bids!</h1>
     {% endif%}
     </ul>
+</div>
 {% endblock content%}

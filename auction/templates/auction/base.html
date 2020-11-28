@@ -8,22 +8,19 @@
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'auction/normalize.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'auction/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'auction/mainn.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'auction/sliders.css' %}">
   </head>
 
 
   <body>
 
-
-
-  <div class="container">
-    <div class="navbar">
-      <div class="index-drop">
+<div class="navbar">
+       <div class="index-drop">
         <div class="">
           <a href="{% url 'auction:index' %}"><div class="logo"></div></a>
         </div>
-        <a href="{% url 'auction:index' %}"><div class="logo-text">AuctionHAUSS</div></a>
+       <!-- <a href="{% url 'auction:index' %}"><div class="logo-text">AuctionHAUSS</div></a> -->
       </div>
 
       <div class="searchbar">
@@ -83,6 +80,9 @@
 		  </nav>
         </div>
     </div>
+
+  <div class="container">
+
     <!-- content -->
     <div class="content">
       {% block content %}

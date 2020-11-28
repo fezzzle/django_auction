@@ -1,18 +1,20 @@
 {% extends "auction/base.html" %}
 {% block content %}
-<div class="container">
-    <h1>Search result:</h1>
-    {% if auction_list %}
-        {% for i in auction_list %}
-            <a href="{% url 'auction:detail' i.id %}">{{ i.title }}
-            </a>
-            | Category
-            | Desc: {{ i.description }}
-            | Author: {{ i.author }}
-            <br>
-        {% endfor %}
-    {% else %}
-        <h1>No Results</h1>
-    {% endif %}
+<div class="container-bids">
+    <h2>Search result:</h2>
+    <div class="search-rslt">
+        {% if auction_list %}
+            {% for i in auction_list %}
+                <a href="{% url 'auction:detail' i.id %}">{{ i.title }}
+                </a>
+                | Category
+                | Desc: {{ i.description }}
+                | Author: {{ i.author }}
+                <br>
+            {% endfor %}
+        {% else %}
+            <h1>No Results</h1>
+        {% endif %}
+    </div>
 </div>
 {% endblock content %}

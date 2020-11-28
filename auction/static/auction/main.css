@@ -20,12 +20,12 @@
     border-radius: 25px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     /* ei toimi veel */
-    /*animation-name: joinme;
+    /*animation-name: bounce;
     animation-delay: 5s;
     animation-duration: 1.5s;
     animation-fill-mode: forwards;
-    transition: opacity 0.3s forwards 5sec;*/
-    animation: joinme 3s ease-in forwards infinite;
+    transition: opacity 0.3s forwards 5sec;
+    animation: joinme 3s ease-in forwards infinite;*/
 }
 
 @keyframe joinme {
@@ -37,17 +37,22 @@
 .make-user:hover {
     transform: translateX(-50%) scale(1.02);
 }
-/*
+
 @keyframes bounce {
     0% {transform: translateX(0px);}
     50% {transform: translateX(10px);}
     100% {transform: translateX(0px);}
 }
-*/
 
-auction-list-items {
-
+.auction-list-items {
+    margin-bottom: 5px;
+    /*border: 1px solid blue;*/
 }
+
+.auction-list-items li{
+    display: inline;
+}
+
 .auction-list-items ul, a {
     list-style-type: none;
     color: inherit;
@@ -57,9 +62,11 @@ auction-list-items {
 
 body {
     font-family: 'Montserrat', sans-serif;
-    /*background: #333138;*/
-    background: linear-gradient(0.45turn, #f0f3f5, #ecf0f3);
-    /*color: grey;*/
+    /*background: rgb(236,240,243);*/
+    background: linear-gradient(150deg, rgba(236,240,243,1) 0%, rgba(204,210,223,1) 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100%;
     animation-name: example;
     animation-duration: 1s;
     animation-fill-mode: forwards;
@@ -174,6 +181,12 @@ body {
 }
 
 .logo {
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    background: linear-gradient(150deg, rgba(236,240,243,1) 0%, rgba(204,210,223,1) 100%);
+    box-shadow: 0px 0px 8px 10px rgba(180, 180, 180, 0.2),
+                inset 0px 0px 15px 8px rgba(255, 255, 255, 0.3);
 }
 
 .logo-text {
@@ -184,9 +197,11 @@ body {
 .navbar {
     position: fixed;
     display: flex;
-    width: 70%;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
     top: 0px;
-    justify-content: space-between;
+    justify-content: space-around;
     z-index: 999;
     background: #ecf0f3;
     background: none;
@@ -209,8 +224,10 @@ body {
     background: lightgrey;
     border-radius: 25px;
     /*position:relative;*/
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19),
-                0 -4px 8px 0 rgba(255, 255, 255, 0.2), 0 -6px 20px 0 rgba(255, 255, 255, 0.19);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+                0 6px 20px 0 rgba(0, 0, 0, 0.19),
+                0 -4px 8px 0 rgba(255, 255, 255, 0.2),
+                0 -6px 20px 0 rgba(255, 255, 255, 0.19);
 }
 
 .fas {
@@ -416,10 +433,11 @@ footer {
 
 /* CATEGORY VER.1 */
 .category-container {
-    /*display: grid;
-    grid-template-columns: repeat(6, 1fr)*/
+    /*display: grid;*/
+    /*grid-template-columns: repeat(6, 1fr)*/
     display: flex;
     justify-content: space-around;
+    width: 100%;
     /*border-top: 1px solid black;
     border-bottom: 1px solid black;*/
     /*border: 1px solid red;*/
@@ -817,8 +835,8 @@ h2 {
 
 .detail-pic-row {
     display: flex;
-    /*width: 500px;*/
-    width: 100%;
+    width: 500px;
+    /*width: 100%;*/
     /*height: auto;*/
     overflow-x: auto;
     overflow-y: hidden;
@@ -857,8 +875,8 @@ h2 {
 }
 
 .detail-pic-main img{
-    /*width: 500px;*/
-    width: 100%;
+    width: 530px;
+    /*width: 100%;*/
     height: auto;
 }
 
@@ -919,7 +937,6 @@ h2 {
                 -8px -8px -8px #ffffff;*/
 }
 
-
 .formal {
     width:100%;
     padding: 5px;
@@ -940,4 +957,28 @@ h2 {
     display: flex;
     justify-content: center;
     border: 1px solid red;
+}
+
+/* MY_BIDS */
+
+.container-bids {
+    border-radius: 35px;
+    padding: 20px 20px 20px 20px;
+    box-shadow: 13px 13px 20px rgb(180, 180, 180, 0.5),
+                -13px -13px 20px rgb(255, 255, 255, 0.5);
+    /*border:1px solid red;*/
+}
+
+.container-bids > h2 {
+    margin: 0;
+}
+
+/* SEARCH_RESULT */
+
+.search-rslt {
+    border-radius: 25px;
+    padding: 20px;
+    box-shadow: inset 8px 8px 8px rgb(180, 180, 180, 0.5),
+                inset -8px -8px 8px rgb(255, 255, 255, 0.5);
+    /*border: 1px solid red;*/
 }
