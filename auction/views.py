@@ -91,14 +91,25 @@ def create(request):
             cat = Category.objects.get(name__exact=select)
             auction = Auction(
                 author=request.user,
-                title=title,
                 description=description,
+                title=title,
                 item_category=cat,
                 min_value=int(min_value),
                 date_added=timezone.now(),
                 total_auction_duration=int(duration),
                 buy_now=int(buy_now)
             )
+
+            # auction = Auction()
+            # cat = Category.objects.get(name__exact=select)
+            # auction.author = request.user
+            # auction.title = title
+            # auction.description = description
+            # auction.item_category = cat
+            # auction.min_value = int(min_value)
+            # auction.date_added = timezone.now()
+            # auction.total_auction_duration = int(duration)
+            # auction.buy_now = int(buy_now)
             auction.save()
             for img in images:
                 auction_img = AuctionImage(auction=auction, image=img)
