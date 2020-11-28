@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<form action="{% url 'auction:create' %}" method="POST" enctype="multipart/form-data" class="form-style">
+<form action="{% url 'auction:create' %}" method="POST" enctype="multipart/form-data" id="top" class="form-style">
     <h1>Create an auction</h1>
     <div id="error-box">
         {% if messages %}
@@ -91,6 +91,9 @@
         createUl.appendChild(createLi);
         createLi.textContent = text;
     }
+    function scrollBackToTop(){
+        document.documentElement.scrollTop=0;
+    }
 
     function raiseErrors() {
         let counter = 0;
@@ -102,16 +105,25 @@
         }
         if (counter < childElements) {
             buildErrorElements(`You can't add another one until previous has been added!`)
+            scrollBackToTop()
         } else if (childElements === 5) {
             buildErrorElements(`You can't add more than 5 pictures!`)
+            scrollBackToTop()
         }
         return childElements;
     }
+    
 
-    // Need to implement error clearning
-    function clearErrors() {
-        document.getElementById("error-box").removeChild()
+    function sleep(ms) {
+         return new Promise(resolve => setTimeout(resolve, ms));
     }
+
+
+    async function removeError() {
+        await sleep(10000);
+        document.getElementById("error-box").remove()
+    }
+
 
     document.getElementById("add_image").onclick = function(e) {
         raiseErrors()
@@ -119,9 +131,9 @@
             image.appendChild(createFileElement())
         } 
         createFileInput(getChildElementCount(), e)
+        removeError()
     }
 
-    // console.log(raiseErrors())
     
 </script>
 {% endblock content %}
