@@ -1,5 +1,6 @@
 {% extends "auction/base.html" %}
 {% block content %}
+<div class="container">
     <h1>Search result:</h1>
     {% if auction_list %}
         {% for i in auction_list %}
@@ -13,4 +14,5 @@
     {% else %}
         <h1>No Results</h1>
     {% endif %}
+</div>
 {% endblock content %}

@@ -18,17 +18,16 @@
     <input type="text" name="title" placeholder="Product ie. laptop, shoes.." maxlength="50">
     <textarea name="description" placeholder="Describe item you are selling..." maxlength="500"></textarea>
     <label for="select">Please select category for your item:</label>
-
-    <select name="select" class="select-style">
-        {% for category in categories %}
-        <option name="category" value="{{ category }}">{{ category }}</option>
-        {% endfor %}
-    </select>
-
     <label for="duration">Total auction duration:</label>
     <input type="range" class="slider" name="duration" id="duration" value="720" min="1" max="1440" oninput="durationOut.value = duration.value">
     <output name="durationOut" id="durationOut">720</output> <p>Minutes</p><br>
     <input type="number" name="min_value" placeholder="Starting value of the bidding. Default 1€" min="1">
+
+    <select name="select" class="select-style" id="select-style-fix">
+        {% for category in categories %}
+        <option name="category" value="{{ category }}">{{ category }}</option>
+        {% endfor %}
+    </select>
 
     <input type="checkbox" id="toggle" class="toggle" />
     <label for="toggle" class="toggle-label">
