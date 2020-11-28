@@ -43,7 +43,7 @@
         <input type="button" name="add_image" id="add_image" class="form-button" value="Add Image">
         <div id="images">
         </div>
-        <button class="form-button" name="submit_button">Create</button>
+        <button class="form-button" id="submit" name="submit_button">Create</button>
     </div>
 </form>
 
@@ -55,6 +55,7 @@
 <script>
     fileInputCounter = 0
 
+    // getFileUpLoadList = document.getElementById("images")
 
     document.getElementById("add_image").onclick = function(e) {
         let image = document.getElementById("images");
@@ -65,8 +66,20 @@
         image.appendChild(newInput)
         fileInputCounter += 1
 
-        getFileUpLoadList = document.getElementsByClassName("fileupload")
+        // getFileUpLoadList = document.getElementsByClassName("file_upload")
 
+        // Array.from(getFileUpLoadList).forEach(function(item) {
+        // console.log(item.files);
+        // });
+        // getFileUpLoadList = document.getElementsById("images")
+        console.log("image.children", image.children)
+    }
+
+    document.getElementById("submit").onclick = function(e) {
+    if (document.getElementById("file").value == "") {
+        e.preventDefault();
+        alert("Please select a file.");
+        }
     }
     
 </script>
