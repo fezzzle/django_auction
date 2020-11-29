@@ -1,4 +1,6 @@
 {% extends "auction/base.html" %}
+{% load static %}
+
 {% block content %} 
 
 
@@ -24,7 +26,7 @@
 
         <div class="">
             <p>User email: {{ user.email }}</p>
-            <input type="checkbox" class="toggle" id="email" onclick="test()">
+            <input type="checkbox" class="toggle" id="email" onclick="updateToggle()">
             <label for="email" class="toggle-label"><small>Change email</small></label>
             <div class="toggle-input">
                 <input type="email" name="email" placeholder="hello@hello.com">
@@ -33,7 +35,7 @@
 
         <div class="">
             <p>Fullname: {{ user.first_name }} {{ user.last_name }}</p>
-            <input type="checkbox" class="toggle" id="name" onclick="test()">
+            <input type="checkbox" class="toggle" id="name" onclick="updateToggle()">
             <label for="name" class="toggle-label"><small>Change your name</small></label>
             <div class="toggle-input">
                 <input type="text" name="first-name" placeholder="First name">
@@ -43,7 +45,7 @@
 
         <div class="">
             <p>Location: {{ user.location }}</p>
-            <input type="checkbox" class="toggle" id="location" onclick="test()">
+            <input type="checkbox" class="toggle" id="location" onclick="updateToggle()">
             <label for="location" class="toggle-label"><small>Change Location</small></label>
             <div class="toggle-input">
                 <input type="text" name="location" placeholder="New location">
@@ -52,7 +54,7 @@
 
         <div class="">
             <p>Phone: {{ user.phone }}</p>
-            <input type="checkbox" class="toggle" id="phone" onclick="test()">
+            <input type="checkbox" class="toggle" id="phone" onclick="updateToggle()">
             <label for="phone" class="toggle-label"><small>Change Phone Number</small></label>
             <div class="toggle-input">
                 <input type="number" name="phone" placeholder="+372-530000321">
@@ -60,7 +62,7 @@
         </div>
 
         <div class="">
-            <input type="checkbox" class="toggle" id="user_password" onclick="test()">
+            <input type="checkbox" class="toggle" id="user_password" onclick="updateToggle()">
             <label for="user_password" class="toggle-label" >Change password</label>
             <div class="toggle-input">
                 <input type="password" name="user_password1" placeholder="Password">
@@ -75,21 +77,6 @@
     </form>
 {% endif %}
 
-    <script>
-        function test() {
-            var content = document.getElementById("update-nupp");
-            let toggleFields = document.getElementsByClassName('toggle')
-            console.log(toggleFields)
-            for (let i = 0; i < toggleFields.length; i++) {
-                if (toggleFields[i].checked == true) {
-                    content.style.display = "block";
-                    break;
-                }
-                else {
-                    content.style.display = "none";
-                }
-            }
-        }
-    </script>
+<script src="{% static 'auction/js/profile.js' %}"></script>
 
 {% endblock content %}
