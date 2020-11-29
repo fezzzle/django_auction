@@ -820,7 +820,7 @@ h2 {
 }
 
 .detail-pic-container {
-    display:grid;
+    display: grid;
     grid-template-row: auto 1fr;
     /*border: 1px solid black;*/
 }
