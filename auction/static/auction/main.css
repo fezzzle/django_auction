@@ -790,7 +790,7 @@ h2 {
     height: 100vh;
     /*background: #ededed;*/
     /*background: #ecf0f3;*/
-   background: none;
+    background: none;
     list-style: none;
     -webkit-font-smoothing: antialiased;
     /* to stop flickering of text in safari */

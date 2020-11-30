@@ -1,0 +1,144 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background: linear-gradient(150deg, rgba(236,240,243,1) 0%, rgba(204,210,223,1) 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100%;
+}
+
+/* BASE */
+
+.navbar {
+    top: 0;
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid red;
+    width: 100%;
+    background: pink;
+}
+
+.logo-wrapped {
+
+}
+
+.link {
+    display:flex;
+    align-items: center;
+}
+
+.menuToggle {
+    display: block;
+    position: relative;
+    z-index:1;
+    user-select: none;
+    -webkit- user-select: none;
+}
+
+.menuToggle a {
+    text-decoration: none;
+    color: #232323;
+    transition: 0.3s ease;
+}
+
+.menuToggle a:hover {
+    color: tomato;
+}
+
+.menuToggle input{
+    position: absolute;
+    display: block;
+    width: 40px;
+    height: 32px;
+    cursor: pointer;
+    opacity: 0;
+    z-index: 2;
+}
+
+.menuToggle span {
+    position: relative;
+    display:block;
+    background: black;
+    width: 33px;
+    height: 5px;
+    margin: 5px;
+    background: #232323;
+    border-radius: 5px;
+    z-index: 1;
+    transform-origin: 4px; 0px;
+    transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+                background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+                opacity 0.55s ease;
+}
+
+.menuToggle span:first-child {
+    transform-origin: 0% 0%;
+}
+
+.menuToggle span:nth-last-child(2) {
+    transform-origin: 0% 100%;
+}
+
+.menuToggle input:checked ~ span {
+    opacity: 1;
+    transform: rotate(45deg) translate(-2px, -1px);
+    background: #232323;
+}
+
+.menuToggle input:checked ~ span:nth-last-child(3) {
+    opacity: 0;
+    transform: rotate(0deg) scale(0.2, 0.2);
+}
+
+.menuToggle input:checked ~ span:nth-last-child(2) {
+    transform: rotate(-45deg) translate(0, -1px);
+}
+
+.menu {
+    position: absolute;
+    width: 300px;
+    margin: -125px 0 0 -160px;
+    border: 5px solid green;
+    padding: calc(1rem + 1vw);
+    padding-top: 125px;
+    height: 100vh;
+    background: none;
+    list-style: none;
+    transform-origin: 0% 0%;
+    transform: translate(100%, 0%);
+    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
+    }
+
+.menu li {
+    padding: 10px 0;
+    font-size: calc(0.5rem + 1vw);
+}
+
+.menuToggle input:checked ~ul {
+    transform: none;
+}
+
+.content {
+    margin-top: 50px;
+    border: 1px solid blue;
+    width: 75vw;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* FOOTER */
+
+footer {
+    padding-top: 50px;
+    width: 95%;
+    margin: auto;
+    text-align: center;
+}
+
+.footer-box {
+    margin: 50px;
+}
