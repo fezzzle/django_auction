@@ -76,7 +76,7 @@ body {
     /*border: 11px solid red;*/
 }
 
-.error-box {
+#error-box {
     /* display: flex; */
     justify-content: start;
     /* align-items: stretch; */

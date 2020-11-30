@@ -2,9 +2,9 @@
 
 {% block content %}
 
-<form action="{% url 'auction:create' %}" method="POST" enctype="multipart/form-data" class="form-style">
+<form action="{% url 'auction:create' %}" method="POST" enctype="multipart/form-data" id="top" class="form-style">
     <h1>Create an auction</h1>
-    <div class="error-box">
+    <div id="error-box">
         {% if messages %}
         <ul class="messages">
 
@@ -56,11 +56,11 @@
     </div>
 
 <script>
-    let childrenFileCounter = 0
+    let childrenFileCounter = 0;
     let image = document.getElementById("images");
 
     function getChildElementCount() {
-        return image.childElementCount
+        return image.childElementCount;
     }
 
     function createFileElement() {
@@ -68,7 +68,7 @@
         newInput.type = "file";
         newInput.name = "file_upload";
         newInput.className = "fileupload";
-        return newInput
+        return newInput;
     }
 
     function createFileInput(childElementCount, e) {
@@ -78,28 +78,65 @@
             } else {
                 if (image.children[childrenFileCounter].files.length === 1) {
                     childrenFileCounter += 1;
-                    image.appendChild(createFileElement())
+                    image.appendChild(createFileElement());
                 } 
             }
         }
     }
+
+    function buildErrorElements(text) {
+        let createUl = document.createElement("ul");
+        let createLi = document.createElement("li");
+        let errorBox = document.getElementById("error-box");
+        createUl.className = "messages";
+        createLi.className = "warning";
+        errorBox.appendChild(createUl);
+        createUl.appendChild(createLi);
+        createLi.textContent = text;
+    }
+    function scrollBackToTop(){
+        document.documentElement.scrollTop=0;
+    }
+
+    function raiseErrors() {
+        let counter = 0;
+        let childElements = getChildElementCount();
+        for (let i = 0; i < childElements; i++) {
+            if (image.children[i].files.length === 1) {
+                counter++;
+            }
+        }
+        if (counter < childElements) {
+            buildErrorElements(`You can't add another one until previous has been added!`)
+            scrollBackToTop()
+        } else if (childElements === 5) {
+            buildErrorElements(`You can't add more than 5 pictures!`)
+            scrollBackToTop()
+        }
+        return childElements;
+    }
+    
+
+    function sleep(ms) {
+         return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+
+    async function removeError() {
+        await sleep(10000);
+        document.getElementById("error-box").remove()
+    }
+
+
     document.getElementById("add_image").onclick = function(e) {
+        raiseErrors()
         if (getChildElementCount() === 0) {
             image.appendChild(createFileElement())
         } 
         createFileInput(getChildElementCount(), e)
-
-        // getFileUpLoadList = document.getElementsByClassName("file_upload")
-        // console.log("image.children", image.children)
-        // console.log("image.childElementCount", image.childElementCount)
+        removeError()
     }
 
-    // document.getElementById("submit").onclick = function(e) {
-    // if (document.getElementById("file").value == "") {
-    //     e.preventDefault();
-    //     alert("Please select a file.");
-    //     }
-    // }
     
 </script>
 {% endblock content %}

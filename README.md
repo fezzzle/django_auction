@@ -17,3 +17,4 @@ Project is created with:
 3. ```python manage.py runserver```
 
 *** IN DEVELOPMENT ***
+Changes
