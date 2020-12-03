@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<form action="{% url 'auction:create' %}" method="POST" enctype="multipart/form-data" id="top" class="form-style">
+<form action="{% url 'auction:create' %}" method="POST" enctype="multipart/form-data" id="top" class="form-style top-fix">
     <h1>Create an auction</h1>
     <div id="error-box">
         {% if messages %}
@@ -26,13 +26,13 @@
         {% endfor %}
     </select>
 
-    <label for="duration">Total auction duration:</label>
-    <input type="range" class="slider" name="duration" id="duration" value="720" min="1" max="1440" oninput="durationOut.value = duration.value">
-    <output name="durationOut" id="durationOut">720</output> <p>Minutes</p><br>
+    <div id="range-inp">
+        <label for="duration">Total auction duration:</label>
+        <input type="range" class="slider" name="duration" id="duration" value="720" min="1" max="1440" oninput="durationOut.value = duration.value">
+        <output name="durationOut" id="durationOut">720</output> <p>Minutes</p><br>
+    </div>
+
     <input type="number" name="min_value" placeholder="Starting value of the bidding. Default 1€" min="1">
-
-
-
     <input type="checkbox" id="toggle" class="toggle" />
     <label for="toggle" class="toggle-label">
         <span>Set buy now?</span>
@@ -49,11 +49,6 @@
         <button class="form-button" id="submit" name="submit_button">Create</button>
     </div>
 </form>
-
-    <input type="checkbox" class="toggle">
-    <div class="toggle-input">
-        <input type="text" id="buy-now" placeholder="TEST">
-    </div>
 
 <script>
     let childrenFileCounter = 0;

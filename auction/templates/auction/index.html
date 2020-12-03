@@ -7,21 +7,19 @@
 {% endif %}
 
 <div class="banner">
-<!--    <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80">-->
+    <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80">
     <h2>Auction HAUSS</h2>
 </div>
 
 <div class="auction-container">
-    <div class="category">
-            <div class="category-container">
-                {% for category in categories %}
-                <div>
-                <a href="{% url 'auction:category' category|lower %}" class="category-link">
-                    <div class="boxx">{{ category }}</div>
-                </a>
-                </div>
-                {% endfor %}
-            </div>
+    <div class="category-container">
+        {% for category in categories %}
+        <div class="category">
+            <a href="{% url 'auction:category' category|lower %}" class="category-link">
+                <div class="boxx">{{ category }}</div>
+            </a>
+        </div>
+        {% endfor %}
     </div>
 
     <div class="placeholder">
@@ -48,6 +46,7 @@
                                         <p>Auction has ended!</p>
                                     {% endif %}
                                 </div>
+                                text
                             </div>
                         </div>
                     </a>

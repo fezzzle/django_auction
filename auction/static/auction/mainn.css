@@ -4,10 +4,15 @@
 }
 
 body {
-    background: linear-gradient(150deg, rgba(236,240,243,1) 0%, rgba(204,210,223,1) 100%);
+    background: rgb(239,240,241);
+    background: linear-gradient(150deg, rgba(239,240,241,1) 0%, rgba(240,243,251,1) 100%);
     background-repeat: no-repeat;
     background-attachment: fixed;
     height: 100%;
+}
+
+a {
+    text-decoration: none;
 }
 
 /* BASE */
@@ -17,13 +22,62 @@ body {
     position: fixed;
     display: flex;
     justify-content: space-between;
-    border: 1px solid red;
     width: 100%;
-    background: pink;
+    background: none;
+    z-index: 999;
+    /*border: 1px solid red;*/
 }
 
-.logo-wrapped {
+.navbar > div {
+    margin: 10px;
+}
 
+.logo-wrapper {
+    display: flex;
+    align-items: center;
+    /*border: 1px solid blue;*/
+}
+
+.logo-text {
+    color: black;
+}
+
+.searchbar {
+    display: flex;
+    /*border: 1px solid blue;*/
+}
+
+.searchbar input {
+    background: none;
+    color:grey;
+    padding-left: 0px;
+    min-width: 30vw;
+}
+
+.fas {
+    color: grey;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.search-btn {
+    height: 100%;
+    margin: 0px;
+    border: none;
+    background: none;
+}
+
+.search-btn:focus {
+    outline: none;
+}
+
+.formaalsuskuubis {
+    background: lightgrey;
+    border-radius: 25px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+                0 6px 20px 0 rgba(0, 0, 0, 0.19),
+                0 -4px 8px 0 rgba(255, 255, 255, 0.2),
+                0 -6px 20px 0 rgba(255, 255, 255, 0.19);
 }
 
 .link {
@@ -124,10 +178,152 @@ body {
 
 .content {
     margin-top: 50px;
-    border: 1px solid blue;
     width: 75vw;
     margin-left: auto;
     margin-right: auto;
+    border: 1px solid blue;
+}
+
+/* INDEX */
+
+.banner {
+    position: relative;
+    border: 3px solid green;
+    height: 300px;
+}
+
+.banner h2 {
+    position: absolute;
+    top:50%;
+    left:50%;
+    background: lightgrey;
+    transform: translate (-50% , -50%);
+}
+
+.banner > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.auction-container {
+    border: 2px solid red;
+}
+
+.category-container {
+    display: flex;
+    justify-content: center;
+    /*border: 2px solid pink;*/
+}
+
+.category {
+    /*border:1px solid black;*/
+    /*width:100%;*/
+}
+
+.boxx {
+    color: black;
+    font-weight: 900;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    /*border: 2px solid red;*/
+}
+
+.placeholder {
+    /*width: 100%;
+    height: auto;*/
+
+}
+
+.auction-grid {
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    align-items: center;
+    }
+
+.img-container-background {
+    width:200px;
+    height:200px;
+    max-width:200px;
+    background:red;
+    background-position: center;
+    background-size: cover;
+    /*border-radius:10px;*/
+    transition: all .3s;
+}
+
+.img-container-background:hover {
+	transform: scale(1.1);
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+	            0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.img-overlay {
+	position: absolute;
+	overflow: hidden;
+	width: auto;
+	height: 0;
+	background-color: black;
+	transition: 0.3s;
+	/*border-radius: 10px;*/
+	bottom: 0;
+	left: 0;
+	right: 0;
+	opacity: 0.6;
+}
+
+.img-container-background:hover .img-overlay {
+	height: 100%;
+}
+
+.img-text {
+	position:absolute;
+	color: white;
+	z-index:2;
+	top: 5%;
+	left: 10px;
+	/*transform: translate(-50%, -50%);*/
+	text-align: left;
+}
+
+/* CREATE */
+
+.top-fix {
+    margin-top:70px;
+}
+
+.form-style {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 5px solid green;
+}
+
+.form-stye > * {
+    width:100%;
+}
+
+.form-style > textarea {
+    height: 10rem;
+    width: 20rem;
+}
+
+#range-inp {
+    display:flex;
+    justify-content: space-around;
+}
+
+/* MY AUCTIONS */
+
+.search-rslt {
+    display: grid;
+    grid-template-columns:
+    border: 5px solid black;
+}
+
+.auction-list-items {
+    border: 1px solid red;
 }
 
 /* FOOTER */
@@ -141,4 +337,20 @@ footer {
 
 .footer-box {
     margin: 50px;
+}
+
+/* INPUT */
+
+input {
+    height:2rem;
+    padding: 0.5rem 1.5rem;
+    outline: none;
+    border: none;
+}
+
+textarea {
+    resize: none;
+    border: none;
+    outline: none;
+    padding: 0.5rem 1.5rem;
 }

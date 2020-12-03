@@ -3,16 +3,14 @@
 
 {% block content%}
 <div class="auction-container">
+    <div class="category-container">
+        {% for category in categories %}
         <div class="category">
-            <div class="category-container">
-                {% for category in categories %}
-                <div>
-                <a href="{% url 'auction:category' category|lower %}" class="category-link">
-                    <div class="boxx">{{ category }}</div>
-                </a>
-                </div>
-                {% endfor %}
-            </div>
+            <a href="{% url 'auction:category' category|lower %}" class="category-link">
+                <div class="boxx">{{ category }}</div>
+            </a>
+        </div>
+        {% endfor %}
     </div>
 
     <div class="placeholder">

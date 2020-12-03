@@ -18,25 +18,23 @@
     <div class="navbar">
        <div class="logo-wrapper">
            <a href="{% url 'auction:index' %}">
-           <div class="">
-               <div class="logo"></div>
-           </div>
                <div class="logo-text">
-                   AuctionHAUSS
+                   <h2>AuctionHAUSS</h2>
                </div>
            </a>
       </div>
 
       <div class="searchbar">
         <form action="{% url 'auction:searchbar' %}" method="GET" class="formaalsuskuubis">
-          <!-- ajutiselt hardcoded "size" -->
-          <i class="fas fa-search"></i>
-          <input id="searchfield" type="text" placeholder="Searchbar" name="search" >
-          <!-- border-left div -->
-          <button type="submit" class="search-btn">Search</button>
+
+            <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
+            <input id="searchfield" type="text" placeholder="Searchbar" name="search" >
+
         </form>
       </div>
+
 <!--      buger           -->
+
       <div class="link">
         <nav role="navigation">
           {% if user.is_authenticated %}
