@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<form action="{% url 'auction:create' %}" method="POST" enctype="multipart/form-data" id="top" class="form-style top-fix">
+<form action="{% url 'auction:create' %}" method="POST" enctype="multipart/form-data" id="top" class="form-style">
     <h1>Create an auction</h1>
     <div id="error-box">
         {% if messages %}

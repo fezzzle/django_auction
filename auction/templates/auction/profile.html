@@ -13,26 +13,39 @@
     </ul>
     {% endif %}
 </div>
-
+<div class="profile-container">
+    <div class="profile-pic">
+        <img src="https://st2.depositphotos.com/1009634/7235/v/600/depositphotos_72350117-stock-illustration-no-user-profile-picture-hand.jpg" alt="*insert image here!*" class="#">
+        </br>
+        <p>*Upload image button*</p>
+        </br>
+        <small>Date joined: {{ user.date_joined|date }}</small>
+        </br>
+        <small>Last login: {{ user.last_login|date:"d.m.Y H:i:s" }} UTC </small>
+    </div>
     <form action="{% url 'auction:profile' %}" method="POST" enctype="multipart/form-data" class="form-style">
         {% csrf_token %}
-        <div class="">
-            <p>Username:{{ user.username }}</p>
-            <small>Date joined: {{ user.date_joined|date }}</small></br>
-            <small>Last login: {{ user.last_login|date:"d.m.Y H:i:s" }} UTC </small>
+        <div class="profile">
+            <h2>Username:{{ user.username }}</h2>
         </div>
 
-        <div class="">
-            <p>User email: {{ user.email }}</p>
+        <div class="profile-container-info">
+            <div class="profile-input">
+                <p>{{ user.email }}</p>
+                <p>Email</p>
+            </div>
             <input type="checkbox" class="toggle" id="email" onclick="test()">
             <label for="email" class="toggle-label"><small>Change email</small></label>
             <div class="toggle-input">
-                <input type="email" name="email" placeholder="hello@hello.com">
+                <input type="email" name="email" placeholder="new@email.com">
             </div>
         </div>
 
-        <div class="">
-            <p>Fullname: {{ user.first_name }} {{ user.last_name }}</p>
+        <div class="profile-container-info">
+            <div class="profile-input">
+                <p>{{ user.first_name }} {{ user.last_name }}</p>
+                <p>Fullname</p>
+            </div>
             <input type="checkbox" class="toggle" id="name" onclick="test()">
             <label for="name" class="toggle-label"><small>Change your name</small></label>
             <div class="toggle-input">
@@ -41,8 +54,11 @@
             </div>
         </div>
 
-        <div class="">
-            <p>Location: {{ user.location }}</p>
+        <div class="profile-container-info">
+            <div class="profile-input">
+                <p>{{ user.location }}</p>
+                <p>Location</p>
+            </div>
             <input type="checkbox" class="toggle" id="location" onclick="test()">
             <label for="location" class="toggle-label"><small>Change Location</small></label>
             <div class="toggle-input">
@@ -50,8 +66,11 @@
             </div>
         </div>
 
-        <div class="">
-            <p>Phone: {{ user.phone }}</p>
+        <div class="profile-container-info">
+            <div class="profile-input">
+                <p>{{ user.phone }}</p>
+                <p>Phone</p>
+            </div>
             <input type="checkbox" class="toggle" id="phone" onclick="test()">
             <label for="phone" class="toggle-label"><small>Change Phone Number</small></label>
             <div class="toggle-input">
@@ -59,9 +78,9 @@
             </div>
         </div>
 
-        <div class="">
+        <div class="profile-container-info">
             <input type="checkbox" class="toggle" id="user_password" onclick="test()">
-            <label for="user_password" class="toggle-label" >Change password</label>
+            <label for="user_password" class="toggle-label"><small>Change password</small></label>
             <div class="toggle-input">
                 <input type="password" name="user_password1" placeholder="Password">
                 <input type="password" name="user_password2" placeholder="Confirm Password">
@@ -74,7 +93,7 @@
 <!--        </div>-->
     </form>
 {% endif %}
-
+</div>
     <script>
         function test() {
             var content = document.getElementById("update-nupp");

@@ -7,9 +7,10 @@
     {% load static %}
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'auction/normalize.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'auction/mainn.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'auction/sliders.css' %}">
+<!--    <link rel="stylesheet" type="text/css" href="{% static 'auction/sliders.css' %}">-->
   </head>
 
 
@@ -27,7 +28,7 @@
       <div class="searchbar">
         <form action="{% url 'auction:searchbar' %}" method="GET" class="formaalsuskuubis">
 
-            <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
+            <button type="submit" class="search-btn"><i id="fas" class="fas fa-search"></i></button>
             <input id="searchfield" type="text" placeholder="Searchbar" name="search" >
 
         </form>
@@ -38,45 +39,57 @@
       <div class="link">
         <nav role="navigation">
           {% if user.is_authenticated %}
-            <div class="menuToggle">
-                <!-- BURGER -->
-				<input type="checkbox" />
+            <div class="signin-container">
+                <div class="signin">
+                    <i id="far" class="fas fa-user-circle"></i>
+                    Welcome, <a href="{% url 'auction:profile' %}">{{ user }}</a>
+                </div>
 
-				<span></span>
-				<span></span>
-				<span></span>
+                <div class="menuToggle">
+                    <!-- BURGER -->
+                    <input type="checkbox" />
 
-				<ul class="menu">
-                    <li><u>MENU</u></li>
-                    <small><style="text-transform:capitalize;">You are logged in as: {{ user }}</small>
-                    <a href="{% url 'auction:create' %}"><li>Create</li></a>
-                    <a href="{% url 'auction:my_auctions' %}"><li>My auctions</li></a>
-                    <a href="{% url 'auction:my_bids' %}"><li>My bids</li></a>
-                    <a href="{% url 'auction:profile' %}"><li>Profile</li></a>
-				    <a href="#"><li>About</li></a>
-				    <a href="#"><li>Info</li></a>
-				    <a href="#"><li>Contact</li></a>
-                    <a href="{% url 'logout' %}"><li>Logout</li></a>
+                    <span></span>
+                    <span></span>
+                    <span></span>
 
-				</ul>
-			</div>
+                    <ul class="menu">
+                        <a href="{% url 'auction:create' %}"><li>Create</li></a>
+                        <a href="{% url 'auction:my_auctions' %}"><li>My auctions</li></a>
+                        <a href="{% url 'auction:my_bids' %}"><li>My bids</li></a>
+                        <a href="{% url 'auction:profile' %}"><li>Profile</li></a>
+                        <a href="#"><li>About</li></a>
+                        <a href="#"><li>Info</li></a>
+                        <a href="#"><li>Contact</li></a>
+                        <a href="{% url 'logout' %}"><li>Logout</li></a>
+
+                    </ul>
+                </div>
+            </div>
           {% else %}
-            <div class="menuToggle">
-				<input type="checkbox" />
+            <div class="signin-container">
 
-				<span></span>
-				<span></span>
-				<span></span>
+                <div class="signin">
+                    <i id="far" class="far fa-user-circle"></i>
+                    <a href="{% url 'login' %}">Sign in</a>
+                </div>
 
-				<ul class="menu">
-                    <a href="#"><li>About</li></a>
-				    <a href="#"><li>Info</li></a>
-				    <a href="#"><li>Contact</li></a>
-                    <a href="{% url 'register' %}"><li>Register</li></a>
-                    <a href="{% url 'login' %}"><li>Login</li></a>
-				</ul>
-			</div>
+                <div class="menuToggle">
+                    <input type="checkbox" />
 
+                    <span></span>
+                    <span></span>
+                    <span></span>
+
+                    <ul class="menu">
+                        <a href="#"><li>About</li></a>
+                        <a href="#"><li>Info</li></a>
+                        <a href="#"><li>Contact</li></a>
+                        <a href="{% url 'register' %}"><li>Register</li></a>
+                        <a href="{% url 'login' %}"><li>Login</li></a>
+                    </ul>
+                </div>
+            </div>
 
           {% endif %}
 		  </nav>
@@ -92,7 +105,7 @@
   </body>
 
   <footer>
-    <hr>
+
     <div class="footer-box">
     <p>Project by:</p>
     <p>Martin 

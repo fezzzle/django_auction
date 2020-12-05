@@ -2,15 +2,17 @@
 {% block content %}
 <div class="container-bids top-fix">
     <h2>Search result:</h2>
-    <div class="search-rslt">
+    <div class="auction-grid">
         {% if auction_list %}
             {% for i in auction_list %}
-                <a href="{% url 'auction:detail' i.id %}">{{ i.title }}
+            <ul class="auction-list-items">
+                <a href="{% url 'auction:detail' i.id %}">
+                    <li>{{ i.title }}</li>
+                    <li>Category</li>
+                    <li>Desc: {{ i.description }}</li>
+                    <li>Author: {{ i.author }}</li>
                 </a>
-                | Category
-                | Desc: {{ i.description }}
-                | Author: {{ i.author }}
-                <br>
+            </ul>
             {% endfor %}
         {% else %}
             <h1>No Results</h1>
