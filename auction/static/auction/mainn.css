@@ -10,6 +10,14 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
     height: 100%;
+    animation-name: example;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes example {
+    0%   {opacity:0;}
+    100%   {opacity:1;}
 }
 
 a {
@@ -51,8 +59,9 @@ a {
 .searchbar input {
     background: none;
     color:grey;
-    padding-left: 0px;
+    padding: 0.5rem 0.5rem 0.5rem 0;
     min-width: 30vw;
+    border: none;
 }
 
 #fas {
@@ -94,7 +103,7 @@ a {
 
 .signin {
     z-index: 3;
-    margin-right:2em;
+    margin-right:1em;
     text-transform: capitalize;
     /*border: 1px solid black;*/
 }
@@ -199,9 +208,10 @@ a {
 .content {
     margin-top: 100px;
     width: 75vw;
+    min-height: 65vh;
     margin-left: auto;
     margin-right: auto;
-    border: 1px solid blue;
+    /*border: 1px solid blue;*/
 }
 
 /* INDEX */
@@ -238,15 +248,39 @@ a {
 }
 
 .category {
-    /*border:1px solid black;*/
-    /*width:100%;*/
+    padding: 10px 20px;
+}
+
+boxx {
+    opacity: 1;
+    position: relative;
+}
+
+
+.boxx::after {
+    content: '';
+    display: block;
+    height: 1px;
+    background: black;
+    position: absolute;
+    top: 1.1rem;
+    left: 0;
+    right: 0;
+    transform: scale( 0, 1);
+    transition: transform ease-in-out 150ms;
+}
+
+.boxx:hover::after {
+    transform: scale( 1, 1);
 }
 
 .boxx {
     color: black;
     font-weight: 900;
     text-transform: uppercase;
-    padding: 10px 20px;
+    /*padding: 10px 20px;*/
+    opacity: 1;
+    position: relative;
     /*border: 2px solid red;*/
 }
 
@@ -322,8 +356,17 @@ a {
     /*border: 5px solid green;*/
 }
 
+.center {
+   align-items: center;
+}
+
+.form-style h2 {
+    margin: 20px 0px;
+}
+
 .form-style > * {
     width:50%;
+    box-sizing: border-box;
 }
 
 .form-style > textarea {
@@ -333,15 +376,16 @@ a {
 
 #range-inp {
     display:flex;
-    justify-content: space-around;
+    justify-content: start;
+    align-items: center;
 }
 
 /* MY AUCTIONS */
 
 .auction-list-items {
     list-style: none;
-    background:green;
-    border: 1px solid red;
+    /*background:green;*/
+    border: 1px solid green;
 }
 
 /* PROFILE */
@@ -355,6 +399,11 @@ a {
 .profile-container-info {
     margin-bottom: 20px;
     /*border: 1px solid pink;*/
+}
+
+.profile {
+    text-transform: capitalize;
+    margin-bottom:50px;
 }
 
 .profile-container-info input {
@@ -375,19 +424,18 @@ a {
     border-radius: 50%;
 }
 
-.profile {
-    margin-bottom:50px;
-}
-
 .profile-input {
     background: #fff;
     padding: 1rem;
+    border: 2px solid lightgray;
+    border-radius: 3px;
     display:flex;
     justify-content: space-between;
 }
 
-.profile-input > p:ntn-child(2) {
-    color:gray;
+.profile-input p:nth-of-type(2) {
+    color: gray;
+    cursor: default;
 }
 
 /* DETAIL.html */
@@ -405,7 +453,7 @@ a {
 .detail-pic-container {
     display:grid;
     grid-template-row: auto 1fr;
-    border: 1px solid black;
+    /*border: 1px solid black;*/
 }
 
 .detail-pic-container img {
@@ -464,7 +512,7 @@ a {
     word-break: break-word;
     text-align: justify;
     text-justify: inter-word;
-    border: 1px solid red;
+    /*border: 1px solid red;*/
 }
 
 .detail-info-container h2 {
@@ -503,14 +551,19 @@ footer {
 input {
     padding: 1rem;
     outline: none;
-    border: none;
+    /*border: none;*/
+    border: 2px solid lightgray;
+    border-radius: 3px;
+    margin-bottom: 10px;
 }
 
 textarea {
     resize: none;
-    border: none;
+    /*border: none;*/
+    border: 2px solid lightgray;
+    border-radius: 3px;
     outline: none;
-    padding: 0.5rem 1.5rem;
+    padding: 1rem;
 }
 
 .join-now {
@@ -531,12 +584,19 @@ textarea {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+
+
 .toggle {
     display: none;
 }
 
 .toggle-input {
     display: none;
+}
+
+.toggle-input input {
+    width: 100%;
+    box-sizing: border-box;
 }
 
 

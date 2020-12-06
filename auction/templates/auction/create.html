@@ -1,8 +1,8 @@
 {% extends "auction/base.html" %}
 
 {% block content %}
-
-<form action="{% url 'auction:create' %}" method="POST" enctype="multipart/form-data" id="top" class="form-style">
+<div id="center">
+<form action="{% url 'auction:create' %}" method="POST" enctype="multipart/form-data" id="top" class="form-style center">
     <h1>Create an auction</h1>
     <div id="error-box">
         {% if messages %}
@@ -49,7 +49,7 @@
         <button class="form-button" id="submit" name="submit_button">Create</button>
     </div>
 </form>
-
+</div>
 <script>
     let childrenFileCounter = 0;
     let image = document.getElementById("images");

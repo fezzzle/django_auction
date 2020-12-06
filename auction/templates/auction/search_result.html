@@ -1,22 +1,28 @@
 {% extends "auction/base.html" %}
+{% load static %}
+
 {% block content %}
 <div class="container-bids top-fix">
     <h2>Search result:</h2>
     <div class="auction-grid">
         {% if auction_list %}
             {% for i in auction_list %}
-            <ul class="auction-list-items">
+            <div class="auction-list-items">
                 <a href="{% url 'auction:detail' i.id %}">
-                    <li>{{ i.title }}</li>
-                    <li>Category</li>
-                    <li>Desc: {{ i.description }}</li>
-                    <li>Author: {{ i.author }}</li>
+                    <div class="img-container-background" style="background-image:url('{% static i.get_first_image.image %}')">
+                        <div class="img-overlay">
+                            <div class="img-text">
+                                <li>{{ i.title }}</li>
+                                <li>Category</li>
+                                <li>Desc: {{ i.description }}</li>
+                                <li>Author: {{ i.author }}</li>
+                            </div>
+                        </div>
+                    </div>
                 </a>
-            </ul>
+            </div>
             {% endfor %}
         {% else %}
             <h1>No Results</h1>
         {% endif %}
-    </div>
-</div>
 {% endblock content %}

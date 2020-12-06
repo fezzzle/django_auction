@@ -26,7 +26,7 @@
     <form action="{% url 'auction:profile' %}" method="POST" enctype="multipart/form-data" class="form-style">
         {% csrf_token %}
         <div class="profile">
-            <h2>Username:{{ user.username }}</h2>
+            <h2>Username: {{ user.username }}</h2>
         </div>
 
         <div class="profile-container-info">
@@ -68,7 +68,7 @@
 
         <div class="profile-container-info">
             <div class="profile-input">
-                <p>{{ user.phone }}</p>
+                <p>+372 {{ user.phone }}</p>
                 <p>Phone</p>
             </div>
             <input type="checkbox" class="toggle" id="phone" onclick="test()">

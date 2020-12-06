@@ -10,7 +10,7 @@
     </ul>
     {% endif %}
     {% if user.is_anonymous %}
-        <form method="post" class="form-style">
+        <form method="post" class="form-style center">
             <h2>Log In</h2>
             {% csrf_token %}
             {{ form.non_field_errors }}
@@ -22,13 +22,13 @@
             {{ form.password }}
             {{ form.password.errors }}
             <button class="form-button" type="submit">Login</button>
+            <div class="">
+                <small>Don't have an user? <a href="{% url 'register' %}"><strong>Become A Member!</strong></a></small>
+            </div>
         </form>
     {% else %}
         <a href="{% url 'auction:index'%}"><p>Go back to index</p></a>
     {% endif %}
-    <div class="register-class">
-        <small>Don't have an user? <a href="{% url 'register' %}"><strong>Become A Member!</strong></a></small>
-    </div>
 </div>
 {% endblock content %}
 

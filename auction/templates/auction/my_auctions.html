@@ -1,25 +1,33 @@
 {% extends "auction/base.html" %}
+{% load static %}
     
 {% block content %}
 <div class="container-bids">
     {% if my_auctions %}
     <h2>My auctions</h2>
+    *in progress*
     <div class="auction-grid">
     {% for auction in my_auctions %}
-        <ul class="auction-list-items">
+<!--        <ul class="auction-list-items">-->
             <a href="{% url 'auction:detail' auction.id %}">
-                <li>{{ auction.title }} </li>
-                <li>{{ auction.description }}</li>
-                <li>{{auction.item_category}}</li>
-                {% if auction.is_active %}
-                    <li>{% widthratio auction.seconds_remaining 60 1 %} minutes left</li>
-                {% else %}
-                    <li>Final value: {{ auction.final_value }}</li>
-                    <li>Winner: {{ auction.winner }}</li>
-                    <li>Auction has ended!</li>
-                {% endif %}
+                <div class="img-container-background" style="background-image:url('{% static auction.get_first_image.image %}')">
+                    <div class="img-overlay">
+                        <div class="img-text">
+                            <li>{{ auction.title }} </li>
+                            <li>{{ auction.description }}</li>
+                            <li>{{auction.item_category}}</li>
+                            {% if auction.is_active %}
+                                <li>{% widthratio auction.seconds_remaining 60 1 %} minutes left</li>
+                            {% else %}
+                                <li>Final value: {{ auction.final_value }}</li>
+                                <li>Winner: {{ auction.winner }}</li>
+                                <li>Auction has ended!</li>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
             </a>
-        </ul>
+<!--        </ul>-->
         {% endfor %}
     {% else %}
         <h1>You dont have any auctions!</h1>

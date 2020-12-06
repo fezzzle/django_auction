@@ -8,7 +8,7 @@
         </p>
     {% endif %}
 
-    <form action="" method="POST" class="form-style">
+    <form action="" method="POST" class="form-style center">
         {% csrf_token %}
         <h2>Register</h2>
         {% for field in form %}
@@ -16,9 +16,8 @@
             {{ field.label_tag }} {{ field }}
         {% endfor %}
         <button class="form-button" type="submit">Register</button>
+        <small>Already A Member? <a href="/login"><strong>Sign in!</strong></a></small>
     </form>
-
-    <small>Already A Member? <a href="/login"><strong>Sign in!</strong></a></small>
 </div>
 
 {% endblock %}
