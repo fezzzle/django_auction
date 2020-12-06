@@ -20,6 +20,10 @@ body {
     100%   {opacity:1;}
 }
 
+li {
+    list-style: none;
+}
+
 .pepe {
     dispay: block;
     height:100px;
@@ -225,19 +229,21 @@ a {
 
 .banner {
     position: relative;
-    /*border: 3px solid green;*/
     height: 300px;
 }
 
 .banner h2 {
     position: absolute;
+    font-size: 20vh;
+    color: #fff;
     top:50%;
     left:50%;
-    background: lightgrey;
-    transform: translate (-50% , -50%);
+    transform: translate(-50%, -50%);
+    opacity: 0.3;
 }
 
 .banner > img {
+    filter: brightness(50%);
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -389,14 +395,22 @@ boxx {
 
 /* MY AUCTIONS */
 
+
 .mybids-container {
-    list-style: none;
+    width: 60%;
     /*border: 1px solid green;*/
 }
 
 .mybids-item {
     margin: 10px 0px;
+    background: #fff;
     border: 2px solid pink;
+}
+
+.mybids-item img {
+    width:200px;
+    height:200px;
+    border: 5px solid black;
 }
 
 .mybids-container li {
@@ -580,6 +594,9 @@ textarea {
     outline: none;
     padding: 1rem;
 }
+.ani {
+
+}
 
 .join-now {
     position: fixed;
@@ -596,15 +613,18 @@ textarea {
     left:50%;
     transform: translateX(-50%);
     border-radius: 25px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    /*animation-name: opa;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+                0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    opacity:0;
+    animation-name: opa;
+    animation-duration: 3s;
     animation-delay: 10s;
-    animation-fill-mode: forwards;*/
+    animation-fill-mode: forwards;
 }
 
-@keyframe opa {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+@keyframes opa {
+    0% {opacity: 0}
+    100% {opacity: 1}
 }
 
 .toggle {
@@ -622,11 +642,34 @@ textarea {
 
 
 .toggle-label {
+    padding: 20px 0px;
     cursor: pointer;
 }
 
 .toggle:checked ~ div {
     display: block;
+}
+
+.form-button {
+    background: tomato;
+    border: none;
+    outline: none;
+    padding: 1rem;
+    border-radius: 25px;
+    margin: 20px 0px;
+    color: white;
+    font-weight: 900;
+    transition: 0.3s;
+}
+
+.form-button:hover {
+    transform: scale(1.02);
+    box-shadow: 5px 5px 8px rgb(180, 180, 180, 0.5)
+}
+
+#images {
+    width:100%;
+    /*border: 5px solid pink;*/
 }
 
 /* ERROR */
