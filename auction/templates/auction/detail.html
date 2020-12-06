@@ -74,17 +74,17 @@
                 {% if not auction.min_value == auction.buy_now %}
                     {% if auction.buy_now %}
                         {% if auction.active_bid_value %}
-                            <input type="number" class="form-button" name="amount" id="bid_amount" value="{{ auction.active_bid_value|add:'1' }}" required>
+                            <input type="number" class="form-buttonn" name="amount" id="bid_amount" value="{{ auction.active_bid_value|add:'1' }}" required>
                         {% else %}
-                            <input type="number" class="form-button" name="amount" id="bid_amount" value="{{ auction.min_value|add:'1' }}" required>
+                            <input type="number" class="form-buttonn" name="amount" id="bid_amount" value="{{ auction.min_value|add:'1' }}" required>
                         {% endif %}
                         <input type="submit" class="form-button" name="submit_bid" value="Submit Bid">
                         <input type="submit" class="form-button" name="buy_now" value="Buy now!">
                     {% else %}
                         {% if auction.active_bid_value %}
-                            <input type="number" class="form-button" name="amount" id="bid_amount" value="{{ auction.active_bid_value|add:'1' }}" required>
+                            <input type="number" class="form-buttonn" name="amount" id="bid_amount" value="{{ auction.active_bid_value|add:'1' }}" required>
                         {% else %}
-                            <input type="number" class="form-button" name="amount" id="bid_amount" value="{{ auction.min_value|add:'1' }}" required>
+                            <input type="number" class="form-buttonn" name="amount" id="bid_amount" value="{{ auction.min_value|add:'1' }}" required>
                         {% endif %}
                         <input type="submit" class="form-button" name="submit_bid" value="Submit Bid">
                     {% endif %}
