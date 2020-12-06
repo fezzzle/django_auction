@@ -296,7 +296,7 @@ def profile(request, **username):
     return render(request, "auction/profile.html", {"user": user})
 
 
-@login_required
+# @login_required
 def category(request, category):
     categories = Category.objects.all()
     all_auctions = Auction.objects.all()

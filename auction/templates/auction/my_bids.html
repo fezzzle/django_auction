@@ -1,27 +1,33 @@
 {% extends "auction/base.html" %}
+{% load static %}
     
 {% block content %}
 <div class="container-bids">
     <h2>My Bids</h2>
-    <ul class="auction-list-items">
+    <ul class="mybids-container">
     {% if my_bids %}
         {% for bid in my_bids %}
+        <div class="mybids-item">
         <a href="{% url 'auction:detail' bid.auction.id %}">
-            <li>Auction: {{ bid.auction }}</li>
-            <li>Amount bid: {{ bid.amount }}</li>
-            <li>Category: {{auction.item_category}}<li>
+            <!-- IMG not working -->
+            <li ><img src="{% static bid.get_first_image.image %}" alt="product">|</li>
+            <li>Auction: {{ bid.auction }} |</li>
+            <li>Amount bid: {{ bid.amount }} |</li>
+            <!-- Category not working -->
+            <li>Category: {{auction.item_category}} |<li>
             {% if bid.auction.is_active %}
                 <li>{% widthratio bid.auction.seconds_remaining 60 1 %} minutes left</li>
                 <!-- <li>Is active: {{ bid.auction.seconds_remaining|floatformat:"0" }}</li> -->
             {% else %}
                 {% if bid.auction.winner == request.user %}
-                    <li>You have won the auction!</li>
+                    <li>You have won the auction! |</li>
                 {% else %}
-                    <li>Sorry, you did not win the auction!</li>
+                    <li>Sorry, you did not win the auction! |</li>
                 {%  endif %}
             {% endif %}
             <br>
         </a>
+        </div>
         {% endfor %}
     {% else %}
         <h1>You have not made any bids!</h1>
